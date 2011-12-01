@@ -1,0 +1,131 @@
+<?php
+/*
+ * Copyright (c) 2011, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * All rights reserved.
+ */
+
+
+/**
+ * Contém método para facilitar a importação de arquivos, como controllers, models e helpers
+ * 
+ * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * @version	1
+ *
+ */
+class Import
+{
+	/**
+	 * Carrega um ou mais arquivos a partir de um diretório
+	 * 
+	 * @param string $folder				indica o diretório que serão carregados os arquivos, os valores possíveis são 'core', 'exception', 
+	 * 										'controller', 'model' e 'helper'
+	 * @param array $class					um array com os nomes das classes
+	 * @throws DirectoryNotFoundException	disparada cara o diretório não conste na lista de diretórios padrão
+	 * @throws FileNotFoundException		disparada se o arquivo com o nome da classe não for encontrado
+	 * @throws ClassNotFoundException		disparada se dentro do arquivo não existir a classe
+	 * @return void
+	 */
+	public static function load($folder, $class = array())
+	{
+		$folders = array();
+		$folders['core']		= 'core/libs/';
+		$folders['exception']	= 'core/libs/exceptions/';
+		$folders['controller']	= 'app/controllers/';
+		$folders['model']		= 'app/models/';
+		$folders['helper']		= 'app/helpers/';
+		
+		if(!array_key_exists($folder, $folders))
+			throw new DirectoryNotFoundException($folder .'s');
+		foreach($class as $c)
+		{
+			$file = root . $folders[$folder] . $c . '.php';
+			if(!file_exists($file))
+				throw new FileNotFoundException($folders[$folder] . $c .'.php');
+			
+			require_once $file;
+			
+			if(!class_exists($c))
+				throw new ClassNotFoundException($c);
+		}
+	}
+	
+	/**
+	 * Importa as classes específicadas no parâmetro no diretório do núcleo do framework
+	 * @param string $class1	nome da classe
+	 * @param string $classN	nome da classe
+	 * @return void
+	 */
+	public static function core()
+	{
+		self::load('core', func_get_args());
+	}
+	
+	/**
+	 * Importa as classes específicadas no parâmetro no diretório dos controllers
+	 * @param string $class1	nome da classe
+	 * @param string $classN	nome da classe
+	 * @throws ControllerNotFoundException	disparado se o arquivo com o nome do controller não for encontrado
+	 * @throws ClassNotFoundException		disparado se dentro do arquivo não existir uma classe com o nome do controller
+	 * @return void
+	 */
+	public static function controller()
+	{
+		foreach(func_get_args() as $c)
+		{
+			$file = root . 'app/controllers/' . $c . '.php';
+			if(!file_exists($file))
+				throw new ControllerNotFoundException($c);
+			
+			require_once $file;
+			
+			if(!class_exists($c))
+				throw new ClassNotFoundException($c);
+		}
+	}
+	
+	/**
+	 * Importa as classes específicadas no parâmetro no diretório dos models
+	 * @param string $class1	nome da classe
+	 * @param string $classN	nome da classe
+	 * @return void
+	 */
+	public static function model()
+	{
+		self::load('model', func_get_args());
+	}
+	
+	/**
+	 * Importa as classes específicadas no parâmetro no diretório dos helpers
+	 * @param string $class1	nome da classe
+	 * @param string $classN	nome da classe
+	 * @return void
+	 */
+	public static function helper()
+	{
+		self::load('helper', func_get_args());
+	}
+	
+	/**
+	 * Importa uma view específicada
+	 * @param array $vars			variáveis a serem utilizadas na view
+	 * @param string $controller	nome do controller
+	 * @param string $view			nome da view
+	 * @throws FileNotFoundException	disparado se o arquivo não for encontrado
+	 * @return string	retorna o conteúdo da view
+	 */
+	public static function view($vars, $controller, $view)
+	{
+		$buffer = ob_get_clean();
+		ob_start();
+		extract($vars);
+		$file = root . 'app/views/'. $controller .'/'. $view .'.php';
+		if(!file_exists($file))
+			throw new FileNotFoundException('views/'. $controller .'/'. $view .'.php');
+		
+		require_once $file;
+		
+		$content = ob_get_clean();
+		echo $buffer;
+		return $content;
+	}
+}

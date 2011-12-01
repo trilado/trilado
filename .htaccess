@@ -1,0 +1,4 @@
+RewriteEngine on
+RewriteRule    ^$    app/wwwroot/    [L]
+RewriteRule    (.*) app/wwwroot/$1    [L]
+
