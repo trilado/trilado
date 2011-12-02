@@ -1,16 +1,16 @@
-# O que é o Trilado? #
-Trilado é um Framework PHP MVC que visa o desenvolvimento web ágil, é fácil, leve e sua documentação é totalmente escrita em português. Um framework desenvolvido para brasileiros.
+# O que Ã© o Trilado? #
+Trilado Ã© um Framework PHP MVC que visa o desenvolvimento web Ã¡gil, Ã© fÃ¡cil, leve e sua documentaÃ§Ã£o Ã© totalmente escrita em portuguÃªs. Um framework desenvolvido para brasileiros.
 
 # O que o Trilado oferece? #
 - Gerador de CRUD
-- Autenticação simples
-- Validação
+- AutenticaÃ§Ã£o simples
+- ValidaÃ§Ã£o
 - Mapeamento de Objeto Relacional (ORM)
 - Active Record
-- Internacionalização
+- InternacionalizaÃ§Ã£o
 - Templates
 - Rotas
 - Suporte JSON e XML
-- Anotações
+- AnotaÃ§Ãµes
 - HTML Helpers
-- Página de erros personalizadas
+- PÃ¡gina de erros personalizadas
