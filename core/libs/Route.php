@@ -59,6 +59,12 @@ class Route
 	 */
 	public static function exec($url)
 	{	
+		if((auto_dotjson || auto_dotxml) && preg_match('@\.(json|xml)$@', $url, $matches))
+		{
+			$args['dot'] = $matches[1];
+			$url = rtrim($url, $matches[0]);
+		}
+		
 		$url = trim(self::checkRoute($url), '/');
 		$urls = explode('/', $url);
 	
@@ -73,6 +79,7 @@ class Route
 		if($args['prefix'])
 			$args['action'] = $args['prefix'] .'_'. ($args['action'] ? $args['action'] : default_action);
 		$args['params']	= $urls;
+		
 		return $args;
 	}
 	
@@ -82,7 +89,7 @@ class Route
 	 * @return	string			retorna a URL verdadeira ou o próprio parâmetro caso não seja uma rota
 	 */
 	private static function checkRoute($url)
-	{
+	{	
 		$url = trim($url, '/');
 		$urls = explode('/', $url);
 		if(self::isI18n($urls[0]))

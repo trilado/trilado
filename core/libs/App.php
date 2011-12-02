@@ -68,7 +68,7 @@ class App
 			$this->controller();
 			$this->auth();
 			$tpl = new Template();
-			$tpl->render($this->args['params']);
+			$tpl->render($this->args);
 			//cache
 			Debug::show();
 		}

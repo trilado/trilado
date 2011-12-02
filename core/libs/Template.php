@@ -31,7 +31,7 @@ class Template
 		$controller = new $name();
 		$controller->beforeRender();
 		
-		$content = call_user_func_array(array($controller, action), $args);
+		$content = call_user_func_array(array($controller, action), $args['params']);
 		
 		if(!$content)
 			throw new InvalidReturnException(controller .'->'. action .'()');
@@ -44,7 +44,13 @@ class Template
 		for($i = 0; $i < count($params); $i++)
 		{
 			if(!$content->Vars[$params[$i]->getName()])
-				$content->Vars[$params[$i]->getName()] = $args[$i];
+				$content->Vars[$params[$i]->getName()] = $args['params'][$i];
+		}
+		
+		if($args['dot'])
+		{
+			$content->Type = $args['dot'];
+			$content->Data = $content->Vars['model'];
 		}
 		
 		switch($content->Type)
