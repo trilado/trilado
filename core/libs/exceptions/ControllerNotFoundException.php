@@ -16,7 +16,7 @@ class ControllerNotFoundException extends PageNotFoundException
 {
 	/**
 	 * Contrutor da classe
-	 * @param string $controller	nome do controller
+	 * @param	string	$controller		nome do controller
 	 */
 	public function __construct($controller)
 	{
@@ -25,7 +25,7 @@ class ControllerNotFoundException extends PageNotFoundException
 	
 	/**
 	 * (non-PHPdoc)
-	 * @see PageNotFoundException::getDetails()
+	 * @see	PageNotFoundException::getDetails()
 	 */
 	public function getDetails()
 	{

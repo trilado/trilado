@@ -17,92 +17,92 @@ class DatabaseQuery
 {	
 	/**
 	 * Guarda a conexão com o banco de dados
-	 * @var object
+	 * @var	object
 	 */
 	protected static $connection = null;
 	
 	/**
 	 * Guarda as instruções geradas para inserção, atualização e deleção de dados das tabelas
-	 * @var array
+	 * @var	array
 	 */
 	protected $operations = array();
 	
 	/**
 	 * Guarda uma instância da classe Annotation referente ao model que está sendo trabalhado
-	 * @var object
+	 * @var	object
 	 */
 	protected $annotation;
 	
 	/**
 	 * Guarda as propriedades do model que está sendo trabalhado
-	 * @var array
+	 * @var	array
 	 */
 	protected $properties = array();
 	
 	/**
 	 * Guarda o nome da classe do model
-	 * @var string
+	 * @var	string
 	 */
 	protected $clazz;
 	
 	/**
 	 * Guarda o nome da tabela que o model representa
-	 * @var string
+	 * @var	string
 	 */
 	protected $table;
 	
 	/**
 	 * Guarda o nome dos atributos que serão retornas da tabela na hora da execução das instrução SQL
-	 * @var string
+	 * @var	string
 	 */
 	protected $select;
 	
 	/**
 	 * Guarda os condicionais do instrução SQL
-	 * @var string
+	 * @var	string
 	 */
 	protected $where = '';
 	
 	/**
 	 * Guarda os valores dos condicionais
-	 * @var array
+	 * @var	array
 	 */
 	protected $where_params = array();
 	
 	/**
 	 * Guarda a condição de ordenação
-	 * @var string
+	 * @var	string
 	 */
 	protected $orderby = '';
 	
 	/**
 	 * Guarda o limite máximo de resultados que poderão ser retornados
-	 * @var int
+	 * @var	int
 	 */
 	protected $limit = '';
 	
 	/**
 	 * Guarda a posição em que começarão os resultados
-	 * @var int
+	 * @var	int
 	 */
 	protected $offset = '';
 	
 	/**
 	 * Guarda a informação se vai utilizar ou não distinção dos resultados
-	 * @var string
+	 * @var	string
 	 */
 	protected $distinct = '';
 	
 	/**
 	 * Indica se o resultado a instrução é uma operão soma, média, valor mínimo e etc.
-	 * @var boolean
+	 * @var	boolean
 	 */
 	protected $calc = false;
 	
 	/**
 	 * Construtor da classe
-	 * @param string $class			nome do model
-	 * @throws DatabaseException	dispara se o model não tiver a anotação de Entity ou View
+	 * @param	string	$class		nome do model
+	 * @throws	DatabaseException	dispara se o model não tiver a anotação de Entity ou View
 	 */
 	public function __construct($class)
 	{
@@ -119,8 +119,8 @@ class DatabaseQuery
 	
 	/**
 	 * Método estático que faz a conexão com o banco de dados
-	 * @throws DatabaseException	dispara se ocorrer algum exceção do tipo PDOException
-	 * @return object				retorna uma instância da classe PDO que representa a conexão
+	 * @throws	DatabaseException	dispara se ocorrer algum exceção do tipo PDOException
+	 * @return	object				retorna uma instância da classe PDO que representa a conexão
 	 */
 	public static function connection()
 	{
@@ -140,7 +140,7 @@ class DatabaseQuery
 	
 	/**
 	 * Pega as instrucões SQL geradas e limpa a propriedade $operations
-	 * @return array	retorna um array com as SQLs
+	 * @return	array	retorna um array com as SQLs
 	 */
 	public function getAndClearOperations()
 	{
@@ -151,12 +151,11 @@ class DatabaseQuery
 	
 	/**
 	 * Adiciona as condições na instrunção (clausula WHERE)
-	 * @param string $condition		condições SQL, por exemplo 'Id = ? OR slug = ?'
-	 * @param mixed	$value1			valor da primeira condição
-	 * @param mixed $valueN			valor da x condição
-	 * @throws DatabaseException	disparado se a quantidade de argumentos for menor 2 ou se quantidade de condicionais 
-	 * 								não corresponder a quantidade de valores
-	 * @return object				retorna a própria instância da classe DatabaseQuery 
+	 * @param	string	$condition		condições SQL, por exemplo 'Id = ? OR slug = ?'
+	 * @param	mixed	$value1			valor da primeira condição
+	 * @param	mixed	$valueN			valor da x condição
+	 * @throws	DatabaseException		disparado se a quantidade de argumentos for menor 2 ou se quantidade de condicionais não corresponder a quantidade de valores
+	 * @return	object					retorna a própria instância da classe DatabaseQuery 
 	 */
 	public function where()
 	{
@@ -177,10 +176,10 @@ class DatabaseQuery
 	}
 	
 	/**
-	 * Adiciona as condições na instrunção (clausula WHERE)
-	 * @param string $where		condições SQL, por exemplo 'Id = ? OR slug = ?'
-	 * @param array	$param		array com os valores das condições
-	 * @return object			retorna a própria instância da classe DatabaseQuery
+	 * Adiciona as condições na instrução (clausula WHERE)
+	 * @param	string	$where		condições SQL, por exemplo 'Id = ? OR slug = ?'
+	 * @param	array	$params		array com os valores das condições
+	 * @return	object				retorna a própria instância da classe DatabaseQuery
 	 */
 	public function whereArray($where, $params)
 	{
@@ -193,9 +192,20 @@ class DatabaseQuery
 	}
 	
 	/**
+	 * Adiciona as condições na instrução SQL (clausula WHERE)
+	 * @param	string	$where		condições SQL com valores direto, por exemplo 'Description IS NOT NULL'
+	 * @return	object				retorna a própria instância da classe DatabaseQuery
+	 */
+	public function whereSQL($where)
+	{
+		$this->where = $where;
+		return $this;
+	}
+	
+	/**
 	 * Define a ordem em que os resultados serão retornados
-	 * @param string $order		nome da coluna a ser ordenada
-	 * @return object			retorna a própria instância da classe DatabaseQuery
+	 * @param	string	$order	nome da coluna a ser ordenada
+	 * @return	object			retorna a própria instância da classe DatabaseQuery
 	 */
 	public function orderBy($order)
 	{
@@ -205,8 +215,8 @@ class DatabaseQuery
 	
 	/**
 	 * Define como ordem decrescente os resultados que serão retornados
-	 * @param string $order		nome da coluna a ser ordenada
-	 * @return object			retorna a própria instância da classe DatabaseQuery
+	 * @param	string	$order	nome da coluna a ser ordenada
+	 * @return	object			retorna a própria instância da classe DatabaseQuery
 	 */
 	public function orderByDesc($order)
 	{
@@ -216,9 +226,9 @@ class DatabaseQuery
 	
 	/**
 	 * Define um limite máximo de itens a serem retornados
-	 * @param int $n	valor do limite
-	 * @param int $o	valor do offset
-	 * @return object	retorna a própria instância da classe DatabaseQuery
+	 * @param	int	$n	valor do limite
+	 * @param	int	$o	valor do offset
+	 * @return	object	retorna a própria instância da classe DatabaseQuery
 	 */
 	public function limit($n, $o = null)
 	{
@@ -230,8 +240,8 @@ class DatabaseQuery
 	
 	/**
 	 * Define a posição em que os resultados iniciam
-	 * @param int $n	valor da posição
-	 * @return object	retorna a própria instância da classe DatabaseQuery
+	 * @param	int	$n	valor da posição
+	 * @return	object	retorna a própria instância da classe DatabaseQuery
 	 */
 	public function offset($n)
 	{
@@ -241,7 +251,7 @@ class DatabaseQuery
 	
 	/**
 	 * Define que os resultados serão distintos
-	 * @return object			retorna a própria instância da classe DatabaseQuery
+	 * @return	object	retorna a própria instância da classe DatabaseQuery
 	 */
 	public function distinct()
 	{
@@ -251,7 +261,7 @@ class DatabaseQuery
 	
 	/**
 	 * Gerar e retorna o SQL da consulta
-	 * @return string	retorna o SQL gerado
+	 * @return	string	retorna o SQL gerado
 	 */
 	public function getSQL()
 	{
@@ -272,8 +282,8 @@ class DatabaseQuery
 	
 	/**
 	 * Monta a instrunção SQL a partir da operações chamadas e executa a instrução
-	 * @throws TriladoException		disparada caso ocorra algum erro na execução da operação
-	 * @return array				retorna um array com instâncias do Model
+	 * @throws	TriladoException	disparada caso ocorra algum erro na execução da operação
+	 * @return	array				retorna um array com instâncias do Model
 	 */
 	public function all()
 	{
@@ -329,7 +339,7 @@ class DatabaseQuery
 	
 	/**
 	 * Monta a instrução SQL a partir das operações chamadas e executa a instrução
-	 * @return object	retorna uma instância do Model com os valores preenchidos de acordo com o banco
+	 * @return	object	retorna uma instância do Model com os valores preenchidos de acordo com o banco
 	 */
 	public function single()
 	{
@@ -344,10 +354,29 @@ class DatabaseQuery
 	}
 	
 	/**
+	 * Monta a instrução SQL com paginação de resultado, executa a instrução
+	 * @param	int	$p		o número da página que quer listar os resultados (começa com zero)
+	 * @param	int	$m		quantidade máxima de itens por página
+	 * @return	object		retorna um objeto com as propriedade Data (contendo um array com os resultados) e Count (contento a quantidade total de resultados)
+	 */
+	public function paginate($p, $m)
+	{
+		$p = ($p < 0 ? 0 : $p) * $m;
+		$result = new stdClass;
+		$this->limit = $m;
+		$this->offset = $p;
+		$result->Data = $this->all();
+		$this->limit = $this->offset = null;
+	
+		$result->Count = $this->count();
+		return $result;
+	}
+	
+	/**
 	 * Monta a instrução SQL a partir das operações chamadas e executa a instrução
-	 * @param string $operation		operação a ser executada, tipo SUM, AVG, MIN e etc
-	 * @param string $column		colunas da tabela em que a operação se aplica
-	 * @return int					retorna o valor da operação 
+	 * @param	string	$operation		operação a ser executada, tipo SUM, AVG, MIN e etc
+	 * @param	string	$column			colunas da tabela em que a operação se aplica
+	 * @return 	int						retorna o valor da operação 
 	 */
 	protected function calc($operation, $column)
 	{
@@ -358,7 +387,7 @@ class DatabaseQuery
 	
 	/**
 	 * Calcula quantos resultados existem na tabela aplicando as regras dos métodos chamados anteriormente
-	 * @return int		retorna a quantidade
+	 * @return	int		retorna a quantidade
 	 */
 	public function count()
 	{
@@ -367,8 +396,8 @@ class DatabaseQuery
 	
 	/**
 	 * Calcula a soma de todos os valores da coluna expecificada
-	 * @param string $column	coluna a ser somada
-	 * @return Ambigous <double, int>	retorna a soma dos valores de cada linha
+	 * @param	string	$column		coluna a ser somada
+	 * @return	double				retorna a soma dos valores de cada linha
 	 */
 	public function sum($column)
 	{
@@ -377,8 +406,8 @@ class DatabaseQuery
 	
 	/**
 	 * Calcula o maior valor de uma coluna expecifica
-	 * @param string $column	nome da coluna a ser calculada
-	 * @return Ambigous <double, int>	retorna o maior valor	
+	 * @param	string	$column		nome da coluna a ser calculada
+	 * @return	double				retorna o maior valor	
 	 */
 	public function max($column)
 	{
@@ -387,8 +416,8 @@ class DatabaseQuery
 	
 	/**
 	 * Calcula o menor valor de uma coluna expecifica
-	 * @param string $column	nome da coluna a ser calculada
-	 * @return Ambigous <double, int>	retorna o menor valor
+	 * @param	string	$column		nome da coluna a ser calculada
+	 * @return	double				retorna o menor valor
 	 */
 	public function min($column)
 	{
@@ -397,8 +426,8 @@ class DatabaseQuery
 	
 	/**
 	 * Calcula a média de uma coluna expecifica, somando todos os valores dessa coluna e divindo pela quantidade de linhas existentes
-	 * @param string $column	nome da coluna a ser calculada
-	 * @return double			retorna a média calculada
+	 * @param	string	$column		nome da coluna a ser calculada
+	 * @return	double				retorna a média calculada
 	 */
 	public function avg($column)
 	{
@@ -407,7 +436,7 @@ class DatabaseQuery
 	
 	/**
 	 * Verifica se o model possui algum relacionamento com outro model
-	 * @return Ambigous <NULL, array>	retorna null caso não possua, mas se possuir retorna os relacionamentos
+	 * @return	array	retorna null caso não possua, mas se possuir retorna os relacionamentos
 	 */
 	protected function isRelated()
 	{
@@ -422,8 +451,8 @@ class DatabaseQuery
 	
 	/**
 	 * Verifica se uma propriedade expecifica do model representa uma coluna na tabela
-	 * @param object $property	annotation da propriedade
-	 * @return boolean			retorna true se for uma coluna ou false caso contrario
+	 * @param	object	$property	annotation da propriedade
+	 * @return	boolean				retorna true se for uma coluna ou false caso contrario
 	 */
 	protected function isField($property)
 	{
@@ -432,14 +461,15 @@ class DatabaseQuery
 	
 	/**
 	 * Valida uma propriedade expecifica do model
-	 * @param object $property			anotação da propriedade
-	 * @param string $field				nome da propriedade	
-	 * @param mixed $value				valor da propriedade
-	 * @throws ValidationException		disparada caso o valor seja inválido
-	 * @return void
+	 * @param	object	$property			anotação da propriedade
+	 * @param	string	$field				nome da propriedade	
+	 * @param	mixed	$value				valor da propriedade
+	 * @throws	ValidationException			disparada caso o valor seja inválido
+	 * @return	void
 	 */
 	protected function validate($property, $field, $value)
 	{
+		$label = $property->Label ? $property->Label : $field;
 		$functions = array('Int' => 'is_int', 'String' => 'is_string', 'Double' => 'is_double', 'Boolean' => 'is_bool');
 		$is_type = $functions[$property->Column->Type];
 		
@@ -448,20 +478,20 @@ class DatabaseQuery
 		if ($value == null && $property->AutoGenerated)
 			return true;
 		if(is_object($value))
-			throw new ValidationException("O valor de '{$field}' não pode ser um objeto", 90400);
-		if($property->Required && empty($value)) 
-			throw new ValidationException("O campo '{$field}' é obrigatório", 90401);
+			throw new ValidationException("O valor de '{$label}' não pode ser um objeto", 90400);
+		if($property->Required && ($value === '' || $value === null)) 
+			throw new ValidationException("O campo '{$label}' é obrigatório", 90401);
 		if($is_type && !$is_type($value))
-			throw new ValidationException("O campo '{$field}' só aceita valor do tipo '{$property->Column->Type}'", 90402);
+			throw new ValidationException("O campo '{$label}' só aceita valor do tipo '{$property->Column->Type}'", 90402);
 		if($property->Regex && !preg_match('#'. $property->Regex->Pattern .'#', $value))
 			throw new ValidationException($property->Regex->Message, 90403);
 	}
 	
 	/**
 	 * Normaliza um valor de acordo com o padrão do seu tipo
-	 * @param string $type		tipo da propriedade
-	 * @param mixed $value		valor da propriedade
-	 * @return mixed			retorna o valor normalizado caso seja null ou o próprio valor se não for null
+	 * @param	string	$type		tipo da propriedade
+	 * @param	mixed	$value		valor da propriedade
+	 * @return	mixed				retorna o valor normalizado caso seja null ou o próprio valor se não for null
 	 */
 	protected function defaultValue($type, $value)
 	{
@@ -476,8 +506,8 @@ class DatabaseQuery
 	
 	/**
 	 * Verifica se o tipo da propriedade é string
-	 * @param object $property		anotação da propriedade
-	 * @return boolean				retorna true se for do tipo string, no contrário retorna false
+	 * @param	object	$property	anotação da propriedade
+	 * @return	boolean				retorna true se for do tipo string, no contrário retorna false
 	 */
 	protected function isString($property)
 	{
@@ -487,8 +517,8 @@ class DatabaseQuery
 	
 	/**
 	 * Verifica se propriedade é chave primária
-	 * @param object $property	anotação da propriedade
-	 * @return boolean			retorna true se for chave primária, no contrário retorna false
+	 * @param	object	$property	anotação da propriedade
+	 * @return	boolean				retorna true se for chave primária, no contrário retorna false
 	 */
 	protected function isKey($property)
 	{
@@ -497,9 +527,9 @@ class DatabaseQuery
 	
 	/**
 	 * Cria uma instrução SQL de inserção no banco
-	 * @param Model $model			model a ser inserido
-	 * @throws DatabaseException	disparada caso o model não seja uma nova instância, ou não tenha a anotação Entity
-	 * @return void
+	 * @param	Model	$model		model a ser inserido
+	 * @throws	DatabaseException	disparada caso o model não seja uma nova instância, ou não tenha a anotação Entity
+	 * @return	void
 	 */
 	public function insert(Model $model)
 	{
@@ -525,7 +555,7 @@ class DatabaseQuery
 				
 				if($property->Column && $property->Column->Name)
 					$field = $property->Column->Name;
-				if (!$value && !is_bool($value)) 
+				if (!$value && !is_bool($value) && !is_int($value)) 
 					$value = null;
 				if (is_bool($value))
 					$value = $value ? '1' : '0';
@@ -542,11 +572,11 @@ class DatabaseQuery
 		$this->operations[] = array('sql' => $sql, 'values' => $values, 'model' => $model);
 	}
 	
-/**
+	/**
 	 * Cria uma instrução SQL de atualização no banco
-	 * @param Model $model			model a ser atualizado
-	 * @throws DatabaseException	disparada caso o model seja uma nova instância, ou não tenha a anotação Entity
-	 * @return void
+	 * @param	Model	$model		model a ser atualizado
+	 * @throws	DatabaseException	disparada caso o model seja uma nova instância, ou não tenha a anotação Entity
+	 * @return	void
 	 */
 	public function update(Model $model)
 	{
@@ -599,9 +629,9 @@ class DatabaseQuery
 	
 	/**
 	 * Cria uma instrução SQL de deleção no banco
-	 * @param Model $model			model a ser deletado
-	 * @throws DatabaseException	disparada caso o model seja uma nova instância, ou não tenha a anotação Entity
-	 * @return void
+	 * @param	Model	$model		model a ser deletado
+	 * @throws	DatabaseException	disparada caso o model seja uma nova instância, ou não tenha a anotação Entity
+	 * @return	void
 	 */
 	public function delete(Model $model)
 	{
@@ -635,7 +665,7 @@ class DatabaseQuery
 	
 	/**
 	 * Pega o ID da ultima instrunção de um model específico
-	 * @return int	retorna o valor do ID
+	 * @return	int		retorna o valor do ID
 	 */
 	public function lastInsertId()
 	{

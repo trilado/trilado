@@ -16,13 +16,13 @@ class ClassNotFoundException extends TriladoException
 {
 	/**
 	 * Nome da classe que não foi encontrada
-	 * @var string
+	 * @var	string
 	 */
 	protected $clazz;
 	
 	/**
 	 * Contrutor da classe
-	 * @param string $class	nome da classe não encontrada
+	 * @param	string	$class		nome da classe não encontrada
 	 */
 	public function __construct($class)
 	{
@@ -32,7 +32,7 @@ class ClassNotFoundException extends TriladoException
 	
 	/**
 	 * (non-PHPdoc)
-	 * @see TriladoException::getDetails()
+	 * @see	TriladoException::getDetails()
 	 */
 	public function getDetails()
 	{

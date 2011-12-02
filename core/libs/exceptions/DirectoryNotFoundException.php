@@ -16,7 +16,7 @@ class DirectoryNotFoundException extends TriladoException
 {
 	/**
 	 * Contrutor da classe
-	 * @param string $directory	endereço do diretório
+	 * @param	string	$directory	endereço do diretório
 	 */
 	public function __construct($directory)
 	{

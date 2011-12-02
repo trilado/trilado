@@ -16,7 +16,7 @@ class ActionVisibilityException extends PageNotFoundException
 {
 	/**
 	 * Contrutor da classe
-	 * @param string $action	nome da action
+	 * @param	string	$action		nome da action
 	 */
 	public function __construct($action)
 	{
@@ -25,8 +25,8 @@ class ActionVisibilityException extends PageNotFoundException
 	
 	/**
 	 * Se o debug estiver habilitado, informa ao usuário detalhes sobre a action
-	 * @see PageNotFoundException::getDetails()
-	 * @return string	retorna os detalhes da action
+	 * @see		PageNotFoundException::getDetails()
+	 * @return	string			retorna os detalhes da action
 	 */
 	public function getDetails()
 	{

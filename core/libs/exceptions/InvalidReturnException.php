@@ -16,7 +16,7 @@ class InvalidReturnException extends TriladoException
 {
 	/**
 	 * Contrutor da classe
-	 * @param string $action	nome action
+	 * @param	string	$action		nome action
 	 */
 	public function __construct($action)
 	{
@@ -24,7 +24,7 @@ class InvalidReturnException extends TriladoException
 	}
 	/**
 	 * (non-PHPdoc)
-	 * @see TriladoException::getDetails()
+	 * @see	TriladoException::getDetails()
 	 */
 	public function getDetails()
 	{

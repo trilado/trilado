@@ -17,9 +17,9 @@ class Security
 {
 	/**
 	 * Método que executa o algoritmo de criptografia e descriptografia
-	 * @param string $a		valor a ser criptografado
-	 * @param string $b		chave da criptografia
-	 * @return string		retorna o valor criptografado
+	 * @param	string	$a		valor a ser criptografado
+	 * @param	string	$b		chave da criptografia
+	 * @return	string			retorna o valor criptografado
 	 */
 	private static function crypt($a,$b) {
         if ($a == '') 
@@ -36,9 +36,9 @@ class Security
     
     /**
      * Método de criptografia
-     * @param mixed $value		valor a ser criptografado
-     * @param string $key		chave utilizada para criptografar
-     * @return string			retorna um string da base 64 com o valor criptografado
+     * @param	mixed	$value		valor a ser criptografado
+     * @param	string	$key		chave utilizada para criptografar
+     * @return	string				retorna um string da base 64 com o valor criptografado
      */
     public static function encrypt($value, $key)
 	{ 
@@ -47,9 +47,9 @@ class Security
     
     /**
      * Método de descriptografia
-     * @param string $value		valor criptografado
-     * @param string $key		chave utilizada para criptogradar
-     * @return mixed			retorna o valor descriptogradado
+     * @param	string	$value		valor criptografado
+     * @param	string	$key		chave utilizada para criptogradar
+     * @return	mixed				retorna o valor descriptogradado
      */
     public static function decrypt($value, $key)
 	{

@@ -17,13 +17,12 @@ class Import
 	/**
 	 * Carrega um ou mais arquivos a partir de um diretório
 	 * 
-	 * @param string $folder				indica o diretório que serão carregados os arquivos, os valores possíveis são 'core', 'exception', 
-	 * 										'controller', 'model' e 'helper'
-	 * @param array $class					um array com os nomes das classes
-	 * @throws DirectoryNotFoundException	disparada cara o diretório não conste na lista de diretórios padrão
-	 * @throws FileNotFoundException		disparada se o arquivo com o nome da classe não for encontrado
-	 * @throws ClassNotFoundException		disparada se dentro do arquivo não existir a classe
-	 * @return void
+	 * @param	string	$folder				indica o diretório que serão carregados os arquivos, os valores possíveis são 'core', 'exception', 'controller', 'model' e 'helper'
+	 * @param	array	$class				um array com os nomes das classes
+	 * @throws	DirectoryNotFoundException	disparada cara o diretório não conste na lista de diretórios padrão
+	 * @throws	FileNotFoundException		disparada se o arquivo com o nome da classe não for encontrado
+	 * @throws	ClassNotFoundException		disparada se dentro do arquivo não existir a classe
+	 * @return	void
 	 */
 	public static function load($folder, $class = array())
 	{
@@ -51,9 +50,9 @@ class Import
 	
 	/**
 	 * Importa as classes específicadas no parâmetro no diretório do núcleo do framework
-	 * @param string $class1	nome da classe
-	 * @param string $classN	nome da classe
-	 * @return void
+	 * @param	string	$class1		nome da classe
+	 * @param	string	$classN		nome da classe
+	 * @return	void
 	 */
 	public static function core()
 	{
@@ -63,11 +62,11 @@ class Import
 	
 	/**
 	 * Importa as classes específicadas no parâmetro no diretório dos controllers
-	 * @param string $class1	nome da classe
-	 * @param string $classN	nome da classe
-	 * @throws ControllerNotFoundException	disparado se o arquivo com o nome do controller não for encontrado
-	 * @throws ClassNotFoundException		disparado se dentro do arquivo não existir uma classe com o nome do controller
-	 * @return void
+	 * @param	string	$class1					nome da classe
+	 * @param	string	$classN					nome da classe
+	 * @throws	ControllerNotFoundException		disparado se o arquivo com o nome do controller não for encontrado
+	 * @throws	ClassNotFoundException			disparado se dentro do arquivo não existir uma classe com o nome do controller
+	 * @return	void
 	 */
 	public static function controller()
 	{
@@ -87,9 +86,9 @@ class Import
 	
 	/**
 	 * Importa as classes específicadas no parâmetro no diretório dos models
-	 * @param string $class1	nome da classe
-	 * @param string $classN	nome da classe
-	 * @return void
+	 * @param	string	$class1		nome da classe
+	 * @param	string	$classN		nome da classe
+	 * @return	void
 	 */
 	public static function model()
 	{
@@ -99,9 +98,9 @@ class Import
 	
 	/**
 	 * Importa as classes específicadas no parâmetro no diretório dos helpers
-	 * @param string $class1	nome da classe
-	 * @param string $classN	nome da classe
-	 * @return void
+	 * @param	string	$class1		nome da classe
+	 * @param	string	$classN		nome da classe
+	 * @return	void
 	 */
 	public static function helper()
 	{
@@ -111,11 +110,11 @@ class Import
 	
 	/**
 	 * Importa uma view específicada
-	 * @param array $vars			variáveis a serem utilizadas na view
-	 * @param string $controller	nome do controller
-	 * @param string $view			nome da view
-	 * @throws FileNotFoundException	disparado se o arquivo não for encontrado
-	 * @return string	retorna o conteúdo da view
+	 * @param	array	$vars			variáveis a serem utilizadas na view
+	 * @param	string	$controller		nome do controller
+	 * @param	string	$view			nome da view
+	 * @throws	FileNotFoundException	disparado se o arquivo não for encontrado
+	 * @return	string					retorna o conteúdo da view
 	 */
 	public static function view($vars, $controller, $view)
 	{

@@ -17,8 +17,8 @@ class AuthException extends TriladoException
 {
 	/**
 	 * Construtor da classe
-	 * @param string $message		mensagem a ser exibida ao usuário
-	 * @param int $code				código do erro
+	 * @param	string	$message	mensagem a ser exibida ao usuário
+	 * @param	int		$code		código do erro
 	 */
 	public function __construct($message, $code)
 	{

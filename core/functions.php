@@ -14,7 +14,7 @@ if(!function_exists('e'))
 {
 	/**
 	 * Imprime um conteúdo
-	 * @param string $string	valor a ser impresso
+	 * @param	string	$string		valor a ser impresso
 	 */
 	function e($string)
 	{
@@ -24,8 +24,8 @@ if(!function_exists('e'))
 
 /**
  * Carrega automaticamente uma classe caso a mesma seja instância e não seja importada ainda
- * @param string $class		nome da classe
- * @return void
+ * @param	string	$class		nome da classe
+ * @return	void
  */
 function __autoload($class)
 {
@@ -47,8 +47,8 @@ function __autoload($class)
 
 /**
  * Converte 'test-controller' para 'TestController'
- * @param string $string	valor a ser convertido
- * @return string			valor convertido
+ * @param	string	$string		valor a ser convertido
+ * @return	string				valor convertido
  */
 function camelize($string) 
 {
@@ -57,8 +57,8 @@ function camelize($string)
 
 /**
  * Converte 'TestController' para 'test-controller'
- * @param string $string	valor a ser convertido
- * @return string			valor convertido
+ * @param	string	$string		valor a ser convertido
+ * @return	string				valor convertido
  */
 function uncamelize($string)
 {
@@ -67,8 +67,8 @@ function uncamelize($string)
 
 /**
  * Converte 'test-controller' para 'Test Controller'
- * @param string $string	valor a ser convertido
- * @return string			valor convertido
+ * @param	string	$string		valor a ser convertido
+ * @return	string				valor convertido
  */
 function humanize($string)
 {
@@ -77,8 +77,8 @@ function humanize($string)
 
 /**
  * Converte 'Título de Exemplo' para 'titulo-de-exemplo'
- * @param string $string	valor a ser convertido
- * @return string			retorna o valor convertido
+ * @param	string	$string		valor a ser convertido
+ * @return	string				retorna o valor convertido
  */
 function slugify($string)
 {
@@ -103,8 +103,8 @@ function slugify($string)
 
 /**
  * Executa a função print_r com a tag <pre>
- * @param mixed $struct		estrutura a ser impressa
- * @return void
+ * @param	mixed	$struct		estrutura a ser impressa
+ * @return	void
  */
 function pr($struct)
 {
@@ -115,8 +115,8 @@ function pr($struct)
 
 /**
  * Cria e retorna o caractere de tabulação
- * @param int $n	quantidade de vezes que desejar dar tabulação
- * @retun string	retorna a tabulação
+ * @param	int	$n		quantidade de vezes que desejar dar tabulação
+ * @return	string		retorna a tabulação
  */
 function tab($n = 1)
 {
@@ -125,8 +125,8 @@ function tab($n = 1)
 
 /**
  * Cria e retorna espeçacos em branco
- * @param int $n	quantidade de espaços que deseja criar
- * @return string	retorna os espaços
+ * @param	int	$n		quantidade de espaços que deseja criar
+ * @return	string		retorna os espaços
  */
 function t($n = 1)
 {
@@ -135,8 +135,8 @@ function t($n = 1)
 
 /**
  * Cria uma instância de stdClass com a propriedade 'd', que recebe o valor informado no parâmetro
- * @param object $object	objeto que será valor da propridade 'd'
- * @return stdClass			retorna uma instância de stdClass
+ * @param	object	$object		objeto que será valor da propridade 'd'
+ * @return	stdClass			retorna uma instância de stdClass
  */
 function d($object)
 {
@@ -147,8 +147,8 @@ function d($object)
 
 /**
  * Converte um objeto ou um array em uma string XML
- * @param mixed $data		dados a serem convertidos em XML
- * @return string			retorna uma string XML
+ * @param	mixed	$data		dados a serem convertidos em XML
+ * @return	string				retorna uma string XML
  */
 function xml_encode($data)
 {
@@ -166,8 +166,8 @@ function xml_encode($data)
 
 /**
  * Codifica os valores de um array ou um objeto em UTF-8
- * @param mixed $data		dados a serem convertidos
- * @return mixed			retorna o array ou objeto convertido
+ * @param	mixed	$data		dados a serem convertidos
+ * @return	mixed				retorna o array ou objeto convertido
  */
 function utf8encode($data)
 {
@@ -192,8 +192,8 @@ function utf8encode($data)
 
 /**
  * Decodifica os valores de um array ou objeto de UTF-8
- * @param mixed $data		dados a serem decodificados
- * @return mixed			retorna um objeto ou array sem a codificação UTF-8
+ * @param	mixed	$data	dados a serem decodificados
+ * @return	mixed			retorna um objeto ou array sem a codificação UTF-8
  */
 function utf8decode($data)
 {
@@ -218,10 +218,10 @@ function utf8decode($data)
 
 /**
  * Une dois ou mais array
- * @param array $array1	primeiro array
- * @param array $array2	segundo array
- * @param array $arrayN enéssimo array
- * @return array		retorna um array com união dos demais
+ * @param	array	$array1		primeiro array
+ * @param	array	$array2		segundo array
+ * @param	array	$arrayN		enéssimo array
+ * @return	array				retorna um array com união dos demais
  */
 function array_union()
 {
@@ -237,7 +237,7 @@ function array_union()
 
 /**
  * Cria um indentificado único
- * @return string	retorna o GUID gerado
+ * @return	string		retorna o GUID gerado
  */
 function guid()
 {
@@ -248,9 +248,9 @@ function guid()
 
 /**
  * Gera uma senha
- * @param int $length	tamanho da senha
- * @param int $strength	nível se segurança da senha, os valores podem ser 1, 2, 4 e 8, quanto maior, mais segura
- * @return string		retorna a senha gerada
+ * @param	int	$length		tamanho da senha
+ * @param	int	$strength	nível se segurança da senha, os valores podem ser 1, 2, 4 e 8, quanto maior, mais segura
+ * @return	string			retorna a senha gerada
  */
 function new_passwd($length = 8, $strength = 0)
 {

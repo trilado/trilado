@@ -15,66 +15,79 @@ class I18n
 {
 	/**
 	 * Nome do arquivo de tradução
-	 * @var string
+	 * @var	string
 	 */
-	private $file = 'message';
+	private $file = '';
 	
 	/**
 	 * Guarda as mensagens, sendo a chave um MD5 da mensagem original e o valor a mensagem traduzida
-	 * @var array
+	 * @var	array
 	 */
 	private $messages = array();
 	
 	/**
 	 * Linguagem da tradução
-	 * @var string
+	 * @var	string
 	 */
 	private $lang;
 	
 	/**
 	 * Linguagem original
-	 * @var string
+	 * @var	string
 	 */
 	private $default_lang;
 	
+	private static $instance = null;
+	
 	/**
 	 * Construtor da classe
-	 * @param string $default	linguagem original
-	 * @param string $file		nome do arquivo de tradução
-	 * @param string $ext		extensão do arquivo de tradução
+	 * @param	string	$default	linguagem original
 	 */
-	public function __construct($default, $file, $ext = '.lang')
+	private function __construct($default)
 	{
 		$this->default_lang = $default;
-		$this->file = $file . $ext;
+	}
+	
+	/**
+	 * Retorna a instância da classes (padrão singleton)
+	 * @return	object				retorna a instância de I18n
+	 */
+	public static function getInstance()
+	{
+		if(!self::$instance)
+			self::$instance = new self(default_lang);
+		return self::$instance;
 	}
 	
 	/**
 	 * Define a linguagem da tradução
-	 * @param string $lang		nome da linguagem de tradução
-	 * @return void
+	 * @param	string	$lang		nome da linguagem de tradução
+	 * @return	void
 	 */
 	public function setLang($lang = null)
 	{
 		if(!$lang)
 			$lang = $this->default_lang;
 		$this->lang = $lang;
-		$this->messages = $this->load('locale/'. $lang .'/'. $this->file);
+		if($lang != $this->default_lang)
+			$this->messages = $this->load($lang);
 	}
 	
 	/**
 	 * Traduz uma mensagem e retorna
-	 * @param string $string		mensagem a ser traduzida
-	 * @param array $format			array com as variáveis de formatação da mensagem
-	 * @throws TriladoException		disparada caso a mensagem esteja vazia
-	 * @return string				retorna a mensagem traduzida
+	 * @param	string	$string			mensagem a ser traduzida
+	 * @param	array	$format			array com as variáveis de formatação da mensagem
+	 * @throws	TriladoException		disparada caso a mensagem esteja vazia
+	 * @return	string					retorna a mensagem traduzida
 	 */
 	public function get($string, $format = null)
 	{
 		if(count($string) == 0)
 			throw new TriladoException('Params is empty!');
-
-		$string = $this->messages[md5($string)];
+		
+		if($this->lang != $this->default_lang)
+			$string = $this->messages[md5($string)];
+		
 		if(is_array($format))
 		{
 			foreach ($format as $k => $v)
@@ -85,19 +98,19 @@ class I18n
 	
 	/**
 	 * Carrega um arquivo de tradução pegando as mensagens e traduções e joga em array retornando-o
-	 * @param string $file			nome do arquivo
-	 * @throws TriladoException		disparada caso o arquivo não exista ou o conteúdo esteja vazio
-	 * @return array				retorna um array com as mensagens de tradução, sendo as chaves o MD5 da mensagem original
+	 * @param	string	$file		nome do arquivo
+	 * @throws	TriladoException	disparada caso o arquivo não exista ou o conteúdo esteja vazio
+	 * @return	array				retorna um array com as mensagens de tradução, sendo as chaves o MD5 da mensagem original
 	 */
-	private function load($file)
+	private function load($lang)
 	{
-		$file_path = root .'app/'. $file;
+		$file_path = root .'app/i18n/'. $lang .'.lang';
 
 		if(!file_exists($file_path))
-			throw new FileNotFoundException($file);
+			throw new FileNotFoundException($file_path);
 		$lines = file($file_path);
 		if(!count($lines))
-			throw new TriladoException('Arquivo "'. $file .'" está vazio');
+			throw new TriladoException('Arquivo "'. $file_path .'" está vazio');
 		
 		$key = false;
 		$result = array();
@@ -111,7 +124,7 @@ class I18n
 				elseif(preg_match('/^msgstr "(.+)"/', $line, $match))
 				{
 					if(!$key)
-						throw new TriladoException('Erro de sintax no arquivo "'. $file .'" na linha "'. $match[1] .'"');
+						throw new TriladoException('Erro de sintax no arquivo "'. $file_path .'" na linha "'. $match[1] .'"');
 					$result[$key] = $match[1];
 					$key = false;
 				}

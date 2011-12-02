@@ -16,13 +16,13 @@ class App
 {
 	/**
 	 * Guarda os argumentos passados pela URL (prefixo, controller, action e parâmetros)
-	 * @var array
+	 * @var	array
 	 */
 	private $args = array();
 	
 	/**
 	 * Contrutor da classe
-	 * @param string $url	url acessada pelo usuário
+	 * @param	string	$url	url acessada pelo usuário
 	 */
 	public function __construct($url)
 	{
@@ -41,6 +41,19 @@ class App
 		}
 		
 		//I18n
+		define('lang', $this->args['lang']);
+		
+		$i18n = I18n::getInstance();
+		$i18n->setLang(lang);
+		
+		function __($string, $format = null)
+		{
+			return I18n::getInstance()->get($string, $format);
+		}
+		function _e($string, $format = null)
+		{
+			echo I18n::getInstance()->get($string, $format);
+		}
 		
 		define('controller', camelize($this->args['controller']) .'Controller');
 		define('action', str_replace('-', '_', $this->args['action']));
@@ -74,8 +87,8 @@ class App
 	
 	/**
 	 * Verifica se o usuário está acessando via rede
-	 * @param string $ip	IP do usuário
-	 * @return boolean		retorna verdadeiro se o usuário estiver acessando pela rede, no contrário retorna falso
+	 * @param	string	$ip	IP do usuário
+	 * @return	boolean		retorna verdadeiro se o usuário estiver acessando pela rede, no contrário retorna falso
 	 */
 	private function isNetwork($ip)
 	{
@@ -84,7 +97,7 @@ class App
 	
 	/**
 	 * Verifica se o debug está habilidade para este usuário
-	 * @return boolean		retorna verdadeiro se o debug estiver habilitado
+	 * @return	boolean		retorna verdadeiro se o debug estiver habilitado
 	 */
 	private function isDebug()
 	{
@@ -102,8 +115,8 @@ class App
 	
 	/**
 	 * Extrai os argumentos a partir de URL
-	 * @param string $url	url acessada pelo usuário
-	 * @return array		retorna um array com os argumentos
+	 * @param	string	$url	url acessada pelo usuário
+	 * @return	array			retorna um array com os argumentos
 	 */
 	private function args($url)
 	{
@@ -112,17 +125,19 @@ class App
 			$args['controller'] = default_controller;
 		if(empty($args['action']))
 			$args['action'] = default_action;
+		if(empty($args['lang']))
+			$args['lang'] = default_lang;
 		return $args;
 	}
 	
 	/**
 	 * Valida o controller requisitado pelo usuário através da URL
-	 * @throws ControllerInheritanceException	dispara se o controller não for subclasse de Controller
-	 * @throws ActionNotFoundException			dispara se a action não existir no controller
-	 * @throws ActionVisibilityException		dispara se a action não estiver como públic
-	 * @throws ActionStaticException			dispara se a action for estática
-	 * @throws PageNotFoundException			dispara se a quantidade obrigatório na action for diferente do esperado
-	 * @return void
+	 * @throws	ControllerInheritanceException	dispara se o controller não for subclasse de Controller
+	 * @throws	ActionNotFoundException			dispara se a action não existir no controller
+	 * @throws	ActionVisibilityException		dispara se a action não estiver como públic
+	 * @throws	ActionStaticException			dispara se a action for estática
+	 * @throws	PageNotFoundException			dispara se a quantidade obrigatório na action for diferente do esperado
+	 * @return	void
 	 */
 	private function controller()
 	{
@@ -145,8 +160,8 @@ class App
 	
 	/**
 	 * Verifica se os parâmetros são válidos
-	 * @param object $method	instância de ReflectionMethod da action requisitada
-	 * @return boolean			retorna true se os parâmetros estiverem certos, ou false no contrário
+	 * @param	object	$method	instância de ReflectionMethod da action requisitada
+	 * @return	boolean			retorna true se os parâmetros estiverem certos, ou false no contrário
 	 */
 	private function isValidParams($method)
 	{
@@ -169,8 +184,8 @@ class App
 	
 	/**
 	 * Carrega a página de erro de acordo com as configurações e mata a execução
-	 * @param object $error		instância de Exception
-	 * @return void
+	 * @param	object	$error	instância de Exception
+	 * @return	void
 	 */
 	private function loadError($error)
 	{
@@ -190,7 +205,7 @@ class App
 	/**
 	 * Verifica se o usuário pode acessar a página de acordo com sua autenticação e a anotação do controller. Se não tiver permissão
 	 * é redirecionado para a página de login defina nas configurações
-	 * @return void
+	 * @return	void
 	 */
 	private function auth()
 	{

@@ -21,10 +21,10 @@ class Auth
 	
 	/**
 	 * Define um ou mais papéis para o usuário na sessão
-	 * @param string $param1	nome do papél
-	 * @param string $param2	nome do papél
-	 * @param string $paramN	nome do papél
-	 * @return void
+	 * @param	string	$param1	nome do papél
+	 * @param	string	$param2	nome do papél
+	 * @param	string	$paramN	nome do papél
+	 * @return	void
 	 */
 	public static function set()
 	{
@@ -36,10 +36,10 @@ class Auth
 	
 	/**
 	 * Remove um mais papéis do usuário na sessão
-	 * @param string $param1	nome do papél
-	 * @param string $param2	nome do papél
-	 * @param string $paramN	nome do papél
-	 * @return void
+	 * @param	string	$param1	nome do papél
+	 * @param	string	$param2	nome do papél
+	 * @param	string	$paramN	nome do papél
+	 * @return	void
 	 */
 	public static function remove()
 	{
@@ -51,7 +51,7 @@ class Auth
 	
 	/**
 	 * Remove todos os papéis do usuário na sessão
-	 * @return void
+	 * @return	void
 	 */
 	public static function clear()
 	{
@@ -61,11 +61,11 @@ class Auth
 	
 	/**
 	 * Verifica se o usuário possui, na sessão, os papéis informados no parâmetro
-	 * @param string $param1	nome do papél
-	 * @param string $param2	nome do papél
-	 * @param string $paramN	nome do papél
-	 * @throws AuthException	dispara se o usuário estiver algum papél na sessão, porém este não for informado do parâmetro
-	 * @return void
+	 * @param	string	$param1	nome do papél
+	 * @param	string	$param2	nome do papél
+	 * @param	string	$paramN	nome do papél
+	 * @throws	AuthException	dispara se o usuário estiver algum papél na sessão, porém este não for informado do parâmetro
+	 * @return	void
 	 */
 	public static function allow()
 	{
@@ -86,10 +86,10 @@ class Auth
 	
 	/**
 	 * Verifica se o usuário possui um ou mais papéis informado como parâmetro
-	 * @param string $param1	nome do papél
-	 * @param string $param2	nome do papél
-	 * @param string $paramN	nome do papél
-	 * @return boolean		retorna true se tiver um dos papéis, no contrário retorna false
+	 * @param	string	$param1	nome do papél
+	 * @param	string	$param2	nome do papél
+	 * @param	string	$paramN	nome do papél
+	 * @return	boolean			retorna true se tiver um dos papéis, no contrário retorna false
 	 */
 	public static function is()
 	{
@@ -105,7 +105,7 @@ class Auth
 	
 	/**
 	 * Verifica se o usuário possuim um ou mais papéis na sessão
-	 * @return boolean		retorna true se o usuário possuir, caso contrário retorna false
+	 * @return	boolean		retorna true se o usuário possuir, caso contrário retorna false
 	 */
 	public static function isLogged()
 	{
@@ -123,8 +123,8 @@ class Auth
 	
 	/**
 	 * Pega um papél na sessão
-	 * @param string $key	nome do papél
-	 * @return string		retorna o papél
+	 * @param	string	$key	nome do papél
+	 * @return	string			retorna o papél
 	 */
 	private static function _get($key)
 	{
@@ -133,9 +133,9 @@ class Auth
 	
 	/**
 	 * Adiciona um papél na sessão
-	 * @param string $key	nome do papél
-	 * @param string $value	valor
-	 * @return void
+	 * @param	string	$key	nome do papél
+	 * @param	string	$value	valor
+	 * @return	void
 	 */
 	private static function _set($key, $value)
 	{
@@ -144,7 +144,7 @@ class Auth
 	
 	/**
 	 * Gera uma chave MD5 com base no navegador do usuário e no salt, definido na configuração
-	 * @return string	retorn o MD5 gerado
+	 * @return	string	retorn o MD5 gerado
 	 */
 	private static function key()
 	{

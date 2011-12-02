@@ -16,7 +16,7 @@ class FileNotFoundException extends TriladoException
 {
 	/**
 	 * Construtor da classe
-	 * @param string $file	endereço do arquivo
+	 * @param	string	$file		endereço do arquivo
 	 */
 	public function __construct($file)
 	{

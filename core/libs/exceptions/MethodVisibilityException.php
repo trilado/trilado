@@ -16,7 +16,7 @@ class MethodVisibilityException extends TriladoException
 {
 	/**
 	 * Construtor da classe
-	 * @param string $method	nome do método
+	 * @param	string	$method		nome do método
 	 */
 	public function __construct($method)
 	{

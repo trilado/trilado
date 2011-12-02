@@ -10,7 +10,7 @@ class Guita
 {	
 	/**
 	 * Gera o SQL de acordo com os models existentes
-	 * @return string	retorna o SQL dos models
+	 * @return	string		retorna o SQL dos models
 	 */
 	public function generateTables()
 	{
@@ -26,7 +26,7 @@ class Guita
 	
 	/**
 	 * Método para carregar os models
-	 * @return array	retorna uma lista coms os nomes dos models
+	 * @return	array		retorna uma lista coms os nomes dos models
 	 */
 	protected function readModels()
 	{
@@ -45,8 +45,8 @@ class Guita
 	
 	/**
 	 * Ler um model e gera um SQL referente
-	 * @param Model $model	instância do model para gerar o SQL
-	 * @return string		retorna o SQL do model
+	 * @param	Model	$model	instância do model para gerar o SQL
+	 * @return	string			retorna o SQL do model
 	 */
 	protected function getTable(Model $model)
 	{
@@ -82,8 +82,8 @@ class Guita
 	
 	/**
 	 * Verifica se uma propriedade do model é um campo no banco de dados
-	 * @param object $property	anotação da propriedade
-	 * @return boolean			retorna true se for um campo ou false caso contrário
+	 * @param	object	$property	anotação da propriedade
+	 * @return	boolean				retorna true se for um campo ou false caso contrário
 	 */
 	protected function isField($property)
 	{
@@ -92,8 +92,8 @@ class Guita
 	
 	/**
 	 * Verifica se a coluna é uma chave
-	 * @param object $property	anotação da propriedade
-	 * @return boolean			retorna true se a propriedade for uma chave
+	 * @param	object	$property	anotação da propriedade
+	 * @return	boolean				retorna true se a propriedade for uma chave
 	 */
 	protected function isKey($property)
 	{
@@ -102,9 +102,9 @@ class Guita
 	
 	/**
 	 * Gera o SQL de criar uma chave estrangeira
-	 * @param string $field		nome da coluna
-	 * @param object $property	anotação da propriedade
-	 * @return string			retorna a SQL gerada
+	 * @param	string	$field		nome da coluna
+	 * @param	object	$property	anotação da propriedade
+	 * @return	string				retorna a SQL gerada
 	 */
 	protected function getKey($field, $property)
 	{
@@ -115,9 +115,9 @@ class Guita
 	
 	/**
 	 * Pega o nome do coluna a partir da anotação de uma propriedade
-	 * @param string $field		nome da propriedade
-	 * @param object $property	anotação da propriedade
-	 * @return string			retorna o nome da coluna
+	 * @param	string	$field		nome da propriedade
+	 * @param	object	$property	anotação da propriedade
+	 * @return	string				retorna o nome da coluna
 	 */
 	protected function getField($field, $property)
 	{
@@ -128,8 +128,8 @@ class Guita
 	
 	/**
 	 * Pega o tipo da (SQL) da coluna a partir da anotação da propriedade
-	 * @param object $property	anotação da propriedade
-	 * @return string			retorna o tipo da coluna
+	 * @param	object	$property	anotação da propriedade
+	 * @return	string				retorna o tipo da coluna
 	 */
 	protected function getType($property)
 	{
@@ -157,8 +157,8 @@ class Guita
 	
 	/**
 	 * Verifica se uma coluna pode ou não ser nula
-	 * @param object $property	anotação da propriedade
-	 * @return string			retorna o NULL se puder ser nula, no contrário retorna NOT NULL
+	 * @param	object	$property	anotação da propriedade
+	 * @return	string				retorna o NULL se puder ser nula, no contrário retorna NOT NULL
 	 */
 	protected function getNullable($property)
 	{
@@ -167,8 +167,8 @@ class Guita
 	
 	/**
 	 * Gerar o SQL da tabela
-	 * @param object $table		instância de stdClass com informações da tabela
-	 * @return string			retorna o código SQL da tabela
+	 * @param	object	$table		instância de stdClass com informações da tabela
+	 * @return	string				retorna o código SQL da tabela
 	 */
 	protected function getSql($table)
 	{
@@ -182,9 +182,9 @@ class Guita
 	
 	/**
 	 * Cria os arquivos das classes controllers
-	 * @param boolean $rewrite		se definido como true sobrescreve os arquivos, casos eles existirem
-	 * @throws GuitaException		disparada caso o arquivo não possa ser sobrescrito
-	 * @return void
+	 * @param	boolean	$rewrite		se definido como true sobrescreve os arquivos, casos eles existirem
+	 * @throws	GuitaException			disparada caso o arquivo não possa ser sobrescrito
+	 * @return	void
 	 */
 	public function generateControllers($rewrite = false)
 	{
@@ -204,8 +204,8 @@ class Guita
 	
 	/**
 	 * Gerar o código de uma classe controller
-	 * @param Model $model	model do controller
-	 * @return string		retorna o código PHP gerado
+	 * @param	Model	$model		model do controller
+	 * @return	string				retorna o código PHP gerado
 	 */
 	protected function getController(Model $model)
 	{
@@ -221,9 +221,9 @@ class Guita
 	
 	/**
 	 * Cria os arquivos HTML das views
-	 * @param boolean $rewrite		se definido como true, sobrescreve os arquivos caso eles existirem
-	 * @throws GuitaException		disparada caso o arquivo não possa ser sobrescrito
-	 * @return void
+	 * @param	boolean $rewrite		se definido como true, sobrescreve os arquivos caso eles existirem
+	 * @throws	GuitaException			disparada caso o arquivo não possa ser sobrescrito
+	 * @return	void
 	 */
 	public function generateViews($rewrite = false)
 	{
@@ -251,9 +251,9 @@ class Guita
 	
 	/**
 	 * Gera e retorna HTML de um view
-	 * @param Model $model		model a ser gerado uma view
-	 * @param string $type		tipo de view, pode assumir os valores: index, view, admin_index e admin_create
-	 * @return string			retorna o HTML gerado
+	 * @param	Model	$model		model a ser gerado uma view
+	 * @param	string	$type		tipo de view, pode assumir os valores: index, view, admin_index e admin_create
+	 * @return	string				retorna o HTML gerado
 	 */
 	protected function getView(Model $model, $type)
 	{
@@ -269,8 +269,8 @@ class Guita
 	
 	/**
 	 * Gera e retorna o código HTML da view 'admin_create'
-	 * @param Model $model	instância do model
-	 * @return string		retorna o HTML gerado
+	 * @param	Model	$model		instância do model
+	 * @return	string				retorna o HTML gerado
 	 */
 	protected function getViewCreate(Model $model)
 	{
@@ -295,8 +295,8 @@ class Guita
 	
 	/**
 	 * Gera e retorna o código HTML da view 'admin_index'
-	 * @param Model $model	instância do model
-	 * @return string		retorna o HTML gerado
+	 * @param	Model	$model	instância do model
+	 * @return	string			retorna o HTML gerado
 	 */
 	protected function getViewList(Model $model)
 	{
@@ -334,8 +334,8 @@ class Guita
 	
 	/**
 	 * Gera e retorna o código HTML da view 'index'
-	 * @param Model $model	instância do model
-	 * @return string		retorna o HTML gerado
+	 * @param	Model	$model	instância do model
+	 * @return	string			retorna o HTML gerado
 	 */
 	protected function getViewIndex(Model $model)
 	{
@@ -373,8 +373,8 @@ class Guita
 	
 	/**
 	 * Gera e retorna o código HTML da view 'view'
-	 * @param Model $model	instância do model
-	 * @return string		retorna o HTML gerado
+	 * @param	Model	$model	instância do model
+	 * @return	string			retorna o HTML gerado
 	 */
 	protected function getViewView(Model $model)
 	{

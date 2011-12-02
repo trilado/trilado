@@ -16,13 +16,13 @@ class DatabaseException extends Exception
 {
 	/**
 	 * Linha do erro
-	 * @var int
+	 * @var	int
 	 */
 	private $codeLine;
 	
 	/**
 	 * Contrutor da classe
-	 * @param string $message mensagem do erro
+	 * @param	string	$message	mensagem do erro
 	 */
 	public function __construct($message)
 	{

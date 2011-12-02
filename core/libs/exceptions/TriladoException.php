@@ -16,8 +16,8 @@ class TriladoException extends Exception
 {
 	/**
 	 * Construtor da classe
-	 * @param string $msg	mensagem do erro
-	 * @param int $code		código do erro
+	 * @param	string	$msg		mensagem do erro
+	 * @param	int		$code		código do erro
 	 */
 	public function __construct($msg, $code = 500)
 	{

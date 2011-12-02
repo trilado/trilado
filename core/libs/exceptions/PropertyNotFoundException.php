@@ -16,7 +16,7 @@ class PropertyNotFoundException extends TriladoException
 {
 	/**
 	 * Construtor da classe
-	 * @param string $property	nome da propriedade
+	 * @param	string	$property	nome da propriedade
 	 */
 	public function __construct($property)
 	{

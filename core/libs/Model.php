@@ -16,13 +16,13 @@ class Model
 {
 	/**
 	 * Guarda true se a classe for uma nova instância de Model e false a instância vinher do banco
-	 * @var boolean
+	 * @var	boolean
 	 */
 	private $_isNew = true;
 	
 	/**
 	 * Verifica se a classe é uma nova instância de Model ou se os valores vem do banco
-	 * @return boolean	retorna true se classe foi instânciada pelo usuário, ou false se foi instânciada pela classe DatabaseQuery
+	 * @return		boolean	retorna true se classe foi instânciada pelo usuário, ou false se foi instânciada pela classe DatabaseQuery
 	 */
 	public function _isNew()
 	{
@@ -31,7 +31,7 @@ class Model
 	
 	/**
 	 * Define se a classe é ou não uma nova instância. Esse método não deve ser chamado
-	 * @return voi
+	 * @return	void
 	 */
 	public function _setNew()
 	{
@@ -40,13 +40,13 @@ class Model
 	
 	/**
 	 * Guarda o nome da propriedade que é a chave primária
-	 * @var string
+	 * @var	string
 	 */
 	protected $_key = null;
 	
 	/**
 	 * Identifica e retorna o nome da propriedade que é uma chave primária
-	 * @return string	nome da propriedade
+	 * @return	string		nome da propriedade
 	 */
 	protected function _getKey()
 	{
@@ -65,8 +65,8 @@ class Model
 	
 	/**
 	 * Define o valor da propriedade em caso de auto incremento
-	 * @param int $id	valor do auto incremento
-	 * @return void
+	 * @param	int	$id		valor do auto incremento
+	 * @return	void
 	 */
 	public function _setLastId($id = null)
 	{
@@ -77,23 +77,24 @@ class Model
 	
 	/**
 	 * Método do Active Record, retorna uma instância do Model buscando do banco pela chave primária
-	 * @param int $id	valor da chave primária
-	 * @return object	retorna uma intância de Model
+	 * @param	int	$id		valor da chave primária
+	 * @return	object		retorna uma intância de Model
 	 */
 	public static function get($id)
 	{
 		$class = get_called_class();
+		$instance = new $class();
 		$db = Database::getInstance();
-		$db->{$class}->single($this->_getKey() .' = ?', $id);
+		return $db->{$class}->single($instance->_getKey() .' = ?', $id);
 	}
 	
 	/**
 	 * Método do Active Record, retorna um array de instâncias do Model buscando do banco pelos parâmetros
-	 * @param int $p		número da página (ex.: 1 listará de 0 á 10)	
-	 * @param int $m		quantidade máxima de itens por página
-	 * @param string $o		coluna a ser ordenada
-	 * @param string $t		tipo de ordenação (asc ou desc)
-	 * @return array		retorna umma lista de instâncias de Model
+	 * @param	int		$p		número da página (ex.: 1 listará de 0 á 10)	
+	 * @param	int		$m		quantidade máxima de itens por página
+	 * @param	string	$o		coluna a ser ordenada
+	 * @param	string	$t		tipo de ordenação (asc ou desc)
+	 * @return	array			retorna umma lista de instâncias de Model
 	 */
 	public static function all($p = 1, $m = 10, $o = 'Id', $t = 'asc')
 	{
@@ -110,7 +111,7 @@ class Model
 	
 	/**
 	 * Método do Active Record para salvar o objeto no banco, se for uma nova intância dá um 'insert', senão dá 'update'
-	 * @return void
+	 * @return	void
 	 */
 	public function save()
 	{
@@ -127,7 +128,7 @@ class Model
 	
 	/**
 	 * Método do Active Record que deleta um objeto do banco de dados, porém o objeto não pode ser uma nova instância
-	 * @return void
+	 * @return	void
 	 */	
 	public function delete()
 	{

@@ -23,7 +23,7 @@ class Session
 	
 	/**
 	 * Inicia a sessão
-	 * @return void
+	 * @return	void
 	 */
 	public static function start()
 	{
@@ -36,7 +36,7 @@ class Session
 	
 	/**
 	 * Cria uma chave MD5 com base no navegador do usuário e o salt, definido na configuração
-	 * @return string	retorna uma string MD5 
+	 * @return	string		retorna uma string MD5 
 	 */
 	private static function key()
 	{
@@ -45,10 +45,10 @@ class Session
 	
 	/**
 	 * Cria uma sessão criptograda para o usuário
-	 * @param string $name		nome da sessão
-	 * @param mixed $value		valor da sessão
-	 * @throws TriladoException	disparada caso o programador não defina a configuração 'salt', ou o valor esteja vazio
-	 * @return void
+	 * @param	string	$name		nome da sessão
+	 * @param	mixed	$value		valor da sessão
+	 * @throws	TriladoException	disparada caso o programador não defina a configuração 'salt', ou o valor esteja vazio
+	 * @return	void
 	 */
 	public static function set($name , $value)
 	{
@@ -60,8 +60,8 @@ class Session
 	
 	/**
 	 * Remove uma sessão do usuário
-	 * @param string $name	nome da sessão a ser removida
-	 * @return void
+	 * @param	string	$name		nome da sessão a ser removida
+	 * @return	void
 	 */
 	public static function del($name)
 	{
@@ -71,7 +71,7 @@ class Session
 	
 	/**
 	 * Remove todas as sessões do usuário
-	 * @return void
+	 * @return	void
 	 */
 	public static function clear()
 	{
@@ -81,9 +81,9 @@ class Session
 	
 	/**
 	 * Descriptograda e retorna uma sessão específica do usuário
-	 * @param string $name		nome da sessão a ser retornada
-	 * @throws TriladoException	disparado se a configuração 'salt' não for definida ou o valor for vazio
-	 * @return mixed			retorna o valor sessão descriptografado
+	 * @param	string	$name		nome da sessão a ser retornada
+	 * @throws	TriladoException	disparado se a configuração 'salt' não for definida ou o valor for vazio
+	 * @return	mixed				retorna o valor sessão descriptografado
 	 */
 	public static function get($name)
 	{

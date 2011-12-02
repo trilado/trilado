@@ -16,8 +16,8 @@ class ValidationException extends TriladoException
 {
 	/**
 	 * Construtor da classe
-	 * @param string $message	mensagem do erro
-	 * @param int $code			número do erro
+	 * @param	string	$message		mensagem do erro
+	 * @param	int		$code			número do erro
 	 */
 	public function __construct($message, $code)
 	{

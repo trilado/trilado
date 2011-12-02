@@ -8,7 +8,7 @@
 /**
  * Classe de persistência com o banco de dados. Implementa o padrão Singleton
  * 
- * @author 		Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * @author		Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
  * @version		1
  *
  */
@@ -16,19 +16,19 @@ class Database
 {
 	/**
 	 * Guarda a instância da classe Database, pois utiliza o padrão Singleton
-	 * @var object
+	 * @var	object
 	 */
 	protected static $instance;
 	
 	/**
 	 * Guarda instâncias da classe DatabaseQuery
-	 * @var array
+	 * @var	array
 	 */
 	protected $tables = array();
 	
 	/**
 	 * Guarda as SQL das operações de inert, update e delete
-	 * @var array
+	 * @var	array
 	 */
 	protected $operations = array();
 	
@@ -42,7 +42,7 @@ class Database
 	
 	/**
 	 * Método para instanciação do classe
-	 * @return object 	retorna a instância da classe Database
+	 * @return	object 	retorna a instância da classe Database
 	 */
 	public static function getInstance()
 	{
@@ -53,8 +53,8 @@ class Database
 	
 	/**
 	 * Chamado automáticamente quando uma propriedade de Database for chamada e ela não existir. Cria uma nova instância de DatabaseQuery 
-	 * @param string $name	nome de uma tabela ou view do banco de dados
-	 * @return object	retorna uma instância de DatabaseQuery
+	 * @param	string	$name	nome de uma tabela ou view do banco de dados
+	 * @return	object			retorna uma instância de DatabaseQuery
 	 */
 	public function __get($name)
 	{
@@ -65,9 +65,9 @@ class Database
 	
 	/**
 	 * Submete para o banco de dados as operações realizadas nos models
-	 * @throws TriladoException		disparada quando ocorrer alguma exceção do tipo SQLException
-	 * @throws SQLException			disparada quando ocorrer alguma exceção no banco de dados
-	 * @return void
+	 * @throws	TriladoException	disparada quando ocorrer alguma exceção do tipo SQLException
+	 * @throws	SQLException		disparada quando ocorrer alguma exceção no banco de dados
+	 * @return	void
 	 */
 	public function save()
 	{
@@ -98,7 +98,7 @@ class Database
 	
 	/**
 	 * Inicioa uma transação
-	 * @return void
+	 * @return	void
 	 */
 	public function transaction()
 	{
@@ -107,7 +107,7 @@ class Database
 	
 	/**
 	 * Envia a transação
-	 * @return void
+	 * @return	void
 	 */
 	public function commit()
 	{
@@ -116,7 +116,7 @@ class Database
 	
 	/**
 	 * Cancela uma transação
-	 * @return void
+	 * @return	void
 	 */
 	public function rollback()
 	{

@@ -16,7 +16,7 @@ class IOException extends TriladoException
 {
 	/**
 	 * Construtor da classe
-	 * @param string $msg	mensagem do erro
+	 * @param	string	$msg	mensagem do erro
 	 */
 	function __construct($msg)
 	{

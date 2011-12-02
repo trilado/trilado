@@ -16,9 +16,9 @@ class Template
 {	
 	/**
 	 * Renderiza a página solicitada pelo usuário
-	 * @param array $args				argumentos requisitados pelo usuário, como controller, action e parâmetros
-	 * @throws InvalidReturnException	Disparada caso a action solicitada retorne null
-	 * @return void
+	 * @param	array	$args				argumentos requisitados pelo usuário, como controller, action e parâmetros
+	 * @throws	InvalidReturnException		Disparada caso a action solicitada retorne null
+	 * @return	void
 	 */
 	public function render($args)
 	{
@@ -74,9 +74,9 @@ class Template
 	
 	/**
 	 * Verifica e retorna o master page deve ser renderizada
-	 * @throws MethodNotFoundException		disparado caso método referente ao nome da master não seja encontrado dentro da MasterController
-	 * @throws MethodVisibilityException	disparado caso método referente ao nome da master não esteja público
-	 * @return string						retorna o nome da master page
+	 * @throws	MethodNotFoundException		disparado caso método referente ao nome da master não seja encontrado dentro da MasterController
+	 * @throws	MethodVisibilityException	disparado caso método referente ao nome da master não esteja público
+	 * @return	string						retorna o nome da master page
 	 */
 	private function master()
 	{
@@ -103,7 +103,7 @@ class Template
 	
 	/**
 	 * Renderiza a flash message
-	 * @return void
+	 * @return	void
 	 */
 	private function renderFlash()
 	{
@@ -118,8 +118,8 @@ class Template
 	
 	/**
 	 * Renderiza a view
-	 * @param object $ob	objeto com informações da view
-	 * @return void
+	 * @param	object	$ob		objeto com informações da view
+	 * @return	void
 	 */
 	private function renderView($ob)
 	{
@@ -135,8 +135,8 @@ class Template
 	
 	/**
 	 * Renderiza o conteúdo no lugar da view
-	 * @param object $ob	objeto com informações do conteúdo
-	 * @return void
+	 * @param	object	$ob		objeto com informações do conteúdo
+	 * @return	void
 	 */
 	private function renderContent($ob)
 	{
@@ -152,8 +152,8 @@ class Template
 	
 	/**
 	 * Renderiza uma página no lugar da view
-	 * @param object $ob	objeto com informações da página e da master page
-	 * @return void
+	 * @param	object	$ob		objeto com informações da página e da master page
+	 * @return	void
 	 */
 	private function renderPage($ob)
 	{
@@ -162,8 +162,8 @@ class Template
 	
 	/**
 	 * Renderiza um conteúdo XML e mata a execução
-	 * @param object $ob	objeto com informações do XML
-	 * @return void
+	 * @param	object	$ob		objeto com informações do XML
+	 * @return	void
 	 */
 	private function renderXml($ob)
 	{
@@ -174,8 +174,8 @@ class Template
 	
 	/**
 	 * Renderiza um conteúdo JSON e mata a execução
-	 * @param object $ob	objeto com informações do JSON
-	 * @return void
+	 * @param	object	$ob		objeto com informações do JSON
+	 * @return	void
 	 */
 	private function renderJson($ob)
 	{
@@ -185,8 +185,8 @@ class Template
 	
 	/**
 	 * Substitui os '~/' dentro da master e page e da view pelo root virtual
-	 * @param string $html		HTML da view ou da master page
-	 * @return string			retorna o HTML
+	 * @param	string	$html		HTML da view ou da master page
+	 * @return	string				retorna o HTML
 	 */
 	private function resolveUrl($html)
 	{
