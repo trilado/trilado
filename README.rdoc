@@ -25,6 +25,6 @@ fácil e leve, que oferece grande desempenho em suas aplicações.
 
 * PHP 5+
 * PDO
-* mod_rewrite (reescrita de URL)
+* mod rewrite (reescrita de URL)
 
 
