@@ -57,7 +57,8 @@ class Import
 	 */
 	public static function core()
 	{
-		self::load('core', func_get_args());
+		$args = func_get_args();
+		self::load('core', $args);
 	}
 	
 	/**
@@ -70,7 +71,8 @@ class Import
 	 */
 	public static function controller()
 	{
-		foreach(func_get_args() as $c)
+		$args = func_get_args();
+		foreach($args as $c)
 		{
 			$file = root . 'app/controllers/' . $c . '.php';
 			if(!file_exists($file))
@@ -91,7 +93,8 @@ class Import
 	 */
 	public static function model()
 	{
-		self::load('model', func_get_args());
+		$args = func_get_args();
+		self::load('model', $args);
 	}
 	
 	/**
@@ -102,7 +105,8 @@ class Import
 	 */
 	public static function helper()
 	{
-		self::load('helper', func_get_args());
+		$args = func_get_args();
+		self::load('helper', $args);
 	}
 	
 	/**

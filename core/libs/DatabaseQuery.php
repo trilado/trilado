@@ -256,7 +256,8 @@ class DatabaseQuery
 		if (func_num_args() > 0) 
 		{
 			$reflectionMethod = new ReflectionMethod('DatabaseQuery', 'where');
-			$reflectionMethod->invokeArgs($this, func_get_args());
+			$args = func_get_args();
+			$reflectionMethod->invokeArgs($this, $args);
 		}
 		
 		$select = $this->select;
@@ -323,7 +324,8 @@ class DatabaseQuery
 		$this->limit(1);
 		
 		$reflectionMethod = new ReflectionMethod('DatabaseQuery', 'all');
-		$result = $reflectionMethod->invokeArgs($this, func_get_args());
+		$args = func_get_args();
+		$result = $reflectionMethod->invokeArgs($this, $args);
 		
 		if(count($result)) 
 			return $result[0];
