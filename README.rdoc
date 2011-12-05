@@ -1,25 +1,25 @@
-== DescriÁ„o
+== Descri√ß√£o
 
-Trilado È um framework PHP que segue o modelo MVC (Model, View Controller), tem como objetivo o desenvolvimento web r·pido, 
-f·cil e leve, que oferece grande desempenho em suas aplicaÁıes.
+Trilado √© um framework PHP que segue o modelo MVC (Model, View Controller), tem como objetivo o desenvolvimento web r√°pido, 
+f√°cil e leve, que oferece grande desempenho em suas aplica√ß√µes.
 
-== CaracterÌsticas
+== Caracter√≠sticas
 
-* AnotaÁıes
-* AutenticaÁ„o simples
+* Anota√ß√µes
+* Autentica√ß√£o simples
 * Multitemplate
 * Mapeamento de Objeto Relacional (ORM)
-* Conecta a v·rios de banco de dados
-* ValidaÁ„o
-* InternacionalizaÁ„o
-* Sessıes criptografadas
+* Conecta a v√°rios de banco de dados
+* Valida√ß√£o
+* Internacionaliza√ß√£o
+* Sess√µes criptografadas
 * HTML Helpers
 * Gerador de CRUD
 * Suporte JSON e XML
-* ConfiguraÁ„o simples
+* Configura√ß√£o simples
 * Orientado a Objetos
 * Rotas
-* P·ginas de erro personalizadas
+* P√°ginas de erro personalizadas
 
 == Requisitos
 
