@@ -217,11 +217,14 @@ class DatabaseQuery
 	/**
 	 * Define um limite máximo de itens a serem retornados
 	 * @param int $n	valor do limite
+	 * @param int $o	valor do offset
 	 * @return object	retorna a própria instância da classe DatabaseQuery
 	 */
-	public function limit($n)
+	public function limit($n, $o = null)
 	{
 		$this->limit = $n;
+		if($o) 
+			$this->offset = $o;
 		return $this;
 	}
 	
@@ -247,6 +250,27 @@ class DatabaseQuery
 	}
 	
 	/**
+	 * Gerar e retorna o SQL da consulta
+	 * @return string	retorna o SQL gerado
+	 */
+	public function getSQL()
+	{
+		$select = $this->select;
+		if(!$select)
+			$select = $this->table .'.*';
+		
+		$joins = '';
+		//joins
+		
+		$where = $this->where ? ' WHERE '. $this->where : '';
+		$orderby = $this->orderby ? ' ORDER BY '. $this->orderby : '';
+		$limit = $this->limit ? ' LIMIT '. $this->limit : '';
+		$offset = $this->offset ? ' OFFSET '. $this->offset : '';
+		
+		return 'SELECT '. $this->distinct . $select .' FROM '. $this->table . $joins . $where . $orderby . $limit . $offset;
+	}
+	
+	/**
 	 * Monta a instrunção SQL a partir da operações chamadas e executa a instrução
 	 * @throws TriladoException		disparada caso ocorra algum erro na execução da operação
 	 * @return array				retorna um array com instâncias do Model
@@ -260,19 +284,7 @@ class DatabaseQuery
 			$reflectionMethod->invokeArgs($this, $args);
 		}
 		
-		$select = $this->select;
-		if(!$select)
-			$select = $this->table .'.*';
-		
-		$joins = '';
-		//joins
-		
-		$where = $this->where ? ' WHERE '. $this->where : '';
-		$orderby = $this->orderby ? ' ORDER BY '. $this->orderby : '';
-		$limit = $this->limit ? ' LIMIT '. $this->limit : '';
-		$offset = $this->offset ? ' OFFSET '. $this->offset : '';
-		
-		$sql = 'SELECT '. $this->distinct . $select .' FROM '. $this->table . $joins . $where . $orderby . $limit . $offset;
+		$sql = $this->getSQL();
 
 		Debug::addSql($sql, $this->where_params);
 		

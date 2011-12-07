@@ -66,6 +66,32 @@ function uncamelize($string)
 }
 
 /**
+ * Converte 'Título de Exemplo' para 'titulo-de-exemplo'
+ * @param string $string	valor a ser convertido
+ * @return string			retorna o valor convertido
+ */
+function slugify($string)
+{
+	$string = html_entity_decode($string);
+
+	$a = 'ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ';
+	$b = 'AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn';
+	$string = strtr($string, $a, $b);
+
+	$ponctu = array("?", ".", "!", ",");
+	$string = str_replace($ponctu, "", $string);
+
+	$string = trim($string);
+	$string = strtolower($string);
+	$string = preg_replace('/([^a-z0-9]+)/i', '-', $string);
+
+	if (!empty($string))
+		$string = utf8_encode($string);
+
+	return $string;
+}
+
+/**
  * Executa a função print_r com a tag <pre>
  * @param mixed $struct		estrutura a ser impressa
  * @return void
