@@ -27,6 +27,12 @@ class Database
 	protected $tables = array();
 	
 	/**
+	 * Guarda as SQL das operações de inert, update e delete
+	 * @var array
+	 */
+	protected $operations = array();
+	
+	/**
 	 * Construtor da classe, protegido para não criar um instância sem utilizar o Singleton
 	 */
 	protected function __construct()
@@ -52,6 +58,8 @@ class Database
 	 */
 	public function __get($name)
 	{
+		if($this->tables[$name])
+			$this->operations = array_union($this->operations, $this->tables[$name]->getAndClearOperations());
 		return $this->tables[$name] = new DatabaseQuery($name);
 	}
 	
@@ -65,8 +73,8 @@ class Database
 	{
 		foreach($this->tables as $entity)
 		{
-			$operations = $entity->getAndClearOperations();
-			foreach($operations as $operation)
+			$this->operations = array_union($this->operations, $entity->getAndClearOperations());
+			foreach($this->operations as $operation)
 			{
 				try
 				{
@@ -78,13 +86,11 @@ class Database
 						throw new TriladoException($error[2]);
 					}
 					if($operation['model'])
-					{
-						//getId
-					}
+						$key = $operation['model']->_setLastId($entity->lastInsertId());
 				}
 				catch(PDOException $ex)
 				{
-					throw new SQLException($ex->getMessage(), $ex->getCode());
+					throw new DatabaseException($ex->getMessage(), $ex->getCode());
 				}
 			}
 		}
