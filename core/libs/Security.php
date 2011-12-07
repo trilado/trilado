@@ -8,8 +8,9 @@
 /**
  * Classe que implementa os métodos de criptografia e descriptografia
  * 
- * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
- * @version	1
+ * @author	Carlos André Ferrari <carlos@ferrari.eti.br>; Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * @version	1.1
+ * @link	http://ferrari.eti.br/operador-xor-no-php/
  *
  */
 class Security
