@@ -37,4 +37,104 @@ class Model
 	{
 		$this->_isNew = false;
 	}
+	
+	/**
+	 * Guarda o nome da propriedade que é a chave primária
+	 * @var string
+	 */
+	protected $_key = null;
+	
+	/**
+	 * Identifica e retorna o nome da propriedade que é uma chave primária
+	 * @return string	nome da propriedade
+	 */
+	protected function _getKey()
+	{
+		if($this->_key)
+			return $this->_key;
+	
+		$class = get_called_class();
+		$annotation = Annotation::get($class);
+		foreach ($this as $p => $v)
+		{
+			$property = $annotation->getProperty($p);
+			if($property->Column && $property->Column->Key)
+				return $this->_key = $p;
+		}
+	}
+	
+	/**
+	 * Define o valor da propriedade em caso de auto incremento
+	 * @param int $id	valor do auto incremento
+	 * @return void
+	 */
+	public function _setLastId($id = null)
+	{
+		$key = $this->_getKey();
+		if($id)
+			$this->{$key} = $id;
+	}
+	
+	/**
+	 * Método do Active Record, retorna uma instância do Model buscando do banco pela chave primária
+	 * @param int $id	valor da chave primária
+	 * @return object	retorna uma intância de Model
+	 */
+	public static function get($id)
+	{
+		$class = get_called_class();
+		$db = Database::getInstance();
+		$db->{$class}->single($this->_getKey() .' = ?', $id);
+	}
+	
+	/**
+	 * Método do Active Record, retorna um array de instâncias do Model buscando do banco pelos parâmetros
+	 * @param int $p		número da página (ex.: 1 listará de 0 á 10)	
+	 * @param int $m		quantidade máxima de itens por página
+	 * @param string $o		coluna a ser ordenada
+	 * @param string $t		tipo de ordenação (asc ou desc)
+	 * @return array		retorna umma lista de instâncias de Model
+	 */
+	public static function all($p = 1, $m = 10, $o = 'Id', $t = 'asc')
+	{
+		$p = $m * (($p < 1 ? 1 : $p) - 1);
+		$class = get_called_class();
+		$db = Database::getInstance();
+		return $db->{$class}->limit($m, $p)->ordeBy($o .' '. $t)->all();
+	}
+	
+	public static function search()
+	{
+		
+	}
+	
+	/**
+	 * Método do Active Record para salvar o objeto no banco, se for uma nova intância dá um 'insert', senão dá 'update'
+	 * @return void
+	 */
+	public function save()
+	{
+		$class = get_called_class();
+		$key = $this->_getKey();
+		
+		$db = Database::getInstance();
+		if($this->{$key})
+			$db->{$class}->update($this);
+		else
+			$db->{$class}->insert($this);
+		$db->save();
+	}
+	
+	/**
+	 * Método do Active Record que deleta um objeto do banco de dados, porém o objeto não pode ser uma nova instância
+	 * @return void
+	 */	
+	public function delete()
+	{
+		$class = get_called_class();
+		
+		$db = Database::getInstance();
+		$db->{$class}->delete($this);
+		$db->save();
+	}
 }
