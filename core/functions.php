@@ -66,6 +66,16 @@ function uncamelize($string)
 }
 
 /**
+ * Converte 'test-controller' para 'Test Controller'
+ * @param string $string	valor a ser convertido
+ * @return string			valor convertido
+ */
+function humanize($string)
+{
+	return ucwords(str_replace('-', ' ', $string));
+}
+
+/**
  * Converte 'Título de Exemplo' para 'titulo-de-exemplo'
  * @param string $string	valor a ser convertido
  * @return string			retorna o valor convertido
