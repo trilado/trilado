@@ -8,7 +8,7 @@
 /**
  * Classe de internacionalização
  * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmailc.om>
- * @version	1
+ * @version	1.1
  *
  */
 class I18n 
@@ -91,34 +91,32 @@ class I18n
 	 */
 	private function load($file)
 	{
-		$file_path = APP . $file;
+		$file_path = root .'app/'. $file;
 
 		if(!file_exists($file_path))
-			throw new TriladoException('File "'. $file .'" not found!');
-		$content = file_get_contents($file_path);
-		if(!$content)
-			throw new TriladoException('File "'. $file .'" is empty!');
+			throw new FileNotFoundException($file);
+		$lines = file($file_path);
+		if(!count($lines))
+			throw new TriladoException('Arquivo "'. $file .'" está vazio');
 		
-		$lines = explode("\n", $content);
 		$key = false;
-		$array = array();
+		$result = array();
 		foreach($lines as $line)
 		{
 			$line = trim($line);
-			
-			if($line != '' && $line[0] != '#')
+			if(preg_match('@^(msgid|msgstr)@', $line))
 			{
 				if(preg_match('/^msgid "(.+)"/', $line, $match))
 					$key = md5($match[1]);
-				if(preg_match('/^msgstr "(.+)"/', $line, $match))
+				elseif(preg_match('/^msgstr "(.+)"/', $line, $match))
 				{
 					if(!$key)
-						throw new TriladoException('Syntax error in "'. $file .'" in line "'. $match[1] .'"');
-					$array[$key] = $match[1];
+						throw new TriladoException('Erro de sintax no arquivo "'. $file .'" na linha "'. $match[1] .'"');
+					$result[$key] = $match[1];
 					$key = false;
 				}
 			}
 		}
-		return $array;
+		return $result;
 	}
 }
