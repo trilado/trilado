@@ -9,18 +9,18 @@
  * Classe responsável por renderizar a página
  * 
  * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
- * @version	2
+ * @version	2.1
  *
  */
 class Template
-{
+{	
 	/**
 	 * Renderiza a página solicitada pelo usuário
-	 * @param array $params				argumentos requisitados pelo usuário, como controller, action e parâmetros
+	 * @param array $args				argumentos requisitados pelo usuário, como controller, action e parâmetros
 	 * @throws InvalidReturnException	Disparada caso a action solicitada retorne null
 	 * @return void
 	 */
-	public function render($params)
+	public function render($args)
 	{
 		$tpl_method = $this->master();
 		
@@ -31,12 +31,21 @@ class Template
 		$controller = new $name();
 		$controller->beforeRender();
 		
-		$content = call_user_func_array(array($controller, action), $params);
+		$content = call_user_func_array(array($controller, action), $args);
 		
 		if(!$content)
 			throw new InvalidReturnException(controller .'->'. action .'()');
 		
 		$this->renderFlash();
+		
+		$method = new ReflectionMethod(controller, action);
+		$params = $method->getParameters();
+		
+		for($i = 0; $i < count($params); $i++)
+		{
+			if(!$content->Vars[$params[$i]->getName()])
+				$content->Vars[$params[$i]->getName()] = $args[$i];
+		}
 		
 		switch($content->Type)
 		{
