@@ -9,7 +9,7 @@
  * Classe principal do Framework, responsável pelo controlar todo o fluxo, fazendo chama de outras classes
  * 
  * @author		Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
- * @version		2
+ * @version		2.1
  *
  */ 
 class App 
@@ -150,12 +150,13 @@ class App
 	 */
 	private function isValidParams($method)
 	{
-		if(count($this->args['params']) > count($method->getParameters())) 
+		$params = $method->getParameters();
+		if(count($this->args['params']) > count($params)) 
 			return false;
-		if(count($this->args['params']) < count($method->getParameters()))
+		if(count($this->args['params']) < count($params))
 		{
 			$cont = 0;
-			foreach ($method->getParameters() as $param)
+			foreach ($params as $param)
 			{
 				if(!$param->isOptional()) 
 					$cont++;		
