@@ -11,6 +11,7 @@ Trilado é um Framework PHP MVC que visa o desenvolvimento web ágil, é fácil,
 - Templates
 - Rotas
 - Suporte JSON e XML
+- Renderização JSON e XML automaticamente (.xml ou .json)
 - Anotações
 - HTML Helpers
 - Página de erros personalizadas
