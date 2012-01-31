@@ -24,7 +24,7 @@
 	
 	Import::core('App');
 	
-	$url = isset($_GET['url']) ? $_GET['url'] : '';
+	$url = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '';
 	
 	new App($url);
 	
