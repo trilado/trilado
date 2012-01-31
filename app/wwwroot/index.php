@@ -24,5 +24,7 @@
 	
 	Import::core('App');
 	
-	new App($_GET['url']);
+	$url = isset($_GET['url']) ? $_GET['url'] : '';
+	
+	new App($url);
 	
