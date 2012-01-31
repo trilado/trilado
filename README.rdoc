@@ -19,7 +19,7 @@ fácil e leve, que oferece grande desempenho em suas aplicações.
 * Configuração simples
 * Orientado a Objetos
 * Rotas
-* Páginas de erro personalizadas
+* Páginas de erro personalizadas a
 
 == Requisitos
 
