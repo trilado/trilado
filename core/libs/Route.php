@@ -77,8 +77,8 @@ class Route
 		
 		$args['controller']	= array_shift($urls);
 		$args['action']	= array_shift($urls);
-		if($args['prefix'])
-			$args['action'] = $args['prefix'] .'_'. ($args['action'] ? $args['action'] : default_action);
+		if(isset($args['prefix']))
+			$args['action'] = $args['prefix'] .'_'. (isset($args['action']) ? $args['action'] : default_action);
 		$args['params']	= $urls;
 		
 		return $args;
@@ -93,6 +93,7 @@ class Route
 	{	
 		$url = trim($url, '/');
 		$urls = explode('/', $url);
+		$lang = '';
 		if(self::isI18n($urls[0]))
 			$lang = array_shift($urls) .'/';
 		$url = implode('/', $urls);
