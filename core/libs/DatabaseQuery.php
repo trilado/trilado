@@ -210,7 +210,7 @@ class DatabaseQuery
 	 */
 	public function orderBy($order, $type = null)
 	{
-		$this->orderby = $order . ($type ? .' '. $type : '');
+		$this->orderby = $order . ($type ? ' '. $type : '');
 		return $this;
 	}
 	
