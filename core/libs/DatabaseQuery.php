@@ -1,40 +1,40 @@
 <?php
 /*
- * Copyright (c) 2011, Valdirene da Cruz Neves J˙nior <linkinsystem666@gmail.com>
+ * Copyright (c) 2011, Valdirene da Cruz Neves J√∫nior <linkinsystem666@gmail.com>
  * All rights reserved.
  */
 
 
 /**
- * Classe de Mapemamento de Objeto Relacional (ORM), que È utilizada em conjunto com a classe Database para manipular o banco de dados
- * utilizando orientaÁ„o a objetos.
+ * Classe de Mapemamento de Objeto Relacional (ORM), que √© utilizada em conjunto com a classe Database para manipular o banco de dados
+ * utilizando orienta√ß√£o a objetos.
  * 
- * @author	Valdirene da Cruz Neves J˙nior <linkinsystem666@gmail.com>
+ * @author	Valdirene da Cruz Neves J√∫nior <linkinsystem666@gmail.com>
  * @version	1
  *
  */
 class DatabaseQuery 
 {	
 	/**
-	 * Guarda a conex„o com o banco de dados
+	 * Guarda a conex√£o com o banco de dados
 	 * @var	object
 	 */
 	protected static $connection = null;
 	
 	/**
-	 * Guarda as instruÁıes geradas para inserÁ„o, atualizaÁ„o e deleÁ„o de dados das tabelas
+	 * Guarda as instru√ß√µes geradas para inser√ß√£o, atualiza√ß√£o e dele√ß√£o de dados das tabelas
 	 * @var	array
 	 */
 	protected $operations = array();
 	
 	/**
-	 * Guarda uma inst‚ncia da classe Annotation referente ao model que est· sendo trabalhado
+	 * Guarda uma inst√¢ncia da classe Annotation referente ao model que est√° sendo trabalhado
 	 * @var	object
 	 */
 	protected $annotation;
 	
 	/**
-	 * Guarda as propriedades do model que est· sendo trabalhado
+	 * Guarda as propriedades do model que est√° sendo trabalhado
 	 * @var	array
 	 */
 	protected $properties = array();
@@ -52,13 +52,13 @@ class DatabaseQuery
 	protected $table;
 	
 	/**
-	 * Guarda o nome dos atributos que ser„o retornas da tabela na hora da execuÁ„o das instruÁ„o SQL
+	 * Guarda o nome dos atributos que ser√£o retornas da tabela na hora da execu√ß√£o das instru√ß√£o SQL
 	 * @var	string
 	 */
 	protected $select;
 	
 	/**
-	 * Guarda os condicionais do instruÁ„o SQL
+	 * Guarda os condicionais do instru√ß√£o SQL
 	 * @var	string
 	 */
 	protected $where = '';
@@ -70,31 +70,31 @@ class DatabaseQuery
 	protected $where_params = array();
 	
 	/**
-	 * Guarda a condiÁ„o de ordenaÁ„o
+	 * Guarda a condi√ß√£o de ordena√ß√£o
 	 * @var	string
 	 */
 	protected $orderby = '';
 	
 	/**
-	 * Guarda o limite m·ximo de resultados que poder„o ser retornados
+	 * Guarda o limite m√°ximo de resultados que poder√£o ser retornados
 	 * @var	int
 	 */
 	protected $limit = '';
 	
 	/**
-	 * Guarda a posiÁ„o em que comeÁar„o os resultados
+	 * Guarda a posi√ß√£o em que come√ßar√£o os resultados
 	 * @var	int
 	 */
 	protected $offset = '';
 	
 	/**
-	 * Guarda a informaÁ„o se vai utilizar ou n„o distinÁ„o dos resultados
+	 * Guarda a informa√ß√£o se vai utilizar ou n√£o distin√ß√£o dos resultados
 	 * @var	string
 	 */
 	protected $distinct = '';
 	
 	/**
-	 * Indica se o resultado a instruÁ„o È uma oper„o soma, mÈdia, valor mÌnimo e etc.
+	 * Indica se o resultado a instru√ß√£o √© uma oper√£o soma, m√©dia, valor m√≠nimo e etc.
 	 * @var	boolean
 	 */
 	protected $calc = false;
@@ -102,7 +102,7 @@ class DatabaseQuery
 	/**
 	 * Construtor da classe
 	 * @param	string	$class		nome do model
-	 * @throws	DatabaseException	dispara se o model n„o tiver a anotaÁ„o de Entity ou View
+	 * @throws	DatabaseException	dispara se o model n√£o tiver a anota√ß√£o de Entity ou View
 	 */
 	public function __construct($class)
 	{
@@ -112,15 +112,15 @@ class DatabaseQuery
 		
 		$annotation_class = $this->annotation->getClass();
 		if(!property_exists($annotation_class, 'Entity') && !property_exists($annotation_class, 'View'))
-			throw new DatabaseException("A classe '". $class ."' n„o È uma entidade ou view");
+			throw new DatabaseException("A classe '". $class ."' n√£o √© uma entidade ou view");
 		
 		$this->table = is_string($annotation_class->Entity) ? $annotation_class->Entity : $class;
 	}
 	
 	/**
-	 * MÈtodo est·tico que faz a conex„o com o banco de dados
-	 * @throws	DatabaseException	dispara se ocorrer algum exceÁ„o do tipo PDOException
-	 * @return	object				retorna uma inst‚ncia da classe PDO que representa a conex„o
+	 * M√©todo est√°tico que faz a conex√£o com o banco de dados
+	 * @throws	DatabaseException	dispara se ocorrer algum exce√ß√£o do tipo PDOException
+	 * @return	object				retorna uma inst√¢ncia da classe PDO que representa a conex√£o
 	 */
 	public static function connection()
 	{
@@ -139,7 +139,7 @@ class DatabaseQuery
 	}
 	
 	/**
-	 * Pega as instrucıes SQL geradas e limpa a propriedade $operations
+	 * Pega as instruc√µes SQL geradas e limpa a propriedade $operations
 	 * @return	array	retorna um array com as SQLs
 	 */
 	public function getAndClearOperations()
@@ -150,17 +150,17 @@ class DatabaseQuery
 	}
 	
 	/**
-	 * Adiciona as condiÁıes na instrunÁ„o (clausula WHERE)
-	 * @param	string	$condition		condiÁıes SQL, por exemplo 'Id = ? OR slug = ?'
-	 * @param	mixed	$value1			valor da primeira condiÁ„o
-	 * @param	mixed	$valueN			valor da x condiÁ„o
-	 * @throws	DatabaseException		disparado se a quantidade de argumentos for menor 2 ou se quantidade de condicionais n„o corresponder a quantidade de valores
-	 * @return	object					retorna a prÛpria inst‚ncia da classe DatabaseQuery 
+	 * Adiciona as condi√ß√µes na instrun√ß√£o (clausula WHERE)
+	 * @param	string	$condition		condi√ß√µes SQL, por exemplo 'Id = ? OR slug = ?'
+	 * @param	mixed	$value1			valor da primeira condi√ß√£o
+	 * @param	mixed	$valueN			valor da x condi√ß√£o
+	 * @throws	DatabaseException		disparado se a quantidade de argumentos for menor 2 ou se quantidade de condicionais n√£o corresponder a quantidade de valores
+	 * @return	object					retorna a pr√≥pria inst√¢ncia da classe DatabaseQuery 
 	 */
 	public function where()
 	{
 		if(func_num_args() < 2)
-			throw new DatabaseException('O mÈtodo where() deve conter no mÌnimo 2 par‚metros');
+			throw new DatabaseException('O m√©todo where() deve conter no m√≠nimo 2 par√¢metros');
 		
 		$args = func_get_args();
 		$where = $args[0];
@@ -168,7 +168,7 @@ class DatabaseQuery
 		$params = $args;
 		
 		if(substr_count($where, '?') !== count($params))
-			throw new DatabaseException('Quantidade de par‚metros est· diferente');
+			throw new DatabaseException('Quantidade de par√¢metros est√° diferente');
 			
 		$this->where = $where;
 		$this->where_params = $params;
@@ -176,15 +176,15 @@ class DatabaseQuery
 	}
 	
 	/**
-	 * Adiciona as condiÁıes na instruÁ„o (clausula WHERE)
-	 * @param	string	$where		condiÁıes SQL, por exemplo 'Id = ? OR slug = ?'
-	 * @param	array	$params		array com os valores das condiÁıes
-	 * @return	object				retorna a prÛpria inst‚ncia da classe DatabaseQuery
+	 * Adiciona as condi√ß√µes na instru√ß√£o (clausula WHERE)
+	 * @param	string	$where		condi√ß√µes SQL, por exemplo 'Id = ? OR slug = ?'
+	 * @param	array	$params		array com os valores das condi√ß√µes
+	 * @return	object				retorna a pr√≥pria inst√¢ncia da classe DatabaseQuery
 	 */
 	public function whereArray($where, $params)
 	{
 		if(substr_count($where, '?') !== count($params))
-			throw new DatabaseException('Quantidade de par‚metros est· diferente');
+			throw new DatabaseException('Quantidade de par√¢metros est√° diferente');
 		
 		$this->where = $where;
 		$this->where_params = $params;
@@ -192,9 +192,9 @@ class DatabaseQuery
 	}
 	
 	/**
-	 * Adiciona as condiÁıes na instruÁ„o SQL (clausula WHERE)
-	 * @param	string	$where		condiÁıes SQL com valores direto, por exemplo 'Description IS NOT NULL'
-	 * @return	object				retorna a prÛpria inst‚ncia da classe DatabaseQuery
+	 * Adiciona as condi√ß√µes na instru√ß√£o SQL (clausula WHERE)
+	 * @param	string	$where		condi√ß√µes SQL com valores direto, por exemplo 'Description IS NOT NULL'
+	 * @return	object				retorna a pr√≥pria inst√¢ncia da classe DatabaseQuery
 	 */
 	public function whereSQL($where)
 	{
@@ -203,20 +203,21 @@ class DatabaseQuery
 	}
 	
 	/**
-	 * Define a ordem em que os resultados ser„o retornados
+	 * Define a ordem em que os resultados ser√£o retornados
 	 * @param	string	$order	nome da coluna a ser ordenada
-	 * @return	object			retorna a prÛpria inst‚ncia da classe DatabaseQuery
+	 * @param	string	$type	typo de ordena√ß√£o (asc ou desc)
+	 * @return	object			retorna a pr√≥pria inst√¢ncia da classe DatabaseQuery
 	 */
-	public function orderBy($order)
+	public function orderBy($order, $type = null)
 	{
-		$this->orderby = $order;
+		$this->orderby = $order . ($type ? .' '. $type : '');
 		return $this;
 	}
 	
 	/**
-	 * Define como ordem decrescente os resultados que ser„o retornados
+	 * Define como ordem decrescente os resultados que ser√£o retornados
 	 * @param	string	$order	nome da coluna a ser ordenada
-	 * @return	object			retorna a prÛpria inst‚ncia da classe DatabaseQuery
+	 * @return	object			retorna a pr√≥pria inst√¢ncia da classe DatabaseQuery
 	 */
 	public function orderByDesc($order)
 	{
@@ -225,10 +226,10 @@ class DatabaseQuery
 	}
 	
 	/**
-	 * Define um limite m·ximo de itens a serem retornados
+	 * Define um limite m√°ximo de itens a serem retornados
 	 * @param	int	$n	valor do limite
 	 * @param	int	$o	valor do offset
-	 * @return	object	retorna a prÛpria inst‚ncia da classe DatabaseQuery
+	 * @return	object	retorna a pr√≥pria inst√¢ncia da classe DatabaseQuery
 	 */
 	public function limit($n, $o = null)
 	{
@@ -239,9 +240,9 @@ class DatabaseQuery
 	}
 	
 	/**
-	 * Define a posiÁ„o em que os resultados iniciam
-	 * @param	int	$n	valor da posiÁ„o
-	 * @return	object	retorna a prÛpria inst‚ncia da classe DatabaseQuery
+	 * Define a posi√ß√£o em que os resultados iniciam
+	 * @param	int	$n	valor da posi√ß√£o
+	 * @return	object	retorna a pr√≥pria inst√¢ncia da classe DatabaseQuery
 	 */
 	public function offset($n)
 	{
@@ -250,8 +251,8 @@ class DatabaseQuery
 	}
 	
 	/**
-	 * Define que os resultados ser„o distintos
-	 * @return	object	retorna a prÛpria inst‚ncia da classe DatabaseQuery
+	 * Define que os resultados ser√£o distintos
+	 * @return	object	retorna a pr√≥pria inst√¢ncia da classe DatabaseQuery
 	 */
 	public function distinct()
 	{
@@ -281,9 +282,9 @@ class DatabaseQuery
 	}
 	
 	/**
-	 * Monta a instrunÁ„o SQL a partir da operaÁıes chamadas e executa a instruÁ„o
-	 * @throws	TriladoException	disparada caso ocorra algum erro na execuÁ„o da operaÁ„o
-	 * @return	array				retorna um array com inst‚ncias do Model
+	 * Monta a instrun√ß√£o SQL a partir da opera√ß√µes chamadas e executa a instru√ß√£o
+	 * @throws	TriladoException	disparada caso ocorra algum erro na execu√ß√£o da opera√ß√£o
+	 * @return	array				retorna um array com inst√¢ncias do Model
 	 */
 	public function all()
 	{
@@ -338,8 +339,8 @@ class DatabaseQuery
 	}
 	
 	/**
-	 * Monta a instruÁ„o SQL a partir das operaÁıes chamadas e executa a instruÁ„o
-	 * @return	object	retorna uma inst‚ncia do Model com os valores preenchidos de acordo com o banco
+	 * Monta a instru√ß√£o SQL a partir das opera√ß√µes chamadas e executa a instru√ß√£o
+	 * @return	object	retorna uma inst√¢ncia do Model com os valores preenchidos de acordo com o banco
 	 */
 	public function single()
 	{
@@ -354,9 +355,9 @@ class DatabaseQuery
 	}
 	
 	/**
-	 * Monta a instruÁ„o SQL com paginaÁ„o de resultado, executa a instruÁ„o
-	 * @param	int	$p		o n˙mero da p·gina que quer listar os resultados (comeÁa com zero)
-	 * @param	int	$m		quantidade m·xima de itens por p·gina
+	 * Monta a instru√ß√£o SQL com pagina√ß√£o de resultado, executa a instru√ß√£o
+	 * @param	int	$p		o n√∫mero da p√°gina que quer listar os resultados (come√ßa com zero)
+	 * @param	int	$m		quantidade m√°xima de itens por p√°gina
 	 * @return	object		retorna um objeto com as propriedade Data (contendo um array com os resultados) e Count (contento a quantidade total de resultados)
 	 */
 	public function paginate($p, $m)
@@ -373,10 +374,10 @@ class DatabaseQuery
 	}
 	
 	/**
-	 * Monta a instruÁ„o SQL a partir das operaÁıes chamadas e executa a instruÁ„o
-	 * @param	string	$operation		operaÁ„o a ser executada, tipo SUM, AVG, MIN e etc
-	 * @param	string	$column			colunas da tabela em que a operaÁ„o se aplica
-	 * @return 	int						retorna o valor da operaÁ„o 
+	 * Monta a instru√ß√£o SQL a partir das opera√ß√µes chamadas e executa a instru√ß√£o
+	 * @param	string	$operation		opera√ß√£o a ser executada, tipo SUM, AVG, MIN e etc
+	 * @param	string	$column			colunas da tabela em que a opera√ß√£o se aplica
+	 * @return 	int						retorna o valor da opera√ß√£o 
 	 */
 	protected function calc($operation, $column)
 	{
@@ -386,7 +387,7 @@ class DatabaseQuery
 	}
 	
 	/**
-	 * Calcula quantos resultados existem na tabela aplicando as regras dos mÈtodos chamados anteriormente
+	 * Calcula quantos resultados existem na tabela aplicando as regras dos m√©todos chamados anteriormente
 	 * @return	int		retorna a quantidade
 	 */
 	public function count()
@@ -425,9 +426,9 @@ class DatabaseQuery
 	}
 	
 	/**
-	 * Calcula a mÈdia de uma coluna expecifica, somando todos os valores dessa coluna e divindo pela quantidade de linhas existentes
+	 * Calcula a m√©dia de uma coluna expecifica, somando todos os valores dessa coluna e divindo pela quantidade de linhas existentes
 	 * @param	string	$column		nome da coluna a ser calculada
-	 * @return	double				retorna a mÈdia calculada
+	 * @return	double				retorna a m√©dia calculada
 	 */
 	public function avg($column)
 	{
@@ -436,7 +437,7 @@ class DatabaseQuery
 	
 	/**
 	 * Verifica se o model possui algum relacionamento com outro model
-	 * @return	array	retorna null caso n„o possua, mas se possuir retorna os relacionamentos
+	 * @return	array	retorna null caso n√£o possua, mas se possuir retorna os relacionamentos
 	 */
 	protected function isRelated()
 	{
@@ -461,10 +462,10 @@ class DatabaseQuery
 	
 	/**
 	 * Valida uma propriedade expecifica do model
-	 * @param	object	$property			anotaÁ„o da propriedade
+	 * @param	object	$property			anota√ß√£o da propriedade
 	 * @param	string	$field				nome da propriedade	
 	 * @param	mixed	$value				valor da propriedade
-	 * @throws	ValidationException			disparada caso o valor seja inv·lido
+	 * @throws	ValidationException			disparada caso o valor seja inv√°lido
 	 * @return	void
 	 */
 	protected function validate($property, $field, $value)
@@ -478,20 +479,20 @@ class DatabaseQuery
 		if ($value == null && $property->AutoGenerated)
 			return true;
 		if(is_object($value))
-			throw new ValidationException("O valor de '{$label}' n„o pode ser um objeto", 90400);
+			throw new ValidationException("O valor de '{$label}' n√£o pode ser um objeto", 90400);
 		if($property->Required && ($value === '' || $value === null)) 
-			throw new ValidationException("O campo '{$label}' È obrigatÛrio", 90401);
+			throw new ValidationException("O campo '{$label}' √© obrigat√≥rio", 90401);
 		if($is_type && !$is_type($value))
-			throw new ValidationException("O campo '{$label}' sÛ aceita valor do tipo '{$property->Column->Type}'", 90402);
+			throw new ValidationException("O campo '{$label}' s√≥ aceita valor do tipo '{$property->Column->Type}'", 90402);
 		if($property->Regex && !preg_match('#'. $property->Regex->Pattern .'#', $value))
 			throw new ValidationException($property->Regex->Message, 90403);
 	}
 	
 	/**
-	 * Normaliza um valor de acordo com o padr„o do seu tipo
+	 * Normaliza um valor de acordo com o padr√£o do seu tipo
 	 * @param	string	$type		tipo da propriedade
 	 * @param	mixed	$value		valor da propriedade
-	 * @return	mixed				retorna o valor normalizado caso seja null ou o prÛprio valor se n„o for null
+	 * @return	mixed				retorna o valor normalizado caso seja null ou o pr√≥prio valor se n√£o for null
 	 */
 	protected function defaultValue($type, $value)
 	{
@@ -505,9 +506,9 @@ class DatabaseQuery
 	}
 	
 	/**
-	 * Verifica se o tipo da propriedade È string
-	 * @param	object	$property	anotaÁ„o da propriedade
-	 * @return	boolean				retorna true se for do tipo string, no contr·rio retorna false
+	 * Verifica se o tipo da propriedade √© string
+	 * @param	object	$property	anota√ß√£o da propriedade
+	 * @return	boolean				retorna true se for do tipo string, no contr√°rio retorna false
 	 */
 	protected function isString($property)
 	{
@@ -516,9 +517,9 @@ class DatabaseQuery
 	}
 	
 	/**
-	 * Verifica se propriedade È chave prim·ria
-	 * @param	object	$property	anotaÁ„o da propriedade
-	 * @return	boolean				retorna true se for chave prim·ria, no contr·rio retorna false
+	 * Verifica se propriedade √© chave prim√°ria
+	 * @param	object	$property	anota√ß√£o da propriedade
+	 * @return	boolean				retorna true se for chave prim√°ria, no contr√°rio retorna false
 	 */
 	protected function isKey($property)
 	{
@@ -526,9 +527,9 @@ class DatabaseQuery
 	}
 	
 	/**
-	 * Cria uma instruÁ„o SQL de inserÁ„o no banco
+	 * Cria uma instru√ß√£o SQL de inser√ß√£o no banco
 	 * @param	Model	$model		model a ser inserido
-	 * @throws	DatabaseException	disparada caso o model n„o seja uma nova inst‚ncia, ou n„o tenha a anotaÁ„o Entity
+	 * @throws	DatabaseException	disparada caso o model n√£o seja uma nova inst√¢ncia, ou n√£o tenha a anota√ß√£o Entity
 	 * @return	void
 	 */
 	public function insert(Model $model)
@@ -541,10 +542,10 @@ class DatabaseQuery
 		
 		$class = $this->annotation->getClass();
 		if(!$class->Entity)
-			throw new DatabaseException('A classe '. get_class($model) .' n„o È uma entidade');
+			throw new DatabaseException('A classe '. get_class($model) .' n√£o √© uma entidade');
 		
 		if(!$model->_isNew()) 
-			throw new DatabaseException('Para usar o mÈtodo inserir È preciso criar uma nova inst‚ncia de '. $this->clazz);
+			throw new DatabaseException('Para usar o m√©todo inserir √© preciso criar uma nova inst√¢ncia de '. $this->clazz);
 		
 		foreach($model as $field => $value)
 		{	
@@ -573,9 +574,9 @@ class DatabaseQuery
 	}
 	
 	/**
-	 * Cria uma instruÁ„o SQL de atualizaÁ„o no banco
+	 * Cria uma instru√ß√£o SQL de atualiza√ß√£o no banco
 	 * @param	Model	$model		model a ser atualizado
-	 * @throws	DatabaseException	disparada caso o model seja uma nova inst‚ncia, ou n„o tenha a anotaÁ„o Entity
+	 * @throws	DatabaseException	disparada caso o model seja uma nova inst√¢ncia, ou n√£o tenha a anota√ß√£o Entity
 	 * @return	void
 	 */
 	public function update(Model $model)
@@ -589,10 +590,10 @@ class DatabaseQuery
 		
 		$class = $this->annotation->getClass();
 		if(!$class->Entity)
-			throw new DatabaseException('A classe '. get_class($model) .' n„o È uma entidade');
+			throw new DatabaseException('A classe '. get_class($model) .' n√£o √© uma entidade');
 		
 		if($model->_isNew()) 
-			throw new DatabaseException('O mÈtodo update n„o pode ser utilizado com uma nova inst‚ncia de '. $this->clazz);
+			throw new DatabaseException('O m√©todo update n√£o pode ser utilizado com uma nova inst√¢ncia de '. $this->clazz);
 		
 		foreach($model as $field => $value)
 		{	
@@ -628,9 +629,9 @@ class DatabaseQuery
 	}
 	
 	/**
-	 * Cria uma instruÁ„o SQL de deleÁ„o no banco
+	 * Cria uma instru√ß√£o SQL de dele√ß√£o no banco
 	 * @param	Model	$model		model a ser deletado
-	 * @throws	DatabaseException	disparada caso o model seja uma nova inst‚ncia, ou n„o tenha a anotaÁ„o Entity
+	 * @throws	DatabaseException	disparada caso o model seja uma nova inst√¢ncia, ou n√£o tenha a anota√ß√£o Entity
 	 * @return	void
 	 */
 	public function delete(Model $model)
@@ -642,10 +643,10 @@ class DatabaseQuery
 		
 		$class = $this->annotation->getClass();
 		if(!$class->Entity)
-			throw new DatabaseException('A classe '. get_class($model) .' n„o È uma entidade');
+			throw new DatabaseException('A classe '. get_class($model) .' n√£o √© uma entidade');
 		
 		if($model->_isNew()) 
-			throw new DatabaseException('O mÈtodo delete n„o pode ser utilizado com uma nova inst‚ncia de '. $this->clazz);
+			throw new DatabaseException('O m√©todo delete n√£o pode ser utilizado com uma nova inst√¢ncia de '. $this->clazz);
 		
 		foreach($model as $field => $value)
 		{	
@@ -664,7 +665,7 @@ class DatabaseQuery
 	}
 	
 	/**
-	 * Pega o ID da ultima instrunÁ„o de um model especÌfico
+	 * Pega o ID da ultima instrun√ß√£o de um model espec√≠fico
 	 * @return	int		retorna o valor do ID
 	 */
 	public function lastInsertId()
