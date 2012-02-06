@@ -211,9 +211,12 @@ class App
 	{
 		$annotation = Annotation::get(controller);
 		
-		$method = new ReflectionMethod(controller, '__construct');
-		if($method->isPublic())
-			$roles = $annotation->getMethod('__construct')->Auth;
+		if(method_exists(controller, '__construct'))
+		{
+			$method = new ReflectionMethod(controller, '__construct');
+			if($method->isPublic())
+				$roles = $annotation->getMethod('__construct')->Auth;
+		}
 		if($auth_action = $annotation->getMethod(action)->Auth)
 			$roles = $auth_action;
 		if($roles && !is_array($roles))
