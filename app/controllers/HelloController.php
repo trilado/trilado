@@ -5,9 +5,4 @@ class HelloController extends Controller
 	{
 		return $this->_print('Hello World!');
 	}
-	
-	public function test()
-	{
-		return $this->_page();
-	}
 }
