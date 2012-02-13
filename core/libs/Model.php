@@ -101,7 +101,7 @@ class Model
 		$p = $m * (($p < 1 ? 1 : $p) - 1);
 		$class = get_called_class();
 		$db = Database::getInstance();
-		return $db->{$class}->limit($m, $p)->ordeBy($o .' '. $t)->all();
+		return $db->{$class}->limit($m, $p)->orderBy($o, $t)->all();
 	}
 	
 	public static function search()
