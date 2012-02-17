@@ -44,9 +44,7 @@ class Template
 		for($i = 0; $i < count($params); $i++)
 		{
 			if(!array_key_exists($params[$i]->getName(), $content->Vars))
-			{
 				$content->Vars[$params[$i]->getName()] = $args['params'][$i] !== null ? $args['params'][$i] : $params[$i]->getDefaultValue();
-			}
 		}
 		
 		if($args['dot'])
