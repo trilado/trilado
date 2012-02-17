@@ -55,7 +55,7 @@ class App
 			echo I18n::getInstance()->get($string, $format);
 		}
 		
-		define('controller', camelize($this->args['controller']) .'Controller');
+		define('controller', Inflector::camelize($this->args['controller']) .'Controller');
 		define('action', str_replace('-', '_', $this->args['action']));
 		
 		try
