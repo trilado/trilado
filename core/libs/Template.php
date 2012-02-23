@@ -13,7 +13,13 @@
  *
  */
 class Template
-{	
+{
+	/**
+	 * Guarda o conteúdo da resposta da requisição, pode ser HTML, JSON ou XML
+	 * @var	string
+	 */
+	private $response;
+	
 	/**
 	 * Renderiza a página solicitada pelo usuário
 	 * @param	array	$args				argumentos requisitados pelo usuário, como controller, action e parâmetros
@@ -75,7 +81,8 @@ class Template
 				throw new InvalidReturnException(controller .'->'. action .'()');
 				break;
 		}
-		$controller->afterRender();
+		$this->response = $controller->afterRender($this->response);
+		echo $this->response;
 	}
 	
 	/**
@@ -136,7 +143,7 @@ class Template
 		$content = $this->resolveUrl($content);
 		
 		$html = str_replace(content, $content, $html);
-		echo $html;
+		$this->response = $html;
 	}
 	
 	/**
@@ -153,7 +160,7 @@ class Template
 		$content = $this->resolveUrl($content);
 		
 		$html = str_replace(content, $content, $html);
-		echo $html;
+		$this->response = $html;
 	}
 	
 	/**
@@ -163,7 +170,7 @@ class Template
 	 */
 	private function renderPage($ob)
 	{
-		echo Import::view($ob->Vars, $ob->Data['controller'], $ob->Data['view']);	
+		$this->response = Import::view($ob->Vars, $ob->Data['controller'], $ob->Data['view']);	
 	}
 	
 	/**
@@ -174,8 +181,8 @@ class Template
 	private function renderXml($ob)
 	{
 		header('Content-type: application/xml; charset='. charset);
-		echo '<?xml version="1.0" encoding="'. charset .'"?>';
-		exit(xml_encode(d($ob->Data)));
+		$this->response = '<?xml version="1.0" encoding="'. charset .'"?>';
+		$this->response .= xml_encode(d($ob->Data));
 	}
 	
 	/**
@@ -186,7 +193,7 @@ class Template
 	private function renderJson($ob)
 	{
 		header('Content-type: application/json; charset='. charset);
-		exit(json_encode(utf8encode(d($ob->Data))));
+		$this->response = json_encode(utf8encode(d($ob->Data)));
 	}
 	
 	/**
