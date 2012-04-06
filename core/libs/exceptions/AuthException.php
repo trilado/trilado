@@ -1,15 +1,15 @@
 <?php
 /*
- * Copyright (c) 2011, Valdirene da Cruz Neves J˙nior <linkinsystem666@gmail.com>
+ * Copyright (c) 2011, Valdirene da Cruz Neves J√∫nior <linkinsystem666@gmail.com>
  * All rights reserved.
  */
 
 
 /**
- * ExceÁ„o para usu·rio n„o autenticado, È tratada pelo framework, que resulta numa p·gina 403 ou redireciona para p·gina de login
- * dependendo da sess„o do usu·rio
+ * Exce√ß√£o para usu√°rio n√£o autenticado, √© tratada pelo framework, que resulta numa p√°gina 403 ou redireciona para p√°gina de login
+ * dependendo da sess√£o do usu√°rio
  * 
- * @author	Valdirene da Cruz Neves J˙nior <linkinsystem666@gmail.com>
+ * @author	Valdirene da Cruz Neves J√∫nior <linkinsystem666@gmail.com>
  * @version	1
  *
  */
@@ -17,8 +17,8 @@ class AuthException extends TriladoException
 {
 	/**
 	 * Construtor da classe
-	 * @param	string	$message	mensagem a ser exibida ao usu·rio
-	 * @param	int		$code		cÛdigo do erro
+	 * @param	string	$message	mensagem a ser exibida ao usu√°rio
+	 * @param	int		$code		c√≥digo do erro
 	 */
 	public function __construct($message, $code)
 	{

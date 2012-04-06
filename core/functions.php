@@ -1,19 +1,19 @@
 <?php 
 /*
- * Copyright (c) 2011, Valdirene da Cruz Neves J˙nior <linkinsystem666@gmail.com>
+ * Copyright (c) 2011, Valdirene da Cruz Neves J√∫nior <linkinsystem666@gmail.com>
  * All rights reserved.
  */
 
 
 /**
- * Define algumas funÁıes que ser„o utilizadas pelo framework 
+ * Define algumas fun√ß√µes que ser√£o utilizadas pelo framework 
  */
 
 
 if(!function_exists('e'))
 {
 	/**
-	 * Imprime um conte˙do
+	 * Imprime um conte√∫do
 	 * @param	string	$string		valor a ser impresso
 	 */
 	function e($string)
@@ -23,7 +23,7 @@ if(!function_exists('e'))
 }
 
 /**
- * Carrega automaticamente uma classe caso a mesma seja inst‚ncia e n„o seja importada ainda
+ * Carrega automaticamente uma classe caso a mesma seja inst√¢ncia e n√£o seja importada ainda
  * @param	string	$class		nome da classe
  * @return	void
  */
@@ -46,7 +46,7 @@ function __autoload($class)
 }
 
 /**
- * Executa a funÁ„o print_r com a tag <pre>
+ * Executa a fun√ß√£o print_r com a tag <pre>
  * @param	mixed	$struct		estrutura a ser impressa
  * @return	void
  */
@@ -58,9 +58,9 @@ function pr($struct)
 }
 
 /**
- * Cria e retorna o caractere de tabulaÁ„o
- * @param	int	$n		quantidade de vezes que desejar dar tabulaÁ„o
- * @return	string		retorna a tabulaÁ„o
+ * Cria e retorna o caractere de tabula√ß√£o
+ * @param	int	$n		quantidade de vezes que desejar dar tabula√ß√£o
+ * @return	string		retorna a tabula√ß√£o
  */
 function tab($n = 1)
 {
@@ -68,9 +68,9 @@ function tab($n = 1)
 }
 
 /**
- * Cria e retorna espeÁacos em branco
- * @param	int	$n		quantidade de espaÁos que deseja criar
- * @return	string		retorna os espaÁos
+ * Cria e retorna espe√ßacos em branco
+ * @param	int	$n		quantidade de espa√ßos que deseja criar
+ * @return	string		retorna os espa√ßos
  */
 function t($n = 1)
 {
@@ -78,9 +78,9 @@ function t($n = 1)
 }
 
 /**
- * Cria uma inst‚ncia de stdClass com a propriedade 'd', que recebe o valor informado no par‚metro
- * @param	object	$object		objeto que ser· valor da propridade 'd'
- * @return	stdClass			retorna uma inst‚ncia de stdClass
+ * Cria uma inst√¢ncia de stdClass com a propriedade 'd', que recebe o valor informado no par√¢metro
+ * @param	object	$object		objeto que ser√° valor da propridade 'd'
+ * @return	stdClass			retorna uma inst√¢ncia de stdClass
  */
 function d($object)
 {
@@ -137,7 +137,7 @@ function utf8encode($data)
 /**
  * Decodifica os valores de um array ou objeto de UTF-8
  * @param	mixed	$data	dados a serem decodificados
- * @return	mixed			retorna um objeto ou array sem a codificaÁ„o UTF-8
+ * @return	mixed			retorna um objeto ou array sem a codifica√ß√£o UTF-8
  */
 function utf8decode($data)
 {
@@ -164,8 +164,8 @@ function utf8decode($data)
  * Une dois ou mais array
  * @param	array	$array1		primeiro array
  * @param	array	$array2		segundo array
- * @param	array	$arrayN		enÈssimo array
- * @return	array				retorna um array com uni„o dos demais
+ * @param	array	$arrayN		en√©ssimo array
+ * @return	array				retorna um array com uni√£o dos demais
  */
 function array_union()
 {
@@ -180,7 +180,7 @@ function array_union()
 }
 
 /**
- * Cria um indentificado ˙nico
+ * Cria um indentificado √∫nico
  * @return	string		retorna o GUID gerado
  */
 function guid()
@@ -193,7 +193,7 @@ function guid()
 /**
  * Gera uma senha
  * @param	int	$length		tamanho da senha
- * @param	int	$strength	nÌvel se seguranÁa da senha, os valores podem ser 1, 2, 4 e 8, quanto maior, mais segura
+ * @param	int	$strength	n√≠vel se seguran√ßa da senha, os valores podem ser 1, 2, 4 e 8, quanto maior, mais segura
  * @return	string			retorna a senha gerada
  */
 function new_passwd($length = 8, $strength = 0)

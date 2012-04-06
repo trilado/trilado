@@ -1,15 +1,15 @@
 <?php
 /*
- * Copyright (c) 2011, Valdirene da Cruz Neves J˙nior <linkinsystem666@gmail.com>
+ * Copyright (c) 2011, Valdirene da Cruz Neves J√∫nior <linkinsystem666@gmail.com>
  * All rights reserved.
  */
 
 
-	//calcula o endereÁo de root
+	//calcula o endere√ßo de root
 	$root = str_replace('\\', '/', dirname(dirname(dirname(__FILE__))));
 	if(substr($root, -1) != '/') $root = $root .'/';
 	
-	//define as vari·veis de root
+	//define as vari√°veis de root
 	define('root', $root);
 	define('root_virtual', str_replace($_SERVER['DOCUMENT_ROOT'], '', root));
 	define('wwwroot', root . 'app/wwwroot/');

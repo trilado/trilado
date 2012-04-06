@@ -1,28 +1,28 @@
 <?php
 /*
- * Copyright (c) 2011, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * Copyright (c) 2011, Valdirene da Cruz Neves JÃºnior <linkinsystem666@gmail.com>
  * All rights reserved.
  */
 
 
 /**
- * Classe responsável por renderizar a página
+ * Classe responsÃ¡vel por renderizar a pÃ¡gina
  * 
- * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * @author	Valdirene da Cruz Neves JÃºnior <linkinsystem666@gmail.com>
  * @version	2.1
  *
  */
 class Template
 {
 	/**
-	 * Guarda o conteúdo da resposta da requisição, pode ser HTML, JSON ou XML
+	 * Guarda o conteÃºdo da resposta da requisiÃ§Ã£o, pode ser HTML, JSON ou XML
 	 * @var	string
 	 */
 	private $response;
 	
 	/**
-	 * Renderiza a página solicitada pelo usuário
-	 * @param	array	$args				argumentos requisitados pelo usuário, como controller, action e parâmetros
+	 * Renderiza a pÃ¡gina solicitada pelo usuÃ¡rio
+	 * @param	array	$args				argumentos requisitados pelo usuÃ¡rio, como controller, action e parÃ¢metros
 	 * @throws	InvalidReturnException		Disparada caso a action solicitada retorne null
 	 * @return	void
 	 */
@@ -87,8 +87,8 @@ class Template
 	
 	/**
 	 * Verifica e retorna o master page deve ser renderizada
-	 * @throws	MethodNotFoundException		disparado caso método referente ao nome da master não seja encontrado dentro da MasterController
-	 * @throws	MethodVisibilityException	disparado caso método referente ao nome da master não esteja público
+	 * @throws	MethodNotFoundException		disparado caso mÃ©todo referente ao nome da master nÃ£o seja encontrado dentro da MasterController
+	 * @throws	MethodVisibilityException	disparado caso mÃ©todo referente ao nome da master nÃ£o esteja pÃºblico
 	 * @return	string						retorna o nome da master page
 	 */
 	private function master()
@@ -131,7 +131,7 @@ class Template
 	
 	/**
 	 * Renderiza a view
-	 * @param	object	$ob		objeto com informações da view
+	 * @param	object	$ob		objeto com informaÃ§Ãµes da view
 	 * @return	void
 	 */
 	private function renderView($ob)
@@ -147,8 +147,8 @@ class Template
 	}
 	
 	/**
-	 * Renderiza o conteúdo no lugar da view
-	 * @param	object	$ob		objeto com informações do conteúdo
+	 * Renderiza o conteÃºdo no lugar da view
+	 * @param	object	$ob		objeto com informaÃ§Ãµes do conteÃºdo
 	 * @return	void
 	 */
 	private function renderContent($ob)
@@ -164,8 +164,8 @@ class Template
 	}
 	
 	/**
-	 * Renderiza uma página no lugar da view
-	 * @param	object	$ob		objeto com informações da página e da master page
+	 * Renderiza uma pÃ¡gina no lugar da view
+	 * @param	object	$ob		objeto com informaÃ§Ãµes da pÃ¡gina e da master page
 	 * @return	void
 	 */
 	private function renderPage($ob)
@@ -174,8 +174,8 @@ class Template
 	}
 	
 	/**
-	 * Renderiza um conteúdo XML e mata a execução
-	 * @param	object	$ob		objeto com informações do XML
+	 * Renderiza um conteÃºdo XML e mata a execuÃ§Ã£o
+	 * @param	object	$ob		objeto com informaÃ§Ãµes do XML
 	 * @return	void
 	 */
 	private function renderXml($ob)
@@ -186,8 +186,8 @@ class Template
 	}
 	
 	/**
-	 * Renderiza um conteúdo JSON e mata a execução
-	 * @param	object	$ob		objeto com informações do JSON
+	 * Renderiza um conteÃºdo JSON e mata a execuÃ§Ã£o
+	 * @param	object	$ob		objeto com informaÃ§Ãµes do JSON
 	 * @return	void
 	 */
 	private function renderJson($ob)

@@ -1,14 +1,14 @@
 <?php
 /*
- * Copyright (c) 2011, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * Copyright (c) 2011, Valdirene da Cruz Neves JÃºnior <linkinsystem666@gmail.com>
  * All rights reserved.
  */
 
 
 /**
- * Classe que implementa os métodos de criptografia e descriptografia
+ * Classe que implementa os mÃ©todos de criptografia e descriptografia
  * 
- * @author	Carlos André Ferrari <carlos@ferrari.eti.br>; Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * @author	Carlos AndrÃ© Ferrari <carlos@ferrari.eti.br>; Valdirene da Cruz Neves JÃºnior <linkinsystem666@gmail.com>
  * @version	1.1
  * @link	http://ferrari.eti.br/operador-xor-no-php/
  *
@@ -16,7 +16,7 @@
 class Security
 {
 	/**
-	 * Método que executa o algoritmo de criptografia e descriptografia
+	 * MÃ©todo que executa o algoritmo de criptografia e descriptografia
 	 * @param	string	$a		valor a ser criptografado
 	 * @param	string	$b		chave da criptografia
 	 * @return	string			retorna o valor criptografado
@@ -35,7 +35,7 @@ class Security
     }
     
     /**
-     * Método de criptografia
+     * MÃ©todo de criptografia
      * @param	mixed	$value		valor a ser criptografado
      * @param	string	$key		chave utilizada para criptografar
      * @return	string				retorna um string da base 64 com o valor criptografado
@@ -46,7 +46,7 @@ class Security
     }
     
     /**
-     * Método de descriptografia
+     * MÃ©todo de descriptografia
      * @param	string	$value		valor criptografado
      * @param	string	$key		chave utilizada para criptogradar
      * @return	mixed				retorna o valor descriptogradado

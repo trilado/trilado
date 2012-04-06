@@ -1,14 +1,14 @@
 <?php
 /*
- * Copyright (c) 2011, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * Copyright (c) 2011, Valdirene da Cruz Neves JÃºnior <linkinsystem666@gmail.com>
  * All rights reserved.
  */
 
 
 /**
- * Exceção para erro de entrada ou saída
+ * ExceÃ§Ã£o para erro de entrada ou saÃ­da
  * 
- * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * @author	Valdirene da Cruz Neves JÃºnior <linkinsystem666@gmail.com>
  * @version 1
  *
  */

@@ -1,14 +1,14 @@
 <?php
 /*
- * Copyright (c) 2011, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * Copyright (c) 2011, Valdirene da Cruz Neves JÃºnior <linkinsystem666@gmail.com>
  * All rights reserved.
  */
 
 
 /**
- * Exceção para tipo de retorno inválido, utilizada no retorno da view, tratada pelo framework, que resulta num erro 500
+ * ExceÃ§Ã£o para tipo de retorno invÃ¡lido, utilizada no retorno da view, tratada pelo framework, que resulta num erro 500
  * 
- * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * @author	Valdirene da Cruz Neves JÃºnior <linkinsystem666@gmail.com>
  * @version	1
  *
  */

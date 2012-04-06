@@ -1,14 +1,14 @@
 <?php
 /*
- * Copyright (c) 2011, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * Copyright (c) 2011, Valdirene da Cruz Neves JÃºnior <linkinsystem666@gmail.com>
  * All rights reserved.
  */
 
 
 /**
- * Exceção para propriedade não encontrada, tratada pelo framework, que resulta num erro 500
+ * ExceÃ§Ã£o para propriedade nÃ£o encontrada, tratada pelo framework, que resulta num erro 500
  * 
- * @author	Valdirene da Cruz Neves Júnior <linkinsystem666gmail.com>
+ * @author	Valdirene da Cruz Neves JÃºnior <linkinsystem666gmail.com>
  * @version	1
  *
  */
@@ -20,6 +20,6 @@ class PropertyNotFoundException extends TriladoException
 	 */
 	public function __construct($property)
 	{
-		parent::__construct('A propriedade '. $property .' não foi encontrada');
+		parent::__construct('A propriedade '. $property .' nÃ£o foi encontrada');
 	}
 }

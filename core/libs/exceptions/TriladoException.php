@@ -1,14 +1,14 @@
 <?php
 /*
- * Copyright (c) 2011, Valdirene da Cruz Neves J˙nior <linkinsystem666@gmail.com>
+ * Copyright (c) 2011, Valdirene da Cruz Neves J√∫nior <linkinsystem666@gmail.com>
  * All rights reserved.
  */
 
 
 /**
- * ExceÁ„o padr„o do framework, È herda por v·rias outras classes de exceÁ„o
+ * Exce√ß√£o padr√£o do framework, √© herda por v√°rias outras classes de exce√ß√£o
  * 
- * @author	Valdirene da Cruz Neves J˙nior <linkinsystem666@gmail.com>
+ * @author	Valdirene da Cruz Neves J√∫nior <linkinsystem666@gmail.com>
  * @version	1
  *
  */
@@ -17,7 +17,7 @@ class TriladoException extends Exception
 	/**
 	 * Construtor da classe
 	 * @param	string	$msg		mensagem do erro
-	 * @param	int		$code		cÛdigo do erro
+	 * @param	int		$code		c√≥digo do erro
 	 */
 	public function __construct($msg, $code = 500)
 	{
@@ -25,7 +25,7 @@ class TriladoException extends Exception
 	}
 	
 	/**
-	 * Se o debug estiver habilitado, informa ao usu·rio detalhes sobre o erro
+	 * Se o debug estiver habilitado, informa ao usu√°rio detalhes sobre o erro
 	 */
 	public function getDetails()
 	{

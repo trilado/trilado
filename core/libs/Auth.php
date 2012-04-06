@@ -1,29 +1,29 @@
 <?php
 /*
- * Copyright (c) 2011, Valdirene da Cruz Neves J˙nior <linkinsystem666@gmail.com>
+ * Copyright (c) 2011, Valdirene da Cruz Neves J√∫nior <linkinsystem666@gmail.com>
  * All rights reserved.
  */
 
 
 /**
- * Classe para autenticaÁ„o do usu·rio
+ * Classe para autentica√ß√£o do usu√°rio
  * 
- * @author		Valdirene da Cruz Neves J˙nior <linkinsystem666@gmail.com>
+ * @author		Valdirene da Cruz Neves J√∫nior <linkinsystem666@gmail.com>
  * @version		2
  *
  */ 
 class Auth 
 {
 	/**
-	 * Construtor da classe, È privado porque a classe sÛ contÈm mÈtodo est·ticos e n„o pode inst‚nciada
+	 * Construtor da classe, √© privado porque a classe s√≥ cont√©m m√©todo est√°ticos e n√£o pode inst√¢nciada
 	 */
 	private function __construct(){}
 	
 	/**
-	 * Define um ou mais papÈis para o usu·rio na sess„o
-	 * @param	string	$param1	nome do papÈl
-	 * @param	string	$param2	nome do papÈl
-	 * @param	string	$paramN	nome do papÈl
+	 * Define um ou mais pap√©is para o usu√°rio na sess√£o
+	 * @param	string	$param1	nome do pap√©l
+	 * @param	string	$param2	nome do pap√©l
+	 * @param	string	$paramN	nome do pap√©l
 	 * @return	void
 	 */
 	public static function set()
@@ -35,10 +35,10 @@ class Auth
 	}
 	
 	/**
-	 * Remove um mais papÈis do usu·rio na sess„o
-	 * @param	string	$param1	nome do papÈl
-	 * @param	string	$param2	nome do papÈl
-	 * @param	string	$paramN	nome do papÈl
+	 * Remove um mais pap√©is do usu√°rio na sess√£o
+	 * @param	string	$param1	nome do pap√©l
+	 * @param	string	$param2	nome do pap√©l
+	 * @param	string	$paramN	nome do pap√©l
 	 * @return	void
 	 */
 	public static function remove()
@@ -50,7 +50,7 @@ class Auth
 	}
 	
 	/**
-	 * Remove todos os papÈis do usu·rio na sess„o
+	 * Remove todos os pap√©is do usu√°rio na sess√£o
 	 * @return	void
 	 */
 	public static function clear()
@@ -60,11 +60,11 @@ class Auth
 	}
 	
 	/**
-	 * Verifica se o usu·rio possui, na sess„o, os papÈis informados no par‚metro
-	 * @param	string	$param1	nome do papÈl
-	 * @param	string	$param2	nome do papÈl
-	 * @param	string	$paramN	nome do papÈl
-	 * @throws	AuthException	dispara se o usu·rio estiver algum papÈl na sess„o, porÈm este n„o for informado do par‚metro
+	 * Verifica se o usu√°rio possui, na sess√£o, os pap√©is informados no par√¢metro
+	 * @param	string	$param1	nome do pap√©l
+	 * @param	string	$param2	nome do pap√©l
+	 * @param	string	$paramN	nome do pap√©l
+	 * @throws	AuthException	dispara se o usu√°rio estiver algum pap√©l na sess√£o, por√©m este n√£o for informado do par√¢metro
 	 * @return	void
 	 */
 	public static function allow()
@@ -80,16 +80,16 @@ class Auth
 				header('Location: '. $location);
 				exit;
 			}
-			throw new AuthException('VocÍ n„o tem permiss„o para acessar esta p·gina', 403);
+			throw new AuthException('Voc√™ n√£o tem permiss√£o para acessar esta p√°gina', 403);
 		}
 	}
 	
 	/**
-	 * Verifica se o usu·rio possui um ou mais papÈis informado como par‚metro
-	 * @param	string	$param1	nome do papÈl
-	 * @param	string	$param2	nome do papÈl
-	 * @param	string	$paramN	nome do papÈl
-	 * @return	boolean			retorna true se tiver um dos papÈis, no contr·rio retorna false
+	 * Verifica se o usu√°rio possui um ou mais pap√©is informado como par√¢metro
+	 * @param	string	$param1	nome do pap√©l
+	 * @param	string	$param2	nome do pap√©l
+	 * @param	string	$paramN	nome do pap√©l
+	 * @return	boolean			retorna true se tiver um dos pap√©is, no contr√°rio retorna false
 	 */
 	public static function is()
 	{
@@ -104,8 +104,8 @@ class Auth
 	}
 	
 	/**
-	 * Verifica se o usu·rio possuim um ou mais papÈis na sess„o
-	 * @return	boolean		retorna true se o usu·rio possuir, caso contr·rio retorna false
+	 * Verifica se o usu√°rio possuim um ou mais pap√©is na sess√£o
+	 * @return	boolean		retorna true se o usu√°rio possuir, caso contr√°rio retorna false
 	 */
 	public static function isLogged()
 	{
@@ -122,9 +122,9 @@ class Auth
 	}
 	
 	/**
-	 * Pega um papÈl na sess„o
-	 * @param	string	$key	nome do papÈl
-	 * @return	string			retorna o papÈl
+	 * Pega um pap√©l na sess√£o
+	 * @param	string	$key	nome do pap√©l
+	 * @return	string			retorna o pap√©l
 	 */
 	private static function _get($key)
 	{
@@ -132,8 +132,8 @@ class Auth
 	}
 	
 	/**
-	 * Adiciona um papÈl na sess„o
-	 * @param	string	$key	nome do papÈl
+	 * Adiciona um pap√©l na sess√£o
+	 * @param	string	$key	nome do pap√©l
 	 * @param	string	$value	valor
 	 * @return	void
 	 */
@@ -143,7 +143,7 @@ class Auth
 	}
 	
 	/**
-	 * Gera uma chave MD5 com base no navegador do usu·rio e no salt, definido na configuraÁ„o
+	 * Gera uma chave MD5 com base no navegador do usu√°rio e no salt, definido na configura√ß√£o
 	 * @return	string	retorn o MD5 gerado
 	 */
 	private static function key()

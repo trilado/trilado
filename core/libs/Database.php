@@ -1,39 +1,39 @@
 <?php 
 /*
- * Copyright (c) 2011, Valdirene da Cruz Neves J˙nior <linkinsystem666@gmail.com>
+ * Copyright (c) 2011, Valdirene da Cruz Neves J√∫nior <linkinsystem666@gmail.com>
  * All rights reserved.
  */
 
 
 /**
- * Classe de persistÍncia com o banco de dados. Implementa o padr„o Singleton
+ * Classe de persist√™ncia com o banco de dados. Implementa o padr√£o Singleton
  * 
- * @author		Valdirene da Cruz Neves J˙nior <linkinsystem666@gmail.com>
+ * @author		Valdirene da Cruz Neves J√∫nior <linkinsystem666@gmail.com>
  * @version		1
  *
  */
 class Database 
 {
 	/**
-	 * Guarda a inst‚ncia da classe Database, pois utiliza o padr„o Singleton
+	 * Guarda a inst√¢ncia da classe Database, pois utiliza o padr√£o Singleton
 	 * @var	object
 	 */
 	protected static $instance;
 	
 	/**
-	 * Guarda inst‚ncias da classe DatabaseQuery
+	 * Guarda inst√¢ncias da classe DatabaseQuery
 	 * @var	array
 	 */
 	protected $tables = array();
 	
 	/**
-	 * Guarda as SQL das operaÁıes de inert, update e delete
+	 * Guarda as SQL das opera√ß√µes de inert, update e delete
 	 * @var	array
 	 */
 	protected $operations = array();
 	
 	/**
-	 * Construtor da classe, protegido para n„o criar um inst‚ncia sem utilizar o Singleton
+	 * Construtor da classe, protegido para n√£o criar um inst√¢ncia sem utilizar o Singleton
 	 */
 	protected function __construct()
 	{
@@ -41,8 +41,8 @@ class Database
 	}
 	
 	/**
-	 * MÈtodo para instanciaÁ„o do classe
-	 * @return	object 	retorna a inst‚ncia da classe Database
+	 * M√©todo para instancia√ß√£o do classe
+	 * @return	object 	retorna a inst√¢ncia da classe Database
 	 */
 	public static function getInstance()
 	{
@@ -52,9 +52,9 @@ class Database
 	}
 	
 	/**
-	 * Chamado autom·ticamente quando uma propriedade de Database for chamada e ela n„o existir. Cria uma nova inst‚ncia de DatabaseQuery 
+	 * Chamado autom√°ticamente quando uma propriedade de Database for chamada e ela n√£o existir. Cria uma nova inst√¢ncia de DatabaseQuery 
 	 * @param	string	$name	nome de uma tabela ou view do banco de dados
-	 * @return	object			retorna uma inst‚ncia de DatabaseQuery
+	 * @return	object			retorna uma inst√¢ncia de DatabaseQuery
 	 */
 	public function __get($name)
 	{
@@ -64,9 +64,9 @@ class Database
 	}
 	
 	/**
-	 * Submete para o banco de dados as operaÁıes realizadas nos models
-	 * @throws	TriladoException	disparada quando ocorrer alguma exceÁ„o do tipo SQLException
-	 * @throws	SQLException		disparada quando ocorrer alguma exceÁ„o no banco de dados
+	 * Submete para o banco de dados as opera√ß√µes realizadas nos models
+	 * @throws	TriladoException	disparada quando ocorrer alguma exce√ß√£o do tipo SQLException
+	 * @throws	SQLException		disparada quando ocorrer alguma exce√ß√£o no banco de dados
 	 * @return	void
 	 */
 	public function save()
@@ -97,7 +97,7 @@ class Database
 	}
 	
 	/**
-	 * Inicioa uma transaÁ„o
+	 * Inicioa uma transa√ß√£o
 	 * @return	void
 	 */
 	public function transaction()
@@ -106,7 +106,7 @@ class Database
 	}
 	
 	/**
-	 * Envia a transaÁ„o
+	 * Envia a transa√ß√£o
 	 * @return	void
 	 */
 	public function commit()
@@ -115,7 +115,7 @@ class Database
 	}
 	
 	/**
-	 * Cancela uma transaÁ„o
+	 * Cancela uma transa√ß√£o
 	 * @return	void
 	 */
 	public function rollback()

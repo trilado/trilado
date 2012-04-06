@@ -1,14 +1,14 @@
 <?php
 /*
- * Copyright (c) 2011, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * Copyright (c) 2011, Valdirene da Cruz Neves JÃºnior <linkinsystem666@gmail.com>
  * All rights reserved.
  */
 
 
 /**
- * Exceção para método que não privado ou protegido, tratada pelo framework, que resulta num erro 500
+ * ExceÃ§Ã£o para mÃ©todo que nÃ£o privado ou protegido, tratada pelo framework, que resulta num erro 500
  * 
- * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * @author	Valdirene da Cruz Neves JÃºnior <linkinsystem666@gmail.com>
  * @version 1
  *
  */
@@ -16,10 +16,10 @@ class MethodVisibilityException extends TriladoException
 {
 	/**
 	 * Construtor da classe
-	 * @param	string	$method		nome do método
+	 * @param	string	$method		nome do mÃ©todo
 	 */
 	public function __construct($method)
 	{
-		parent::__construct('O método '. $method .' não é público');
+		parent::__construct('O mÃ©todo '. $method .' nÃ£o Ã© pÃºblico');
 	}
 }

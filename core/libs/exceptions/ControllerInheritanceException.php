@@ -1,14 +1,14 @@
 <?php
 /*
- * Copyright (c) 2011, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * Copyright (c) 2011, Valdirene da Cruz Neves JÃºnior <linkinsystem666@gmail.com>
  * All rights reserved.
  */
 
 
 /**
- * Exceção para controller que não herda da classe Controller, é trata pelo framework, que resulta no erro 500
+ * ExceÃ§Ã£o para controller que nÃ£o herda da classe Controller, Ã© trata pelo framework, que resulta no erro 500
  * 
- * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * @author	Valdirene da Cruz Neves JÃºnior <linkinsystem666@gmail.com>
  * @version	1
  *
  */
@@ -20,7 +20,7 @@ class ControllerInheritanceException extends TriladoException
 	 */
 	public function __construct($controller)
 	{
-		parent::__construct('A classe '. $controller .' não é subclasse de Controller');
+		parent::__construct('A classe '. $controller .' nÃ£o Ã© subclasse de Controller');
 	}
 	/**
 	 * (non-PHPdoc)

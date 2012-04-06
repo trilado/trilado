@@ -1,14 +1,14 @@
 <?php
 /*
- * Copyright (c) 2011, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * Copyright (c) 2011, Valdirene da Cruz Neves JÃºnior <linkinsystem666@gmail.com>
  * All rights reserved.
  */
 
 
 /**
- * Exceção de validação de dados, deve ser tratada pelo programador para exibir a mensagem ao usuário
+ * ExceÃ§Ã£o de validaÃ§Ã£o de dados, deve ser tratada pelo programador para exibir a mensagem ao usuÃ¡rio
  * 
- * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * @author	Valdirene da Cruz Neves JÃºnior <linkinsystem666@gmail.com>
  * @version	1
  *
  */
@@ -17,7 +17,7 @@ class ValidationException extends TriladoException
 	/**
 	 * Construtor da classe
 	 * @param	string	$message		mensagem do erro
-	 * @param	int		$code			número do erro
+	 * @param	int		$code			nÃºmero do erro
 	 */
 	public function __construct($message, $code)
 	{

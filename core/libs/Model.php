@@ -1,28 +1,28 @@
 <?php
 /*
- * Copyright (c) 2011, Valdirene da Cruz Neves J˙nior <linkinsystem666@gmail.com>
+ * Copyright (c) 2011, Valdirene da Cruz Neves J√∫nior <linkinsystem666@gmail.com>
  * All rights reserved.
  */
 
 
 /**
- * Classe Model representa uma entidade do banco de dados, deve ser herdada, nela deve ficar a lÛgica de negÛcio da aplicaÁ„o. J· vem com  mÈtodos para as operaÁıes CRUD prontas
+ * Classe Model representa uma entidade do banco de dados, deve ser herdada, nela deve ficar a l√≥gica de neg√≥cio da aplica√ß√£o. J√° vem com  m√©todos para as opera√ß√µes CRUD prontas
  * 
- * @author	Valdirene da Cruz Neves J˙nior <linkinsystem666@gmail.com>
+ * @author	Valdirene da Cruz Neves J√∫nior <linkinsystem666@gmail.com>
  * @version	2
  *
  */
 class Model
 {
 	/**
-	 * Guarda true se a classe for uma nova inst‚ncia de Model e false a inst‚ncia vinher do banco
+	 * Guarda true se a classe for uma nova inst√¢ncia de Model e false a inst√¢ncia vinher do banco
 	 * @var	boolean
 	 */
 	private $_isNew = true;
 	
 	/**
-	 * Verifica se a classe È uma nova inst‚ncia de Model ou se os valores vem do banco
-	 * @return		boolean	retorna true se classe foi inst‚nciada pelo usu·rio, ou false se foi inst‚nciada pela classe DatabaseQuery
+	 * Verifica se a classe √© uma nova inst√¢ncia de Model ou se os valores vem do banco
+	 * @return		boolean	retorna true se classe foi inst√¢nciada pelo usu√°rio, ou false se foi inst√¢nciada pela classe DatabaseQuery
 	 */
 	public function _isNew()
 	{
@@ -30,7 +30,7 @@ class Model
 	}
 	
 	/**
-	 * Define se a classe È ou n„o uma nova inst‚ncia. Esse mÈtodo n„o deve ser chamado
+	 * Define se a classe √© ou n√£o uma nova inst√¢ncia. Esse m√©todo n√£o deve ser chamado
 	 * @return	void
 	 */
 	public function _setNew()
@@ -39,13 +39,13 @@ class Model
 	}
 	
 	/**
-	 * Guarda o nome da propriedade que È a chave prim·ria
+	 * Guarda o nome da propriedade que √© a chave prim√°ria
 	 * @var	string
 	 */
 	protected $_key = null;
 	
 	/**
-	 * Identifica e retorna o nome da propriedade que È uma chave prim·ria
+	 * Identifica e retorna o nome da propriedade que √© uma chave prim√°ria
 	 * @return	string		nome da propriedade
 	 */
 	protected function _getKey()
@@ -76,9 +76,9 @@ class Model
 	}
 	
 	/**
-	 * MÈtodo do Active Record, retorna uma inst‚ncia do Model buscando do banco pela chave prim·ria
-	 * @param	int	$id		valor da chave prim·ria
-	 * @return	object		retorna uma int‚ncia de Model
+	 * M√©todo do Active Record, retorna uma inst√¢ncia do Model buscando do banco pela chave prim√°ria
+	 * @param	int	$id		valor da chave prim√°ria
+	 * @return	object		retorna uma int√¢ncia de Model
 	 */
 	public static function get($id)
 	{
@@ -89,12 +89,12 @@ class Model
 	}
 	
 	/**
-	 * MÈtodo do Active Record, retorna um array de inst‚ncias do Model buscando do banco pelos par‚metros
-	 * @param	int		$p		n˙mero da p·gina (ex.: 1 listar· de 0 · 10)	
-	 * @param	int		$m		quantidade m·xima de itens por p·gina
+	 * M√©todo do Active Record, retorna um array de inst√¢ncias do Model buscando do banco pelos par√¢metros
+	 * @param	int		$p		n√∫mero da p√°gina (ex.: 1 listar√° de 0 √° 10)	
+	 * @param	int		$m		quantidade m√°xima de itens por p√°gina
 	 * @param	string	$o		coluna a ser ordenada
-	 * @param	string	$t		tipo de ordenaÁ„o (asc ou desc)
-	 * @return	array			retorna umma lista de inst‚ncias de Model
+	 * @param	string	$t		tipo de ordena√ß√£o (asc ou desc)
+	 * @return	array			retorna umma lista de inst√¢ncias de Model
 	 */
 	public static function all($p = 1, $m = 10, $o = 'Id', $t = 'asc')
 	{
@@ -110,7 +110,7 @@ class Model
 	}
 	
 	/**
-	 * MÈtodo do Active Record para salvar o objeto no banco, se for uma nova int‚ncia d· um 'insert', sen„o d· 'update'
+	 * M√©todo do Active Record para salvar o objeto no banco, se for uma nova int√¢ncia d√° um 'insert', sen√£o d√° 'update'
 	 * @return	void
 	 */
 	public function save()
@@ -127,7 +127,7 @@ class Model
 	}
 	
 	/**
-	 * MÈtodo do Active Record que deleta um objeto do banco de dados, porÈm o objeto n„o pode ser uma nova inst‚ncia
+	 * M√©todo do Active Record que deleta um objeto do banco de dados, por√©m o objeto n√£o pode ser uma nova inst√¢ncia
 	 * @return	void
 	 */	
 	public function delete()

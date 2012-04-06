@@ -1,18 +1,18 @@
 <?php
 /**
- * Classe Helper, auxilia na geraÁ„o de tags HTML
+ * Classe Helper, auxilia na gera√ß√£o de tags HTML
  *
- * @author		Valdirene da Cruz Neves J˙nior <linkinsystem666@gmail.com>
+ * @author		Valdirene da Cruz Neves J√∫nior <linkinsystem666@gmail.com>
  * @version		2
  *
  */
 class Html 
 {
 	/**
-	 * Gera uma tag HTML com base nos par‚metros
+	 * Gera uma tag HTML com base nos par√¢metros
 	 * @param	string	$tag		nome da tag
 	 * @param	array	$attrs		atributos da tag
-	 * @param	boolean	$close		indica se a tag È auto fech·vel ou n„o (ex.: <tag></tag> ou <tag />)
+	 * @param	boolean	$close		indica se a tag √© auto fech√°vel ou n√£o (ex.: <tag></tag> ou <tag />)
 	 * @param	mixed	$value		valor da tag
 	 * @return	string				retorna o HTML gerado
 	 */

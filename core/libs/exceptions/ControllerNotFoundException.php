@@ -1,14 +1,14 @@
 <?php
 /*
- * Copyright (c) 2011, Valdirene da Cruz Neves J˙nior <linkinsystem666@gmail.com>
+ * Copyright (c) 2011, Valdirene da Cruz Neves J√∫nior <linkinsystem666@gmail.com>
  * All rights reserved.
  */
 
 
 /**
- * Controller n„o encontrado, tratado pelo framework, que resulta numa p·gina n„o encontrada
+ * Controller n√£o encontrado, tratado pelo framework, que resulta numa p√°gina n√£o encontrada
  * 
- * @author	Valdirene da Cruz Neves J˙nior <linkinsystem666@gmail.com>
+ * @author	Valdirene da Cruz Neves J√∫nior <linkinsystem666@gmail.com>
  * @version	1
  *
  */
@@ -20,7 +20,7 @@ class ControllerNotFoundException extends PageNotFoundException
 	 */
 	public function __construct($controller)
 	{
-		parent::__construct('O controller '. $controller .' n„o foi encontrado');
+		parent::__construct('O controller '. $controller .' n√£o foi encontrado');
 	}
 	
 	/**

@@ -1,14 +1,14 @@
 <?php
 /*
- * Copyright (c) 2011, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * Copyright (c) 2011, Valdirene da Cruz Neves JÃºnior <linkinsystem666@gmail.com>
  * All rights reserved.
  */
 
 
 /**
- * Exceção quando ocorre algum erro no banco de dados (utilizando as classes Database e DatabaseQuery), se não tratada pelo usuário resulta num erro 500
+ * ExceÃ§Ã£o quando ocorre algum erro no banco de dados (utilizando as classes Database e DatabaseQuery), se nÃ£o tratada pelo usuÃ¡rio resulta num erro 500
  * 
- * @author	Valdirene da Cruz Neves Júnior
+ * @author	Valdirene da Cruz Neves JÃºnior
  * @version 1
  *
  */

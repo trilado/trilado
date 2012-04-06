@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Classe Helper, auxilia na geraÁ„o de tags HTML para formul·rios
+ * Classe Helper, auxilia na gera√ß√£o de tags HTML para formul√°rios
  * 
- * @author	Valdirene da Cruz Neves J˙nior <linkinsystem666@gmail.com>
+ * @author	Valdirene da Cruz Neves J√∫nior <linkinsystem666@gmail.com>
  * @version	2
  *
  */
@@ -90,9 +90,9 @@ class Form extends Html
 	
 	/**
 	 * Cria um dropdown list (tag "select")
-	 * @param	string	$name		o atributo "name", isso tambÈm ser· usado no "id"
-	 * @param	array	$options	um array contendo as opÁıes do dropdown, onde a chave È o valor e o valor È o texto
-	 * @param	mixed	$selected	o valor da opÁ„o que j· vir· selecionada
+	 * @param	string	$name		o atributo "name", isso tamb√©m ser√° usado no "id"
+	 * @param	array	$options	um array contendo as op√ß√µes do dropdown, onde a chave √© o valor e o valor √© o texto
+	 * @param	mixed	$selected	o valor da op√ß√£o que j√° vir√° selecionada
 	 * @param	array	$attrs		os demais atributos do campo, como por exemplo "onclick", "title" e etc.
 	 * @return	string				retorna o HTML do select gerado
 	 */
@@ -114,9 +114,9 @@ class Form extends Html
 	
 	/**
 	 * Cria uma lista de input radios (tag "input" do tipo "radio")
-	 * @param	string	$name		o atributo "name", isso tambÈm ser· usado no "id"
-	 * @param	array	$options	um array contendo as opÁıes do radio, onde a chave È o valor e o valor È o texto
-	 * @param	mixed	$selected	o valor da opÁ„o que j· vir· selecionada
+	 * @param	string	$name		o atributo "name", isso tamb√©m ser√° usado no "id"
+	 * @param	array	$options	um array contendo as op√ß√µes do radio, onde a chave √© o valor e o valor √© o texto
+	 * @param	mixed	$selected	o valor da op√ß√£o que j√° vir√° selecionada
 	 * @param	array	$attrs		os demais atributos do campo, como por exemplo "onclick", "title" e etc.
 	 * @return	string				retorna o HTML do select gerado
 	 */

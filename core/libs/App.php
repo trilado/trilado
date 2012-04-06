@@ -1,28 +1,28 @@
 <?php
 /*
- * Copyright (c) 2011, Valdirene da Cruz Neves J˙nior <linkinsystem666@gmail.com>
+ * Copyright (c) 2011, Valdirene da Cruz Neves J√∫nior <linkinsystem666@gmail.com>
  * All rights reserved.
  */
 
 
 /**
- * Classe principal do Framework, respons·vel pelo controlar todo o fluxo, fazendo chama de outras classes
+ * Classe principal do Framework, respons√°vel pelo controlar todo o fluxo, fazendo chama de outras classes
  * 
- * @author		Valdirene da Cruz Neves J˙nior <linkinsystem666@gmail.com>
+ * @author		Valdirene da Cruz Neves J√∫nior <linkinsystem666@gmail.com>
  * @version		2.1
  *
  */ 
 class App 
 {
 	/**
-	 * Guarda os argumentos passados pela URL (prefixo, controller, action e par‚metros)
+	 * Guarda os argumentos passados pela URL (prefixo, controller, action e par√¢metros)
 	 * @var	array
 	 */
 	private $args = array();
 	
 	/**
 	 * Contrutor da classe
-	 * @param	string	$url	url acessada pelo usu·rio
+	 * @param	string	$url	url acessada pelo usu√°rio
 	 */
 	public function __construct($url)
 	{
@@ -86,9 +86,9 @@ class App
 	}
 	
 	/**
-	 * Verifica se o usu·rio est· acessando via rede
-	 * @param	string	$ip	IP do usu·rio
-	 * @return	boolean		retorna verdadeiro se o usu·rio estiver acessando pela rede, no contr·rio retorna falso
+	 * Verifica se o usu√°rio est√° acessando via rede
+	 * @param	string	$ip	IP do usu√°rio
+	 * @return	boolean		retorna verdadeiro se o usu√°rio estiver acessando pela rede, no contr√°rio retorna falso
 	 */
 	private function isNetwork($ip)
 	{
@@ -96,7 +96,7 @@ class App
 	}
 	
 	/**
-	 * Verifica se o debug est· habilidade para este usu·rio
+	 * Verifica se o debug est√° habilidade para este usu√°rio
 	 * @return	boolean		retorna verdadeiro se o debug estiver habilitado
 	 */
 	private function isDebug()
@@ -115,7 +115,7 @@ class App
 	
 	/**
 	 * Extrai os argumentos a partir de URL
-	 * @param	string	$url	url acessada pelo usu·rio
+	 * @param	string	$url	url acessada pelo usu√°rio
 	 * @return	array			retorna um array com os argumentos
 	 */
 	private function args($url)
@@ -131,12 +131,12 @@ class App
 	}
 	
 	/**
-	 * Valida o controller requisitado pelo usu·rio atravÈs da URL
-	 * @throws	ControllerInheritanceException	dispara se o controller n„o for subclasse de Controller
-	 * @throws	ActionNotFoundException			dispara se a action n„o existir no controller
-	 * @throws	ActionVisibilityException		dispara se a action n„o estiver como p˙blic
-	 * @throws	ActionStaticException			dispara se a action for est·tica
-	 * @throws	PageNotFoundException			dispara se a quantidade obrigatÛrio na action for diferente do esperado
+	 * Valida o controller requisitado pelo usu√°rio atrav√©s da URL
+	 * @throws	ControllerInheritanceException	dispara se o controller n√£o for subclasse de Controller
+	 * @throws	ActionNotFoundException			dispara se a action n√£o existir no controller
+	 * @throws	ActionVisibilityException		dispara se a action n√£o estiver como p√∫blic
+	 * @throws	ActionStaticException			dispara se a action for est√°tica
+	 * @throws	PageNotFoundException			dispara se a quantidade obrigat√≥rio na action for diferente do esperado
 	 * @return	void
 	 */
 	private function controller()
@@ -159,9 +159,9 @@ class App
 	}
 	
 	/**
-	 * Verifica se os par‚metros s„o v·lidos
-	 * @param	object	$method	inst‚ncia de ReflectionMethod da action requisitada
-	 * @return	boolean			retorna true se os par‚metros estiverem certos, ou false no contr·rio
+	 * Verifica se os par√¢metros s√£o v√°lidos
+	 * @param	object	$method	inst√¢ncia de ReflectionMethod da action requisitada
+	 * @return	boolean			retorna true se os par√¢metros estiverem certos, ou false no contr√°rio
 	 */
 	private function isValidParams($method)
 	{
@@ -183,8 +183,8 @@ class App
 	}
 	
 	/**
-	 * Carrega a p·gina de erro de acordo com as configuraÁıes e mata a execuÁ„o
-	 * @param	object	$error	inst‚ncia de Exception
+	 * Carrega a p√°gina de erro de acordo com as configura√ß√µes e mata a execu√ß√£o
+	 * @param	object	$error	inst√¢ncia de Exception
 	 * @return	void
 	 */
 	private function loadError($error)
@@ -203,8 +203,8 @@ class App
 	}
 	
 	/**
-	 * Verifica se o usu·rio pode acessar a p·gina de acordo com sua autenticaÁ„o e a anotaÁ„o do controller. Se n„o tiver permiss„o
-	 * È redirecionado para a p·gina de login defina nas configuraÁıes
+	 * Verifica se o usu√°rio pode acessar a p√°gina de acordo com sua autentica√ß√£o e a anota√ß√£o do controller. Se n√£o tiver permiss√£o
+	 * √© redirecionado para a p√°gina de login defina nas configura√ß√µes
 	 * @return	void
 	 */
 	private function auth()

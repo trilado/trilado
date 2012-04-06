@@ -1,28 +1,28 @@
 <?php
 /*
- * Copyright (c) 2011, Valdirene da Cruz Neves J˙nior <linkinsystem666@gmail.com> 
+ * Copyright (c) 2011, Valdirene da Cruz Neves J√∫nior <linkinsystem666@gmail.com> 
  * All rights reserved.
  */
 
 
 /**
- * Classe para manipulaÁ„o de Sessıes
+ * Classe para manipula√ß√£o de Sess√µes
  * 
- * @author	Valdirene da Cruz Neves J˙nior <linkinsystem666@gmail.com>
+ * @author	Valdirene da Cruz Neves J√∫nior <linkinsystem666@gmail.com>
  * @version	2
  *
  */
 class Session
 {
 	/**
-	 * Contrutor da classe, È privado para n„o criar uma inst‚ncia
+	 * Contrutor da classe, √© privado para n√£o criar uma inst√¢ncia
 	 */
 	private function __construct()
 	{
 	}
 	
 	/**
-	 * Inicia a sess„o
+	 * Inicia a sess√£o
 	 * @return	void
 	 */
 	public static function start()
@@ -35,7 +35,7 @@ class Session
 	}
 	
 	/**
-	 * Cria uma chave MD5 com base no navegador do usu·rio e o salt, definido na configuraÁ„o
+	 * Cria uma chave MD5 com base no navegador do usu√°rio e o salt, definido na configura√ß√£o
 	 * @return	string		retorna uma string MD5 
 	 */
 	private static function key()
@@ -44,23 +44,23 @@ class Session
 	}
 	
 	/**
-	 * Cria uma sess„o criptograda para o usu·rio
-	 * @param	string	$name		nome da sess„o
-	 * @param	mixed	$value		valor da sess„o
-	 * @throws	TriladoException	disparada caso o programador n„o defina a configuraÁ„o 'salt', ou o valor esteja vazio
+	 * Cria uma sess√£o criptograda para o usu√°rio
+	 * @param	string	$name		nome da sess√£o
+	 * @param	mixed	$value		valor da sess√£o
+	 * @throws	TriladoException	disparada caso o programador n√£o defina a configura√ß√£o 'salt', ou o valor esteja vazio
 	 * @return	void
 	 */
 	public static function set($name , $value)
 	{
 		if(!defined('salt') || salt == '')
-			throw new TriladoException("A configuraÁ„o 'salt' n„o pode ter o valor nulo");
+			throw new TriladoException("A configura√ß√£o 'salt' n√£o pode ter o valor nulo");
 		self::start();
 		$_SESSION[self::key()][$name] = Security::encrypt($value, salt);
 	}
 	
 	/**
-	 * Remove uma sess„o do usu·rio
-	 * @param	string	$name		nome da sess„o a ser removida
+	 * Remove uma sess√£o do usu√°rio
+	 * @param	string	$name		nome da sess√£o a ser removida
 	 * @return	void
 	 */
 	public static function del($name)
@@ -70,7 +70,7 @@ class Session
 	}
 	
 	/**
-	 * Remove todas as sessıes do usu·rio
+	 * Remove todas as sess√µes do usu√°rio
 	 * @return	void
 	 */
 	public static function clear()
@@ -80,15 +80,15 @@ class Session
 	}
 	
 	/**
-	 * Descriptograda e retorna uma sess„o especÌfica do usu·rio
-	 * @param	string	$name		nome da sess„o a ser retornada
-	 * @throws	TriladoException	disparado se a configuraÁ„o 'salt' n„o for definida ou o valor for vazio
-	 * @return	mixed				retorna o valor sess„o descriptografado
+	 * Descriptograda e retorna uma sess√£o espec√≠fica do usu√°rio
+	 * @param	string	$name		nome da sess√£o a ser retornada
+	 * @throws	TriladoException	disparado se a configura√ß√£o 'salt' n√£o for definida ou o valor for vazio
+	 * @return	mixed				retorna o valor sess√£o descriptografado
 	 */
 	public static function get($name)
 	{
 		if(!defined('salt') || salt == '')
-			throw new TriladoException("A configuraÁ„o 'salt' n„o pode ter o valor nulo");
+			throw new TriladoException("A configura√ß√£o 'salt' n√£o pode ter o valor nulo");
 		self::start();
 		return Security::decrypt($_SESSION[self::key()][$name], salt);
 	}

@@ -1,20 +1,20 @@
 <?php
 /*
- * Copyright (c) 2011, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * Copyright (c) 2011, Valdirene da Cruz Neves JÃºnior <linkinsystem666@gmail.com>
  * All rights reserved.
  */
 
 
 /**
- * Classe de internacionalização
- * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmailc.om>
+ * Classe de internacionalizaÃ§Ã£o
+ * @author	Valdirene da Cruz Neves JÃºnior <linkinsystem666@gmailc.om>
  * @version	1.1
  *
  */
 class I18n 
 {
 	/**
-	 * Nome do arquivo de tradução
+	 * Nome do arquivo de traduÃ§Ã£o
 	 * @var	string
 	 */
 	private $file = '';
@@ -26,7 +26,7 @@ class I18n
 	private $messages = array();
 	
 	/**
-	 * Linguagem da tradução
+	 * Linguagem da traduÃ§Ã£o
 	 * @var	string
 	 */
 	private $lang;
@@ -49,8 +49,8 @@ class I18n
 	}
 	
 	/**
-	 * Retorna a instância da classes (padrão singleton)
-	 * @return	object				retorna a instância de I18n
+	 * Retorna a instÃ¢ncia da classes (padrÃ£o singleton)
+	 * @return	object				retorna a instÃ¢ncia de I18n
 	 */
 	public static function getInstance()
 	{
@@ -60,8 +60,8 @@ class I18n
 	}
 	
 	/**
-	 * Define a linguagem da tradução
-	 * @param	string	$lang		nome da linguagem de tradução
+	 * Define a linguagem da traduÃ§Ã£o
+	 * @param	string	$lang		nome da linguagem de traduÃ§Ã£o
 	 * @return	void
 	 */
 	public function setLang($lang = null)
@@ -76,7 +76,7 @@ class I18n
 	/**
 	 * Traduz uma mensagem e retorna
 	 * @param	string	$string			mensagem a ser traduzida
-	 * @param	array	$format			array com as variáveis de formatação da mensagem
+	 * @param	array	$format			array com as variÃ¡veis de formataÃ§Ã£o da mensagem
 	 * @throws	TriladoException		disparada caso a mensagem esteja vazia
 	 * @return	string					retorna a mensagem traduzida
 	 */
@@ -97,10 +97,10 @@ class I18n
 	}
 	
 	/**
-	 * Carrega um arquivo de tradução pegando as mensagens e traduções e joga em array retornando-o
+	 * Carrega um arquivo de traduÃ§Ã£o pegando as mensagens e traduÃ§Ãµes e joga em array retornando-o
 	 * @param	string	$file		nome do arquivo
-	 * @throws	TriladoException	disparada caso o arquivo não exista ou o conteúdo esteja vazio
-	 * @return	array				retorna um array com as mensagens de tradução, sendo as chaves o MD5 da mensagem original
+	 * @throws	TriladoException	disparada caso o arquivo nÃ£o exista ou o conteÃºdo esteja vazio
+	 * @return	array				retorna um array com as mensagens de traduÃ§Ã£o, sendo as chaves o MD5 da mensagem original
 	 */
 	private function load($lang)
 	{
@@ -110,7 +110,7 @@ class I18n
 			throw new FileNotFoundException($file_path);
 		$lines = file($file_path);
 		if(!count($lines))
-			throw new TriladoException('Arquivo "'. $file_path .'" está vazio');
+			throw new TriladoException('Arquivo "'. $file_path .'" estÃ¡ vazio');
 		
 		$key = false;
 		$result = array();
