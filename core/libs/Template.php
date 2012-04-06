@@ -92,11 +92,15 @@ class Template
 	{
 		$annotation = Annotation::get(controller);
 		
-		if(method_exists('__construct', controller)) 
+		$reflection = new ReflectionClass(controller);
+		if($reflection->hasMethod('__construct')) 
 			$tpl = $annotation->getMethod('__construct')->Master;
 		
-		if($tpl_action = $annotation->getMethod(action)->Master)
+		$tpl_action = $annotation->getMethod(action)->Master;
+		
+		if($tpl_action)
 			$tpl = $tpl_action;
+		
 		if(!$tpl)
 			$tpl = default_master;
 		
