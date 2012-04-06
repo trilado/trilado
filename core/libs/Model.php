@@ -57,9 +57,12 @@ class Model
 		$annotation = Annotation::get($class);
 		foreach ($this as $p => $v)
 		{
-			$property = $annotation->getProperty($p);
-			if($property->Column && $property->Column->Key)
-				return $this->_key = $p;
+			if($p != '_isNew')
+			{
+				$property = $annotation->getProperty($p);
+				if($property->Column && $property->Column->Key)
+					return $this->_key = $p;
+			}
 		}
 	}
 	
@@ -71,8 +74,11 @@ class Model
 	public function _setLastId($id = null)
 	{
 		$key = $this->_getKey();
-		if($id)
-			$this->{$key} = $id;
+		if($key)
+		{
+			if($id)
+				$this->{$key} = $id;
+		}
 	}
 	
 	/**
@@ -119,7 +125,7 @@ class Model
 		$key = $this->_getKey();
 		
 		$db = Database::getInstance();
-		if($this->{$key})
+		if($key && $this->{$key})
 			$db->{$class}->update($this);
 		else
 			$db->{$class}->insert($this);
