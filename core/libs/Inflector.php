@@ -47,6 +47,8 @@ class Inflector
 	 */
 	public static function slugify($string)
 	{
+		if(charset == 'UTF-8')
+			$string = utf8_decode ($string);
 		$string = html_entity_decode($string);
 
 		$a = 'ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ';
