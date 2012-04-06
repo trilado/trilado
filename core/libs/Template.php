@@ -28,10 +28,7 @@ class Template
 	 */
 	public function render($args)
 	{
-		$tpl_method = $this->master();
-		
-		$master = new MasterController();
-		$master->{$tpl_method}();
+		$this->master();
 		
 		$name = controller;
 		$controller = new $name();
@@ -104,13 +101,6 @@ class Template
 			$tpl = default_master;
 		
 		define('master', $tpl);
-		
-		if(!method_exists('MasterController', $tpl)) 
-			throw new MethodNotFoundException('MasterController->'. $tpl .'()');
-			
-		$method = new ReflectionMethod('MasterController', $tpl);
-		if(!$method->isPublic()) 
-			throw new MethodVisibilityException('MasterController->'. $tpl .'()');
 		return $tpl;
 	}
 	

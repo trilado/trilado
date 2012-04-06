@@ -63,7 +63,7 @@ class App
 			header('Content-type: text/html; charset='. charset);
 			
 			Import::core('Controller', 'Template', 'Annotation');
-			Import::controller(controller, 'MasterController');
+			Import::controller(controller);
 		
 			$this->controller();
 			$this->auth();
