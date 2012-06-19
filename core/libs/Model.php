@@ -107,7 +107,7 @@ class Model
 		$p = $m * (($p < 1 ? 1 : $p) - 1);
 		$class = get_called_class();
 		$db = Database::getInstance();
-		return $db->{$class}->orderBy($o, $t)->paginate($m, $p);
+		return $db->{$class}->orderBy($o, $t)->paginate($p, $m);
 	}
 	
 	public static function search()
