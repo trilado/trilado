@@ -93,6 +93,7 @@ class Database
 					throw new DatabaseException($ex->getMessage(), $ex->getCode());
 				}
 			}
+			$this->operations = array();
 		}
 	}
 	
