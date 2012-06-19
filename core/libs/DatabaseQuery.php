@@ -114,7 +114,7 @@ class DatabaseQuery
 		if(!property_exists($annotation_class, 'Entity') && !property_exists($annotation_class, 'View'))
 			throw new DatabaseException("A classe '". $class ."' não é uma entidade ou view");
 		
-		$this->table = is_string($annotation_class->Entity) ? $annotation_class->Entity : $class;
+		$this->table = is_string($annotation_class->Entity) ? $annotation_class->Entity : ( is_string($annotation_class->View) ? $annotation_class->View : $class);
 	}
 	
 	/**
