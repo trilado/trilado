@@ -27,6 +27,7 @@ class App
 	public function __construct($url)
 	{
 		$this->args = $this->args($url);
+		
 		define('is_debug', $this->isDebug());
 
 		if(is_debug)
@@ -121,6 +122,7 @@ class App
 	private function args($url)
 	{
 		$args = Route::exec($url);
+
 		if(empty($args['controller']))
 			$args['controller'] = default_controller;
 		if(empty($args['action']))
