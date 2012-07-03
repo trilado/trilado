@@ -110,7 +110,7 @@ class Auth
 	public static function isLogged()
 	{
 		Session::start();
-		if(is_array($_SESSION[self::key()]))
+		if(isset($_SESSION[self::key()]) && is_array($_SESSION[self::key()]))
 		{
 			foreach($_SESSION[self::key()] as $role)
 			{
