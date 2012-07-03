@@ -58,7 +58,7 @@ class Database
 	 */
 	public function __get($name)
 	{
-		if($this->tables[$name])
+		if(isset($this->tables[$name]))
 			$this->operations = array_union($this->operations, $this->tables[$name]->getAndClearOperations());
 		return $this->tables[$name] = new DatabaseQuery($name);
 	}
@@ -95,6 +95,30 @@ class Database
 			}
 			$this->operations = array();
 		}
+	}
+	
+	public function query($sql)
+	{
+		$stmt = DatabaseQuery::connection()->prepare($sql);
+		$status = $stmt->execute();
+		if(!$status)
+		{
+			$error = $stmt->errorInfo();
+			throw new TriladoException($error[2]);
+		}
+		if($stmt->rowCount() > 0)
+		{
+			$results = array();
+			while($result = $stmt->fetch(PDO::FETCH_ASSOC))
+			{
+				$object = new stdClass();		
+				foreach($result as $field => $value)
+					$object->{$field} = $value;
+				$results[] = $object;
+			}
+			return $results;
+		}
+		return array();
 	}
 	
 	/**
