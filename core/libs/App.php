@@ -36,9 +36,7 @@ class App
 		}
 		else
 		{
-			/*ini_set('display_errors','Off');
-			ini_set('log_errors', 'On');
-			ini_set('error_log', ROOT . DS .'logs'. DS .'error.log');*/
+			ini_set('display_errors','Off');
 		}
 		
 		//I18n
@@ -212,15 +210,28 @@ class App
 	private function auth()
 	{
 		$annotation = Annotation::get(controller);
+		$roles = null;
 		
 		if(method_exists(controller, '__construct'))
 		{
 			$method = new ReflectionMethod(controller, '__construct');
 			if($method->isPublic())
-				$roles = $annotation->getMethod('__construct')->Auth;
+			{
+				$construct = $annotation->getMethod('__construct');
+				if(isset($construct->Auth))
+					$roles = $construct->Auth;
+			}
 		}
-		if($auth_action = $annotation->getMethod(action)->Auth)
+		
+		$method = $annotation->getMethod(action);
+		$auth_action = isset($method->Auth) ? $method->Auth : null;
+		
+		if($auth_action)
 			$roles = $auth_action;
+		
+		if($auth_action == '*' || (is_array($auth_action) && in_array('*', $auth_action)))
+			$roles = null;
+		
 		if($roles && !is_array($roles))
 			$roles = array($roles);
 		if($roles)
