@@ -113,8 +113,8 @@ class DatabaseQuery
 		$annotation_class = $this->annotation->getClass();
 		if(!property_exists($annotation_class, 'Entity') && !property_exists($annotation_class, 'View'))
 			throw new DatabaseException("A classe '". $class ."' não é uma entidade ou view");
-		
-		$this->table = is_string($annotation_class->Entity) ? $annotation_class->Entity : ( is_string($annotation_class->View) ? $annotation_class->View : $class);
+			
+		$this->table = isset($annotation_class->Entity) ? $annotation_class->Entity : (isset($annotation_class->View) ? $annotation_class->View : $class);
 	}
 	
 	/**
@@ -362,7 +362,7 @@ class DatabaseQuery
 	 */
 	public function paginate($p, $m)
 	{
-		$p = ($p < 0 ? 0 : $p) * $m;
+		//$p = ($p < 0 ? 0 : $p) * $m;
 		$result = new stdClass;
 		$this->limit = $m;
 		$this->offset = $p;
@@ -470,7 +470,7 @@ class DatabaseQuery
 	 */
 	protected function validate($property, $field, $value)
 	{
-		$label = $property->Label ? $property->Label : $field;
+		$label = isset($property->Label) ? $property->Label : $field;
 		$functions = array('Int' => 'is_int', 'String' => 'is_string', 'Double' => 'is_double', 'Boolean' => 'is_bool');
 		$is_type = $functions[$property->Column->Type];
 		
@@ -480,11 +480,11 @@ class DatabaseQuery
 			return true;
 		if(is_object($value))
 			throw new ValidationException("O valor de '{$label}' não pode ser um objeto", 90400);
-		if($property->Required && ($value === '' || $value === null)) 
+		if(isset($property->Required) && ($value === '' || $value === null)) 
 			throw new ValidationException("O campo '{$label}' é obrigatório", 90401);
 		if($is_type && !$is_type($value))
 			throw new ValidationException("O campo '{$label}' só aceita valor do tipo '{$property->Column->Type}'", 90402);
-		if($property->Regex && !preg_match('#'. $property->Regex->Pattern .'#', $value))
+		if(isset($property->Regex) && !preg_match('#'. $property->Regex->Pattern .'#', $value))
 			throw new ValidationException($property->Regex->Message, 90403);
 	}
 	
@@ -523,7 +523,7 @@ class DatabaseQuery
 	 */
 	protected function isKey($property)
 	{
-		return $property->Column && $property->Column->Key;
+		return isset($property->Column) && isset($property->Column->Key);
 	}
 	
 	/**
@@ -557,11 +557,11 @@ class DatabaseQuery
 				if($property->Column && $property->Column->Name)
 					$field = $property->Column->Name;
 				if (!$value && !is_bool($value) && !is_int($value)) 
-					$value = null;
+					$value = 'NULL';
 				if (is_bool($value))
 					$value = $value ? '1' : '0';
 				
-				$fields[] = $field;
+				$fields[] = '`'. $field .'`';
 				$values[] = $value;
 			}
 		}
@@ -602,21 +602,21 @@ class DatabaseQuery
 			{
 				if($this->isKey($property))
 				{
-					$conditions['fields'][] = $field .' = ?';
+					$conditions['fields'][] = '`'. $field .'` = ?';
 					$conditions['values'][] = $value;
 				}
 				else
 				{
 					$this->validate($property, $field, $value);
 					
-					if($property->Column && $property->Column->Name)
+					if(isset($property->Column) && isset($property->Column->Name))
 						$field = $property->Column->Name;
 					if (!$value && !is_bool($value)) 
 						$value = 'NULL';
 					if (is_bool($value))
 						$value = $value ? '1' : '0';
 					
-					$fields[] = $field .' = ?';
+					$fields[] = '`'. $field .'` = ?';
 					$values[] = $value;
 				}
 			}
@@ -653,7 +653,7 @@ class DatabaseQuery
 			$property = $this->annotation->getProperty($field);
 			if($this->isField($property) && $this->isKey($property))
 			{
-				$conditions['fields'][] = $field .' = ?';
+				$conditions['fields'][] = '`'. $field .'` = ?';
 				$conditions['values'][] = $value;
 			}
 		}
@@ -662,6 +662,29 @@ class DatabaseQuery
 		
 		Debug::addSql($sql, $conditions['values']);
 		$this->operations[] = array('sql' => $sql, 'values' => $conditions['values']);
+	}
+	
+	/**
+	 * Cria uma instrução SQL de deleção no banco
+	 * @return	void
+	 */
+	public function deleteAll()
+	{
+		if (func_num_args() > 0) 
+		{
+			$reflectionMethod = new ReflectionMethod('DatabaseQuery', 'where');
+			$args = func_get_args();
+			$reflectionMethod->invokeArgs($this, $args);
+		}
+		
+		$where = $this->where ? ' WHERE '. $this->where : '';
+		$orderby = $this->orderby ? ' ORDER BY '. $this->orderby : '';
+		$limit = $this->limit ? ' LIMIT '. $this->limit : '';
+		
+		$sql = 'DELETE FROM '. $this->table . $where . $orderby . $limit .';';
+		
+		Debug::addSql($sql, $this->where_params);
+		$this->operations[] = array('sql' => $sql, 'values' => $this->where_params);
 	}
 	
 	/**
