@@ -50,7 +50,7 @@ class Template
 				$content->Vars[$params[$i]->getName()] = $args['params'][$i] !== null ? $args['params'][$i] : $params[$i]->getDefaultValue();
 		}
 		
-		if($args['dot'])
+		if(isset($args['dot']))
 		{
 			$content->Type = $args['dot'];
 			$content->Data = $content->Vars['model'];
@@ -96,7 +96,8 @@ class Template
 		if($reflection->hasMethod('__construct')) 
 			$tpl = $annotation->getMethod('__construct')->Master;
 		
-		$tpl_action = $annotation->getMethod(action)->Master;
+		$action = $annotation->getMethod(action);
+		$tpl_action = isset($action->Master) ? $action->Master : null;
 		
 		if($tpl_action)
 			$tpl = $tpl_action;
