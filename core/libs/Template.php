@@ -47,7 +47,7 @@ class Template
 		for($i = 0; $i < count($params); $i++)
 		{
 			if(!array_key_exists($params[$i]->getName(), $content->Vars))
-				$content->Vars[$params[$i]->getName()] = $args['params'][$i] !== null ? $args['params'][$i] : $params[$i]->getDefaultValue();
+				$content->Vars[$params[$i]->getName()] = isset($args['params'][$i]) && $args['params'][$i] !== null ? $args['params'][$i] : $params[$i]->getDefaultValue();
 		}
 		
 		if(isset($args['dot']))
@@ -198,6 +198,6 @@ class Template
 	 */
 	private function resolveUrl($html)
 	{
-		return str_replace(array('="~/', "='"), array('="'. root_virtual, "='". root_virtual), $html);
+		return str_replace(array('="~/', "='~/"), array('="'. root_virtual, "='". root_virtual), $html);
 	}
 }
