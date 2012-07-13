@@ -118,8 +118,8 @@ class Import
 	 */
 	public static function view($vars, $controller, $view)
 	{
-		$buffer = ob_get_clean();
 		ob_start();
+		
 		extract($vars);
 		$file = root . 'app/views/'. $controller .'/'. $view .'.php';
 		if(!file_exists($file))
@@ -127,8 +127,6 @@ class Import
 		
 		require_once $file;
 		
-		$content = ob_get_clean();
-		echo $buffer;
-		return $content;
+		return ob_get_clean();
 	}
 }
