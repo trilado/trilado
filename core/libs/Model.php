@@ -125,10 +125,17 @@ class Model
 		$key = $this->_getKey();
 		
 		$db = Database::getInstance();
-		if($key && $this->{$key})
-			$db->{$class}->update($this);
+		if($key){
+			$bool = $this->{$key};
+			if($bool){
+				$db->{$class}->update($this);
+			}else{
+				$db->{$class}->insert($this);
+			}
+		}
 		else
 			$db->{$class}->insert($this);
+			
 		$db->save();
 	}
 	

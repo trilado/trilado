@@ -310,6 +310,7 @@ class DatabaseQuery
 		{
 			$results = array();
 			$annotation = Annotation::get($this->clazz);
+			$i = 0;
 			while($result = $stmt->fetch(PDO::FETCH_ASSOC))
 			{
 				if($this->calc)
@@ -322,16 +323,20 @@ class DatabaseQuery
 				{
 					$property = $annotation->getProperty($field);
 					$type = strtolower($property->Column->Type);
-					$type = $type == 'double' ? 'float' : $type;
-					$type = $type == 'int' ? 'integer' : $type;
-					if($type == 'boolean')
+					
+					if($type === 'double'){
+						$type = 'float';
+					}elseif($type === 'int'){
+						$type = 'integer';
+					}elseif($type === 'boolean'){
 						$value = ord($value) == 1;
-					elseif($type != 'datetime')
+					}elseif($type !== 'datetime'){
 						settype($value, $type);
+					}
 					$object->{$field} = $value;
 				}
 				
-				$results[] = $object;
+				$results[++$i] = $object;
 			}
 			return $results;
 		}
@@ -496,11 +501,11 @@ class DatabaseQuery
 	 */
 	protected function defaultValue($type, $value)
 	{
-		if($type == 'String' && $value == null)
+		if($type === 'String' && $value === null)
 			$value = '';
-		elseif($type == 'Boolean' && $value == null)
+		elseif($type === 'Boolean' && $value === null)
 			$value = false;
-		elseif(($type == 'Int' && $value == null) || ($type == 'Double' && $value == null))
+		elseif(($type === 'Int' && $value === null) || ($type === 'Double' && $value === null))
 			$value = 0;
 		return $value;
 	}
