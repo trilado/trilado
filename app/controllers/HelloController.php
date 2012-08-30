@@ -5,4 +5,4 @@ class HelloController extends Controller
 	{
 		return $this->_print('Hello World!');
 	}
-}
+} 

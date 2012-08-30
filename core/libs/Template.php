@@ -9,7 +9,7 @@
  * Classe responsável por renderizar a página
  * 
  * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
- * @version	2.1
+ * @version	2.2
  *
  */
 class Template
@@ -21,6 +21,12 @@ class Template
 	private $response;
 	
 	/**
+	 * Guarda os hooks do usuário
+	 * @var	array	lista com instâncias das classes que contêm os hooks
+	 */
+	private $hook = array();
+	
+	/**
 	 * Renderiza a página solicitada pelo usuário
 	 * @param	array	$args				argumentos requisitados pelo usuário, como controller, action e parâmetros
 	 * @throws	InvalidReturnException		Disparada caso a action solicitada retorne null
@@ -30,9 +36,12 @@ class Template
 	{
 		$this->master();
 		
+		$registry = Registry::getInstance();
+		
 		$name = controller;
 		$controller = new $name();
-		$controller->beforeRender();
+		$registry->set('Controller', $controller);
+		$this->response = $controller->beforeRender();
 		
 		$content = call_user_func_array(array($controller, action), $args['params']);
 		
@@ -65,8 +74,8 @@ class Template
 			case 'content':
 				$this->renderContent($content);
 				break;
-			case 'page':
-				$this->renderPage($content);
+			case 'partial':
+				$this->renderPartial($content);
 				break;
 			case 'xml':
 				$this->renderXml($content);
@@ -79,6 +88,10 @@ class Template
 				break;
 		}
 		$this->response = $controller->afterRender($this->response);
+		
+		foreach ($this->hook as $hook)
+			$this->responde = $hook->response($this->response);
+		
 		echo $this->response;
 	}
 	
@@ -110,6 +123,16 @@ class Template
 	}
 	
 	/**
+	 * Adicionar uma instância de uma classe para disparar o hook
+	 * @param	object	$hook	instância da classe que contém o método para ser utilizado no hook
+	 * @return	void
+	 */
+	public function addHook($hook)
+	{
+		$this->hook[] = $hook;
+	}
+	
+	/**
 	 * Renderiza a flash message
 	 * @return	void
 	 */
@@ -119,7 +142,10 @@ class Template
 		$flash = Session::get('Flash.Message');
 		if($flash)
 			$html = '<div class="'. $flash->type .'">'. $flash->message .'</div>';
-			
+		
+		foreach($this->hook as $hook)
+			$html = $hook->renderFlash($html);
+		
 		define('flash', $html);
 		Session::del('Flash.Message');
 	}
@@ -138,7 +164,7 @@ class Template
 		$content = $this->resolveUrl($content);
 		
 		$html = str_replace(content, $content, $html);
-		$this->response = $html;
+		$this->response .= $html;
 	}
 	
 	/**
@@ -155,7 +181,7 @@ class Template
 		$content = $this->resolveUrl($content);
 		
 		$html = str_replace(content, $content, $html);
-		$this->response = $html;
+		$this->response .= $html;
 	}
 	
 	/**
@@ -163,9 +189,9 @@ class Template
 	 * @param	object	$ob		objeto com informações da página e da master page
 	 * @return	void
 	 */
-	private function renderPage($ob)
+	private function renderPartial($ob)
 	{
-		$this->response = Import::view($ob->Vars, $ob->Data['controller'], $ob->Data['view']);	
+		$this->response .= Import::view($ob->Vars, $ob->Data['controller'], $ob->Data['view']);	
 	}
 	
 	/**
@@ -176,7 +202,7 @@ class Template
 	private function renderXml($ob)
 	{
 		header('Content-type: application/xml; charset='. charset);
-		$this->response = '<?xml version="1.0" encoding="'. charset .'"?>';
+		$this->response .= '<?xml version="1.0" encoding="'. charset .'"?>';
 		$this->response .= xml_encode(d($ob->Data));
 	}
 	
@@ -188,7 +214,7 @@ class Template
 	private function renderJson($ob)
 	{
 		header('Content-type: application/json; charset='. charset);
-		$this->response = json_encode(utf8encode(d($ob->Data)));
+		$this->response .= json_encode(utf8encode(d($ob->Data)));
 	}
 	
 	/**

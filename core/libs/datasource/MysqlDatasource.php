@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2011, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * Copyright (c) 2012, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
  * All rights reserved.
  */
 
@@ -9,12 +9,12 @@
  * Classe de Mapemamento de Objeto Relacional (ORM), que é utilizada em conjunto com a classe Database para manipular o banco de dados
  * utilizando orientação a objetos.
  * 
- * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
- * @version	1.1
+ * @author	Valdirene da Cruz Neves Júnior <vaneves@vaneves.com>
+ * @version	0.1
  *
  */
-class DatabaseQuery 
-{	
+class MysqlDatasource extends Datasource
+{
 	/**
 	 * Guarda a conexão com o banco de dados
 	 * @var	object
@@ -122,7 +122,7 @@ class DatabaseQuery
 	 * @throws	DatabaseException	dispara se ocorrer algum exceção do tipo PDOException
 	 * @return	object				retorna uma instância da classe PDO que representa a conexão
 	 */
-	public static function connection()
+	public function connection()
 	{
 		if(self::$connection !== null) 
 			return self::$connection;
@@ -155,7 +155,7 @@ class DatabaseQuery
 	 * @param	mixed	$value1			valor da primeira condição
 	 * @param	mixed	$valueN			valor da x condição
 	 * @throws	DatabaseException		disparado se a quantidade de argumentos for menor 2 ou se quantidade de condicionais não corresponder a quantidade de valores
-	 * @return	object					retorna a própria instância da classe DatabaseQuery 
+	 * @return	object					retorna a própria instância da classe MysqlDatasource 
 	 */
 	public function where()
 	{
@@ -179,7 +179,7 @@ class DatabaseQuery
 	 * Adiciona as condições na instrução (clausula WHERE)
 	 * @param	string	$where		condições SQL, por exemplo 'Id = ? OR slug = ?'
 	 * @param	array	$params		array com os valores das condições
-	 * @return	object				retorna a própria instância da classe DatabaseQuery
+	 * @return	object				retorna a própria instância da classe MysqlDatasource
 	 */
 	public function whereArray($where, $params)
 	{
@@ -194,7 +194,7 @@ class DatabaseQuery
 	/**
 	 * Adiciona as condições na instrução SQL (clausula WHERE)
 	 * @param	string	$where		condições SQL com valores direto, por exemplo 'Description IS NOT NULL'
-	 * @return	object				retorna a própria instância da classe DatabaseQuery
+	 * @return	object				retorna a própria instância da classe MysqlDatasource
 	 */
 	public function whereSQL($where)
 	{
@@ -206,7 +206,7 @@ class DatabaseQuery
 	 * Define a ordem em que os resultados serão retornados
 	 * @param	string	$order	nome da coluna a ser ordenada
 	 * @param	string	$type	typo de ordenação (asc ou desc)
-	 * @return	object			retorna a própria instância da classe DatabaseQuery
+	 * @return	object			retorna a própria instância da classe MysqlDatasource
 	 */
 	public function orderBy($order, $type = null)
 	{
@@ -217,7 +217,7 @@ class DatabaseQuery
 	/**
 	 * Define como ordem decrescente os resultados que serão retornados
 	 * @param	string	$order	nome da coluna a ser ordenada
-	 * @return	object			retorna a própria instância da classe DatabaseQuery
+	 * @return	object			retorna a própria instância da classe MysqlDatasource
 	 */
 	public function orderByDesc($order)
 	{
@@ -229,7 +229,7 @@ class DatabaseQuery
 	 * Define um limite máximo de itens a serem retornados
 	 * @param	int	$n	valor do limite
 	 * @param	int	$o	valor do offset
-	 * @return	object	retorna a própria instância da classe DatabaseQuery
+	 * @return	object	retorna a própria instância da classe MysqlDatasource
 	 */
 	public function limit($n, $o = null)
 	{
@@ -242,7 +242,7 @@ class DatabaseQuery
 	/**
 	 * Define a posição em que os resultados iniciam
 	 * @param	int	$n	valor da posição
-	 * @return	object	retorna a própria instância da classe DatabaseQuery
+	 * @return	object	retorna a própria instância da classe MysqlDatasource
 	 */
 	public function offset($n)
 	{
@@ -252,7 +252,7 @@ class DatabaseQuery
 	
 	/**
 	 * Define que os resultados serão distintos
-	 * @return	object	retorna a própria instância da classe DatabaseQuery
+	 * @return	object	retorna a própria instância da classe MysqlDatasource
 	 */
 	public function distinct()
 	{
@@ -290,7 +290,7 @@ class DatabaseQuery
 	{
 		if (func_num_args() > 0) 
 		{
-			$reflectionMethod = new ReflectionMethod('DatabaseQuery', 'where');
+			$reflectionMethod = new ReflectionMethod('MysqlDatasource', 'where');
 			$args = func_get_args();
 			$reflectionMethod->invokeArgs($this, $args);
 		}
@@ -299,7 +299,7 @@ class DatabaseQuery
 
 		Debug::addSql($sql, $this->where_params);
 		
-		$stmt = self::connection()->prepare($sql);
+		$stmt = $this->connection()->prepare($sql);
 		$status = $stmt->execute($this->where_params);
 		if(!$status)
 		{
@@ -351,7 +351,7 @@ class DatabaseQuery
 	{
 		$this->limit(1);
 		
-		$reflectionMethod = new ReflectionMethod('DatabaseQuery', 'all');
+		$reflectionMethod = new ReflectionMethod('MysqlDatasource', 'all');
 		$args = func_get_args();
 		$result = $reflectionMethod->invokeArgs($this, $args);
 		
@@ -367,7 +367,7 @@ class DatabaseQuery
 	 */
 	public function paginate($p, $m)
 	{
-		//$p = ($p < 0 ? 0 : $p) * $m;
+		$p = ($p < 0 ? 0 : $p) * $m;
 		$result = new stdClass;
 		$this->limit = $m;
 		$this->offset = $p;
@@ -677,7 +677,7 @@ class DatabaseQuery
 	{
 		if (func_num_args() > 0) 
 		{
-			$reflectionMethod = new ReflectionMethod('DatabaseQuery', 'where');
+			$reflectionMethod = new ReflectionMethod('MysqlDatasource', 'where');
 			$args = func_get_args();
 			$reflectionMethod->invokeArgs($this, $args);
 		}
@@ -698,6 +698,6 @@ class DatabaseQuery
 	 */
 	public function lastInsertId()
 	{
-		return self::connection()->lastInsertId($this->table);
+		return $this->connection()->lastInsertId($this->table);
 	}
 }

@@ -1,20 +1,7 @@
 <?php
-/*
- * Copyright (c) 2011, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
- * All rights reserved.
- */
 
-
-/**
- * Classe de Mapemamento de Objeto Relacional (ORM), que é utilizada em conjunto com a classe Database para manipular o banco de dados
- * utilizando orientação a objetos.
- * 
- * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
- * @version	1.1
- *
- */
-class DatabaseQuery 
-{	
+class SqlsrvDatasource extends Datasource
+{
 	/**
 	 * Guarda a conexão com o banco de dados
 	 * @var	object
@@ -122,14 +109,16 @@ class DatabaseQuery
 	 * @throws	DatabaseException	dispara se ocorrer algum exceção do tipo PDOException
 	 * @return	object				retorna uma instância da classe PDO que representa a conexão
 	 */
-	public static function connection()
+	public function connection()
 	{
 		if(self::$connection !== null) 
 			return self::$connection;
 		try
 		{
-			self::$connection = new PDO('mysql:dbname='. db_name .';host='. db_host, db_user, db_pass);
+			self::$connection = new PDO('sqlsrv:server='. db_host .';Database='. db_name, db_user, db_pass);
 			self::$connection->setAttribute(PDO::ATTR_PERSISTENT, true);
+			self::$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			
 			return self::$connection;
 		}
 		catch(PDOException $e)
@@ -155,7 +144,7 @@ class DatabaseQuery
 	 * @param	mixed	$value1			valor da primeira condição
 	 * @param	mixed	$valueN			valor da x condição
 	 * @throws	DatabaseException		disparado se a quantidade de argumentos for menor 2 ou se quantidade de condicionais não corresponder a quantidade de valores
-	 * @return	object					retorna a própria instância da classe DatabaseQuery 
+	 * @return	object					retorna a própria instância da classe SqlsrvDatasource 
 	 */
 	public function where()
 	{
@@ -179,7 +168,7 @@ class DatabaseQuery
 	 * Adiciona as condições na instrução (clausula WHERE)
 	 * @param	string	$where		condições SQL, por exemplo 'Id = ? OR slug = ?'
 	 * @param	array	$params		array com os valores das condições
-	 * @return	object				retorna a própria instância da classe DatabaseQuery
+	 * @return	object				retorna a própria instância da classe SqlsrvDatasource
 	 */
 	public function whereArray($where, $params)
 	{
@@ -194,7 +183,7 @@ class DatabaseQuery
 	/**
 	 * Adiciona as condições na instrução SQL (clausula WHERE)
 	 * @param	string	$where		condições SQL com valores direto, por exemplo 'Description IS NOT NULL'
-	 * @return	object				retorna a própria instância da classe DatabaseQuery
+	 * @return	object				retorna a própria instância da classe SqlsrvDatasource
 	 */
 	public function whereSQL($where)
 	{
@@ -206,7 +195,7 @@ class DatabaseQuery
 	 * Define a ordem em que os resultados serão retornados
 	 * @param	string	$order	nome da coluna a ser ordenada
 	 * @param	string	$type	typo de ordenação (asc ou desc)
-	 * @return	object			retorna a própria instância da classe DatabaseQuery
+	 * @return	object			retorna a própria instância da classe SqlsrvDatasource
 	 */
 	public function orderBy($order, $type = null)
 	{
@@ -217,7 +206,7 @@ class DatabaseQuery
 	/**
 	 * Define como ordem decrescente os resultados que serão retornados
 	 * @param	string	$order	nome da coluna a ser ordenada
-	 * @return	object			retorna a própria instância da classe DatabaseQuery
+	 * @return	object			retorna a própria instância da classe SqlsrvDatasource
 	 */
 	public function orderByDesc($order)
 	{
@@ -229,12 +218,12 @@ class DatabaseQuery
 	 * Define um limite máximo de itens a serem retornados
 	 * @param	int	$n	valor do limite
 	 * @param	int	$o	valor do offset
-	 * @return	object	retorna a própria instância da classe DatabaseQuery
+	 * @return	object	retorna a própria instância da classe SqlsrvDatasource
 	 */
 	public function limit($n, $o = null)
 	{
 		$this->limit = $n;
-		if($o) 
+		if($o !== null) 
 			$this->offset = $o;
 		return $this;
 	}
@@ -242,7 +231,7 @@ class DatabaseQuery
 	/**
 	 * Define a posição em que os resultados iniciam
 	 * @param	int	$n	valor da posição
-	 * @return	object	retorna a própria instância da classe DatabaseQuery
+	 * @return	object	retorna a própria instância da classe SqlsrvDatasource
 	 */
 	public function offset($n)
 	{
@@ -252,7 +241,7 @@ class DatabaseQuery
 	
 	/**
 	 * Define que os resultados serão distintos
-	 * @return	object	retorna a própria instância da classe DatabaseQuery
+	 * @return	object	retorna a própria instância da classe SqlsrvDatasource
 	 */
 	public function distinct()
 	{
@@ -275,10 +264,19 @@ class DatabaseQuery
 		
 		$where = $this->where ? ' WHERE '. $this->where : '';
 		$orderby = $this->orderby ? ' ORDER BY '. $this->orderby : '';
-		$limit = $this->limit ? ' LIMIT '. $this->limit : '';
-		$offset = $this->offset ? ' OFFSET '. $this->offset : '';
 		
-		return 'SELECT '. $this->distinct . $select .' FROM '. $this->table . $joins . $where . $orderby . $limit . $offset;
+		if($this->limit != null)
+		{
+			if(!$orderby)
+				$orderby = ' ORDER BY NEWID()';
+			$sql = 'SELECT * FROM (SELECT ROW_NUMBER() OVER ('. $orderby .') AS RowNumberOfPagination, '. $this->distinct . $select .' FROM '. $this->table . $joins . $where .') AS TablePaginated WHERE RowNumberOfPagination BETWEEN '. $this->offset .' AND '. ($this->offset + $this->limit);
+		}
+		else
+		{
+			$sql = 'SELECT '. $this->distinct . $select .' FROM '. $this->table . $joins . $where . $orderby;
+		}
+		
+		return $sql;
 	}
 	
 	/**
@@ -290,7 +288,7 @@ class DatabaseQuery
 	{
 		if (func_num_args() > 0) 
 		{
-			$reflectionMethod = new ReflectionMethod('DatabaseQuery', 'where');
+			$reflectionMethod = new ReflectionMethod('SqlsrvDatasource', 'where');
 			$args = func_get_args();
 			$reflectionMethod->invokeArgs($this, $args);
 		}
@@ -299,7 +297,7 @@ class DatabaseQuery
 
 		Debug::addSql($sql, $this->where_params);
 		
-		$stmt = self::connection()->prepare($sql);
+		$stmt = $this->connection()->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 		$status = $stmt->execute($this->where_params);
 		if(!$status)
 		{
@@ -349,9 +347,9 @@ class DatabaseQuery
 	 */
 	public function single()
 	{
-		$this->limit(1);
+		$this->limit(1, 0);
 		
-		$reflectionMethod = new ReflectionMethod('DatabaseQuery', 'all');
+		$reflectionMethod = new ReflectionMethod('SqlsrvDatasource', 'all');
 		$args = func_get_args();
 		$result = $reflectionMethod->invokeArgs($this, $args);
 		
@@ -367,7 +365,7 @@ class DatabaseQuery
 	 */
 	public function paginate($p, $m)
 	{
-		//$p = ($p < 0 ? 0 : $p) * $m;
+		$p = ($p < 0 ? 0 : $p) * $m;
 		$result = new stdClass;
 		$this->limit = $m;
 		$this->offset = $p;
@@ -566,7 +564,7 @@ class DatabaseQuery
 				if (is_bool($value))
 					$value = $value ? '1' : '0';
 				
-				$fields[] = '`'. $field .'`';
+				$fields[] = '['. $field .']';
 				$values[] = $value;
 			}
 		}
@@ -607,7 +605,7 @@ class DatabaseQuery
 			{
 				if($this->isKey($property))
 				{
-					$conditions['fields'][] = '`'. $field .'` = ?';
+					$conditions['fields'][] = '['. $field .'] = ?';
 					$conditions['values'][] = $value;
 				}
 				else
@@ -621,7 +619,7 @@ class DatabaseQuery
 					if (is_bool($value))
 						$value = $value ? '1' : '0';
 					
-					$fields[] = '`'. $field .'` = ?';
+					$fields[] = '['. $field .'] = ?';
 					$values[] = $value;
 				}
 			}
@@ -658,7 +656,7 @@ class DatabaseQuery
 			$property = $this->annotation->getProperty($field);
 			if($this->isField($property) && $this->isKey($property))
 			{
-				$conditions['fields'][] = '`'. $field .'` = ?';
+				$conditions['fields'][] = '['. $field .'] = ?';
 				$conditions['values'][] = $value;
 			}
 		}
@@ -677,7 +675,7 @@ class DatabaseQuery
 	{
 		if (func_num_args() > 0) 
 		{
-			$reflectionMethod = new ReflectionMethod('DatabaseQuery', 'where');
+			$reflectionMethod = new ReflectionMethod('SqlsrvDatasource', 'where');
 			$args = func_get_args();
 			$reflectionMethod->invokeArgs($this, $args);
 		}
@@ -698,6 +696,6 @@ class DatabaseQuery
 	 */
 	public function lastInsertId()
 	{
-		return self::connection()->lastInsertId($this->table);
+		return $this->connection()->lastInsertId($this->table);
 	}
 }

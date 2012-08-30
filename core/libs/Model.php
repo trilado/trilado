@@ -9,7 +9,7 @@
  * Classe Model representa uma entidade do banco de dados, deve ser herdada, nela deve ficar a lógica de negócio da aplicação. Já vem com  métodos para as operações CRUD prontas
  * 
  * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
- * @version	2
+ * @version	2.2
  *
  */
 class Model
@@ -104,15 +104,26 @@ class Model
 	 */
 	public static function all($p = 1, $m = 10, $o = 'Id', $t = 'asc')
 	{
-		$p = $m * (($p < 1 ? 1 : $p) - 1);
+		$p = ($p < 1 ? 1 : $p) - 1;
 		$class = get_called_class();
 		$db = Database::getInstance();
 		return $db->{$class}->orderBy($o, $t)->paginate($p, $m);
 	}
 	
-	public static function search()
+	public static function search($p = 1, $m = 10, $o = 'Id', $t = 'asc', $filters = array())
 	{
-		
+		$p = $m * (($p < 1 ? 1 : $p) - 1);
+		$class = get_called_class();
+		$db = Database::getInstance();
+		$entity = $db->{$class}->orderBy($o, $t);
+		if(is_array($filters))
+		{
+			foreach ($filters as $k => $v)
+				$k .= $k .' = ?';
+			$fields = implode(' OR ', array_keys($fields));
+			$entity->whereArray($fields, $filters);
+		}
+		return $entity->paginate($p, $m);
 	}
 	
 	/**
@@ -125,13 +136,13 @@ class Model
 		$key = $this->_getKey();
 		
 		$db = Database::getInstance();
-		if($key){
+		if($key)
+		{
 			$bool = $this->{$key};
-			if($bool){
+			if($bool)
 				$db->{$class}->update($this);
-			}else{
+			else
 				$db->{$class}->insert($this);
-			}
 		}
 		else
 			$db->{$class}->insert($this);

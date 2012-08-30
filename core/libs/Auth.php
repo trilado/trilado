@@ -21,9 +21,9 @@ class Auth
 	
 	/**
 	 * Define um ou mais papéis para o usuário na sessão
-	 * @param	string	$param1	nome do papél
-	 * @param	string	$param2	nome do papél
-	 * @param	string	$paramN	nome do papél
+	 * @param	string	$param1	nome do papel
+	 * @param	string	$param2	nome do papel
+	 * @param	string	$paramN	nome do papel
 	 * @return	void
 	 */
 	public static function set()
@@ -36,9 +36,9 @@ class Auth
 	
 	/**
 	 * Remove um mais papéis do usuário na sessão
-	 * @param	string	$param1	nome do papél
-	 * @param	string	$param2	nome do papél
-	 * @param	string	$paramN	nome do papél
+	 * @param	string	$param1	nome do papel
+	 * @param	string	$param2	nome do papel
+	 * @param	string	$paramN	nome do papel
 	 * @return	void
 	 */
 	public static function remove()
@@ -61,10 +61,10 @@ class Auth
 	
 	/**
 	 * Verifica se o usuário possui, na sessão, os papéis informados no parâmetro
-	 * @param	string	$param1	nome do papél
-	 * @param	string	$param2	nome do papél
-	 * @param	string	$paramN	nome do papél
-	 * @throws	AuthException	dispara se o usuário estiver algum papél na sessão, porém este não for informado do parâmetro
+	 * @param	string	$param1	nome do papel
+	 * @param	string	$param2	nome do papel
+	 * @param	string	$paramN	nome do papel
+	 * @throws	AuthException	dispara se o usuário estiver algum papel na sessão, porém este não for informado do parâmetro
 	 * @return	void
 	 */
 	public static function allow()
@@ -86,9 +86,9 @@ class Auth
 	
 	/**
 	 * Verifica se o usuário possui um ou mais papéis informado como parâmetro
-	 * @param	string	$param1	nome do papél
-	 * @param	string	$param2	nome do papél
-	 * @param	string	$paramN	nome do papél
+	 * @param	string	$param1	nome do papel
+	 * @param	string	$param2	nome do papel
+	 * @param	string	$paramN	nome do papel
 	 * @return	boolean			retorna true se tiver um dos papéis, no contrário retorna false
 	 */
 	public static function is()
@@ -122,9 +122,9 @@ class Auth
 	}
 	
 	/**
-	 * Pega um papél na sessão
-	 * @param	string	$key	nome do papél
-	 * @return	string			retorna o papél
+	 * Pega um papel na sessão
+	 * @param	string	$key	nome do papel
+	 * @return	string			retorna o papel
 	 */
 	private static function _get($key)
 	{
@@ -132,8 +132,8 @@ class Auth
 	}
 	
 	/**
-	 * Adiciona um papél na sessão
-	 * @param	string	$key	nome do papél
+	 * Adiciona um papel na sessão
+	 * @param	string	$key	nome do papel
 	 * @param	string	$value	valor
 	 * @return	void
 	 */

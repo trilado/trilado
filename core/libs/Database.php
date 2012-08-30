@@ -9,7 +9,7 @@
  * Classe de persistência com o banco de dados. Implementa o padrão Singleton
  * 
  * @author		Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
- * @version		1
+ * @version		1.1
  *
  */
 class Database 
@@ -60,7 +60,8 @@ class Database
 	{
 		if(isset($this->tables[$name]))
 			$this->operations = array_union($this->operations, $this->tables[$name]->getAndClearOperations());
-		return $this->tables[$name] = new DatabaseQuery($name);
+		$class = ucfirst(strtolower(db_type)) . 'DataSource';
+		return $this->tables[$name] = new $class($name);
 	}
 	
 	/**
@@ -78,7 +79,7 @@ class Database
 			{
 				try
 				{
-					$stmt = DatabaseQuery::connection()->prepare($operation['sql']);
+					$stmt = $entity->connection()->prepare($operation['sql']);
 					$status = $stmt->execute($operation['values']);
 					if(!$status)
 					{

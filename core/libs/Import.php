@@ -9,7 +9,7 @@
  * Contém método para facilitar a importação de arquivos, como controllers, models e helpers
  * 
  * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
- * @version	1
+ * @version	1.1
  *
  */
 class Import
@@ -116,14 +116,14 @@ class Import
 	 * @throws	FileNotFoundException	disparado se o arquivo não for encontrado
 	 * @return	string					retorna o conteúdo da view
 	 */
-	public static function view($vars, $controller, $view)
+	public static function view($vars, $_controller, $view)
 	{
 		ob_start();
 		
 		extract($vars);
-		$file = root . 'app/views/'. $controller .'/'. $view .'.php';
+		$file = root . 'app/views/'. $_controller .'/'. $view .'.php';
 		if(!file_exists($file))
-			throw new FileNotFoundException('views/'. $controller .'/'. $view .'.php');
+			throw new FileNotFoundException('views/'. $_controller .'/'. $view .'.php');
 		
 		require_once $file;
 		

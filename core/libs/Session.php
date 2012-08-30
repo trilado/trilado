@@ -9,7 +9,7 @@
  * Classe para manipulação de Sessões
  * 
  * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
- * @version	2
+ * @version	2.1
  *
  */
 class Session
@@ -40,7 +40,7 @@ class Session
 	 */
 	private static function key()
 	{
-		return 'Trilado.'. md5($_SERVER['HTTP_USER_AGENT'] . salt);
+		return 'Trilado.'. md5($_SERVER['HTTP_USER_AGENT'] . salt . root);
 	}
 	
 	/**
@@ -55,7 +55,7 @@ class Session
 		if(!defined('salt') || salt == '')
 			throw new TriladoException("A configuração 'salt' não pode ter o valor nulo");
 		self::start();
-		$_SESSION[self::key()][$name] = Security::encrypt($value, salt);
+		$_SESSION['Trilado.Core.Session'][$name] = Security::encrypt($value, self::key());
 	}
 	
 	/**
@@ -66,7 +66,7 @@ class Session
 	public static function del($name)
 	{
 		self::start();
-		$_SESSION[self::key()][$name] = null;
+		$_SESSION['Trilado.Core.Session'][$name] = null;
 	}
 	
 	/**
@@ -76,7 +76,7 @@ class Session
 	public static function clear()
 	{
 		self::start();
-		$_SESSION[self::key()] = null;
+		$_SESSION['Trilado.Core.Session'] = null;
 	}
 	
 	/**
@@ -90,6 +90,6 @@ class Session
 		if(!defined('salt') || salt == '')
 			throw new TriladoException("A configuração 'salt' não pode ter o valor nulo");
 		self::start();
-		return Security::decrypt($_SESSION[self::key()][$name], salt);
+		return Security::decrypt($_SESSION['Trilado.Core.Session'][$name], self::key());
 	}
 }

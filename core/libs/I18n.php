@@ -8,17 +8,11 @@
 /**
  * Classe de internacionalização
  * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmailc.om>
- * @version	1.1
+ * @version	1.2
  *
  */
 class I18n 
-{
-	/**
-	 * Nome do arquivo de tradução
-	 * @var	string
-	 */
-	private $file = '';
-	
+{	
 	/**
 	 * Guarda as mensagens, sendo a chave um MD5 da mensagem original e o valor a mensagem traduzida
 	 * @var	array
@@ -37,6 +31,16 @@ class I18n
 	 */
 	private $default_lang;
 	
+	/**
+	 * Guarda os hooks
+	 * @var	array
+	 */
+	private $hook = array();
+	
+	/**
+	 * Guarda uma instância da própria classe
+	 * @var	I18n
+	 */
 	private static $instance = null;
 	
 	/**
@@ -93,7 +97,20 @@ class I18n
 			foreach ($format as $k => $v)
 				$string = str_replace('%'.$k, $v, $string);
 		}
+		foreach ($this->hook as $hook)
+			$string = $hook->get($string);
+		
 		return $string;
+	}
+	
+	/**
+	 * Adiciona um hook na lista de hooks
+	 * @param	object	$hook	uma instância da uma classe que contenha os métodos do hook
+	 * @return	void
+	 */
+	public function addHook($hook)
+	{
+		$this->hook[] = $hook;
 	}
 	
 	/**
@@ -130,6 +147,10 @@ class I18n
 				}
 			}
 		}
+		
+		foreach ($this->hook as $hook)
+			$result = $hook->load($result);
+		
 		return $result;
 	}
 }

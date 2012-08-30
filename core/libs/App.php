@@ -9,7 +9,7 @@
  * Classe principal do Framework, responsável pelo controlar todo o fluxo, fazendo chama de outras classes
  * 
  * @author		Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
- * @version		2.1
+ * @version		2.2
  *
  */ 
 class App 
@@ -26,6 +26,8 @@ class App
 	 */
 	public function __construct($url)
 	{
+		$registry = Registry::getInstance();
+		
 		$this->args = $this->args($url);
 		
 		define('is_debug', $this->isDebug());
@@ -44,6 +46,8 @@ class App
 		
 		$i18n = I18n::getInstance();
 		$i18n->setLang(lang);
+		
+		$registry->set('I18n', $i18n);
 		
 		function __($string, $format = null)
 		{
@@ -67,6 +71,7 @@ class App
 			$this->controller();
 			$this->auth();
 			$tpl = new Template();
+			$registry->set('Template', $tpl);
 			$tpl->render($this->args);
 			//cache
 			Debug::show();

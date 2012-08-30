@@ -31,6 +31,7 @@ function __autoload($class)
 {
 	$files[] = root . 'core/libs/'. $class .'.php';
 	$files[] = root . 'core/libs/exceptions/'. $class .'.php';
+	$files[] = root . 'core/libs/datasource/'. $class .'.php';
 	$files[] = root . 'app/models/'. $class .'.php';
 	$files[] = root . 'app/controllers/'. $class .'.php';
 	$files[] = root . 'app/helpers/'. $class .'.php';
