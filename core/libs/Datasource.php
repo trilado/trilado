@@ -28,7 +28,7 @@ abstract class Datasource
 	
 	abstract public function paginate($p, $m);
 	
-	abstract public function count();
+	abstract public function count($column = null);
 	
 	abstract public function sum($column);
 	
@@ -47,4 +47,6 @@ abstract class Datasource
 	abstract public function deleteAll();
 	
 	abstract public function lastInsertId();
+	
+	abstract public function groupBy();
 }

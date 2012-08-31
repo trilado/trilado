@@ -81,6 +81,12 @@ class SqlsrvDatasource extends Datasource
 	protected $distinct = '';
 	
 	/**
+	 * Guarda a cláusula GROUP BY
+	 * @var	string
+	 */
+	protected $groupBy = '';
+	
+	/**
 	 * Indica se o resultado a instrução é uma operão soma, média, valor mínimo e etc.
 	 * @var	boolean
 	 */
@@ -250,6 +256,24 @@ class SqlsrvDatasource extends Datasource
 	}
 	
 	/**
+	 * Agrupa por colunas (cláusula GROUP BY)
+	 * @param	mixed	$value1			nome de uma coluna
+	 * @param	mixed	$valueN			nome da x coluna
+	 * @throws	DatabaseException		disparado se a quantidade de argumentos for menor 1
+	 * @return	object					retorna a própria instância da classe MysqlDatasource 
+	 */
+	public function groupBy()
+	{
+		if(func_num_args() < 1)
+			throw new DatabaseException('O método groupBy() deve conter no mínimo 1 parâmetro');
+		
+		$params = func_get_args();
+			
+		$this->groupBy = $params;
+		return $this;
+	}
+	
+	/**
 	 * Gerar e retorna o SQL da consulta
 	 * @return	string	retorna o SQL gerado
 	 */
@@ -264,16 +288,17 @@ class SqlsrvDatasource extends Datasource
 		
 		$where = $this->where ? ' WHERE '. $this->where : '';
 		$orderby = $this->orderby ? ' ORDER BY '. $this->orderby : '';
+		$groupby = $this->groupBy ? ' GROUP BY ['. implode('], [', $this->groupBy) .']' : '';
 		
 		if($this->limit != null)
 		{
 			if(!$orderby)
 				$orderby = ' ORDER BY NEWID()';
-			$sql = 'SELECT * FROM (SELECT ROW_NUMBER() OVER ('. $orderby .') AS RowNumberOfPagination, '. $this->distinct . $select .' FROM '. $this->table . $joins . $where .') AS TablePaginated WHERE RowNumberOfPagination BETWEEN '. $this->offset .' AND '. ($this->offset + $this->limit);
+			$sql = 'SELECT * FROM (SELECT ROW_NUMBER() OVER ('. $orderby .') AS RowNumberOfPagination, '. $this->distinct . $select .' FROM '. $this->table . $joins . $where . $groupby .') AS TablePaginated WHERE RowNumberOfPagination BETWEEN '. $this->offset .' AND '. ($this->offset + $this->limit);
 		}
 		else
 		{
-			$sql = 'SELECT '. $this->distinct . $select .' FROM '. $this->table . $joins . $where . $orderby;
+			$sql = 'SELECT '. $this->distinct . $select .' FROM '. $this->table . $joins . $where . $groupby . $orderby;
 		}
 		
 		return $sql;
@@ -370,7 +395,9 @@ class SqlsrvDatasource extends Datasource
 		$this->limit = $m;
 		$this->offset = $p;
 		$result->Data = $this->all();
-		$this->limit = $this->offset = null;
+		$this->limit = null;
+		$this->offset = null;
+		$this->orderby = null;
 	
 		$result->Count = $this->count();
 		return $result;
@@ -391,11 +418,14 @@ class SqlsrvDatasource extends Datasource
 	
 	/**
 	 * Calcula quantos resultados existem na tabela aplicando as regras dos métodos chamados anteriormente
+	 * @param	string	$column		coluna a ser verifica a quantidade
 	 * @return	int		retorna a quantidade
 	 */
-	public function count()
+	public function count($column = null)
 	{
-		return $this->calc('COUNT', '*');
+		if(!$column)
+			$column = '*';
+		return $this->calc('COUNT', $this->table .'.'. $column);
 	}
 	
 	/**

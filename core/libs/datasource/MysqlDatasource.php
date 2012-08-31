@@ -94,6 +94,13 @@ class MysqlDatasource extends Datasource
 	protected $distinct = '';
 	
 	/**
+	 * Guarda a cláusula GROUP BY
+	 * @var	string
+	 */
+	protected $groupBy = '';
+
+
+	/**
 	 * Indica se o resultado a instrução é uma operão soma, média, valor mínimo e etc.
 	 * @var	boolean
 	 */
@@ -261,6 +268,24 @@ class MysqlDatasource extends Datasource
 	}
 	
 	/**
+	 * Agrupa por colunas (cláusula GROUP BY)
+	 * @param	mixed	$value1			nome de uma coluna
+	 * @param	mixed	$valueN			nome da x coluna
+	 * @throws	DatabaseException		disparado se a quantidade de argumentos for menor 1
+	 * @return	object					retorna a própria instância da classe MysqlDatasource 
+	 */
+	public function groupBy()
+	{
+		if(func_num_args() < 1)
+			throw new DatabaseException('O método groupBy() deve conter no mínimo 1 parâmetro');
+		
+		$params = func_get_args();
+			
+		$this->groupBy = $params;
+		return $this;
+	}
+	
+	/**
 	 * Gerar e retorna o SQL da consulta
 	 * @return	string	retorna o SQL gerado
 	 */
@@ -277,8 +302,9 @@ class MysqlDatasource extends Datasource
 		$orderby = $this->orderby ? ' ORDER BY '. $this->orderby : '';
 		$limit = $this->limit ? ' LIMIT '. $this->limit : '';
 		$offset = $this->offset ? ' OFFSET '. $this->offset : '';
+		$groupby = $this->groupBy ? ' GROUP BY `'. implode('`, `', $this->groupBy) .'`' : '';
 		
-		return 'SELECT '. $this->distinct . $select .' FROM '. $this->table . $joins . $where . $orderby . $limit . $offset;
+		return 'SELECT '. $this->distinct . $select .' FROM '. $this->table . $joins . $where . $groupby . $orderby . $limit . $offset;
 	}
 	
 	/**
@@ -393,11 +419,14 @@ class MysqlDatasource extends Datasource
 	
 	/**
 	 * Calcula quantos resultados existem na tabela aplicando as regras dos métodos chamados anteriormente
+	 * @param	string	$column		coluna a ser verifica a quantidade
 	 * @return	int		retorna a quantidade
 	 */
-	public function count()
+	public function count($column = null)
 	{
-		return $this->calc('COUNT', '*');
+		if(!$column)
+			$column = '*';
+		return $this->calc('COUNT', $this->table .'.'. $column);
 	}
 	
 	/**
