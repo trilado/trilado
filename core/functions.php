@@ -29,12 +29,13 @@ if(!function_exists('e'))
  */
 function __autoload($class)
 {
-	$files[] = root . 'core/libs/'. $class .'.php';
-	$files[] = root . 'core/libs/exceptions/'. $class .'.php';
-	$files[] = root . 'core/libs/datasource/'. $class .'.php';
-	$files[] = root . 'app/models/'. $class .'.php';
-	$files[] = root . 'app/controllers/'. $class .'.php';
-	$files[] = root . 'app/helpers/'. $class .'.php';
+	$files = array();
+	$files[0] = root . 'core/libs/'. $class .'.php';
+	$files[1] = root . 'core/libs/exceptions/'. $class .'.php';
+	$files[2] = root . 'core/libs/datasource/'. $class .'.php';
+	$files[3] = root . 'app/models/'. $class .'.php';
+	$files[4] = root . 'app/controllers/'. $class .'.php';
+	$files[5] = root . 'app/helpers/'. $class .'.php';
 	
 	foreach($files as $file)
 	{
