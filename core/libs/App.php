@@ -160,7 +160,7 @@ class App
 			throw new ActionStaticException(controller .'->'. action .'()');
 		
 		if(!$this->isValidParams($method))
-			throw new PageNotFoundException('');
+			throw new PageNotFoundException('A quantidade de parâmetros não conferem');
 	}
 	
 	/**
