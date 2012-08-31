@@ -106,6 +106,7 @@ class Template
 		$annotation = Annotation::get(controller);
 		
 		$reflection = new ReflectionClass(controller);
+		$tpl = null;
 		if($reflection->hasMethod('__construct')) 
 			$tpl = $annotation->getMethod('__construct')->Master;
 		
