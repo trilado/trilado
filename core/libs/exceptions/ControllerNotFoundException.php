@@ -29,6 +29,6 @@ class ControllerNotFoundException extends PageNotFoundException
 	 */
 	public function getDetails()
 	{
-		return '&lt;?php'. br .'class <b>'. controller .'</b> extends Controller {'. br . br .'}';
+		return '&lt;?php'. nl .'class <b>'. controller .'</b> extends Controller {'. nl . nl .'}';
 	}
 }

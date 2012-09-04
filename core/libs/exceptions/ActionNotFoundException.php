@@ -31,8 +31,8 @@ class ActionNotFoundException extends PageNotFoundException
 	 */
 	public function getDetails()
 	{
-		return '&lt;?php'. br .'class '. controller .' extends Controller {'. 
-		br . br . t() .'public function <b>'. action .'</b>() {'. br . t(2) . 
-		'return $this->_view();' . br . t() .'}' . br .'}';
+		return '&lt;?php'. nl .'class '. controller .' extends Controller {'. 
+		nl . nl . t() .'public function <b>'. action .'</b>() {'. nl . t(2) . 
+		'return $this->_view();' . nl . t() .'}' . nl .'}';
 	}
 }

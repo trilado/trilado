@@ -136,6 +136,7 @@ class MysqlDatasource extends Datasource
 		try
 		{
 			self::$connection = new PDO('mysql:dbname='. db_name .';host='. db_host, db_user, db_pass);
+			self::$connection->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES ' . str_replace('-', '', charset));
 			self::$connection->setAttribute(PDO::ATTR_PERSISTENT, true);
 			return self::$connection;
 		}
@@ -588,10 +589,12 @@ class MysqlDatasource extends Datasource
 			{
 				$this->validate($property, $field, $value);
 				
+				if ($value === null) 
+					continue;
+				
 				if($property->Column && $property->Column->Name)
 					$field = $property->Column->Name;
-				if (!$value && !is_bool($value) && !is_int($value)) 
-					$value = 'NULL';
+				
 				if (is_bool($value))
 					$value = $value ? '1' : '0';
 				
@@ -643,10 +646,12 @@ class MysqlDatasource extends Datasource
 				{
 					$this->validate($property, $field, $value);
 					
+					if ($value === null) 
+						continue;
+					
 					if(isset($property->Column) && isset($property->Column->Name))
 						$field = $property->Column->Name;
-					if (!$value && !is_bool($value)) 
-						$value = 'NULL';
+					
 					if (is_bool($value))
 						$value = $value ? '1' : '0';
 					

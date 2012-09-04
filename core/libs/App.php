@@ -30,17 +30,6 @@ class App
 		
 		$this->args = $this->args($url);
 		
-		define('is_debug', $this->isDebug());
-
-		if(is_debug)
-		{
-			error_reporting(E_ALL ^E_NOTICE^E_WARNING);
-		}
-		else
-		{
-			ini_set('display_errors','Off');
-		}
-		
 		//I18n
 		define('lang', $this->args['lang']);
 		
@@ -90,34 +79,6 @@ class App
 	}
 	
 	/**
-	 * Verifica se o usuário está acessando via rede
-	 * @param	string	$ip	IP do usuário
-	 * @return	boolean		retorna verdadeiro se o usuário estiver acessando pela rede, no contrário retorna falso
-	 */
-	private function isNetwork($ip)
-	{
-		return false;
-	}
-	
-	/**
-	 * Verifica se o debug está habilidade para este usuário
-	 * @return	boolean		retorna verdadeiro se o debug estiver habilitado
-	 */
-	private function isDebug()
-	{
-		if(debug != 'off')
-		{
-			if(debug == 'local' && (ip == '127.0.0.1' || ip == '::1'))
-				return true;
-			if(debug == 'all')
-				return true;
-			if(debug == 'network' && $this->isNetwork(ip))
-				return true;
-		}
-		return false;
-	}
-	
-	/**
 	 * Extrai os argumentos a partir de URL
 	 * @param	string	$url	url acessada pelo usuário
 	 * @return	array			retorna um array com os argumentos
@@ -160,7 +121,7 @@ class App
 			throw new ActionStaticException(controller .'->'. action .'()');
 		
 		if(!$this->isValidParams($method))
-			throw new PageNotFoundException('A quantidade de parâmetros não conferem');
+			throw new PageNotFoundException('A quantidade de parâmetros obrigatórios não conferem');
 	}
 	
 	/**
@@ -194,17 +155,7 @@ class App
 	 */
 	private function loadError($error)
 	{
-		if(is_debug)
-			return require_once root .'core/error/debug.php';
-			
-		$files[] = root .'app/views/_error/'. $error->getCode() .'.php';
-		$files[] = root .'core/error/'. $error->getCode() .'.php';
-		foreach($files as $f)
-		{
-			if(file_exists($f))
-				return require_once $f;
-		}
-		exit('error');	
+		Error::render($error->getCode(), $error->getMessage(), $error->getFile(), $error->getLine(), $error->getTraceAsString(), method_exists($error, 'getDetails') ? $error->getDetails() : '');
 	}
 	
 	/**

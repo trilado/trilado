@@ -14,6 +14,15 @@
 	define('root_virtual', str_replace($_SERVER['DOCUMENT_ROOT'], '', root));
 	define('wwwroot', root . 'app/wwwroot/');
 	
+	//importa o arquivo de erro
+	require_once root . 'core/libs/Error.php';
+	
+	error_reporting(E_ALL);
+	ini_set('display_errors', 0);
+	
+	set_error_handler(array('Error','handle'));
+	register_shutdown_function(array('Error', 'shutdown'));
+	
 	//importa os arquivos iniciais
 	require_once root . 'core/libs/Import.php';
 	require_once root . 'core/libs/Route.php';

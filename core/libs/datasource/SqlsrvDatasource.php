@@ -587,10 +587,12 @@ class SqlsrvDatasource extends Datasource
 			{
 				$this->validate($property, $field, $value);
 				
+				if ($value === null) 
+					continue;
+				
 				if($property->Column && $property->Column->Name)
 					$field = $property->Column->Name;
-				if (!$value && !is_bool($value) && !is_int($value)) 
-					$value = 'NULL';
+				
 				if (is_bool($value))
 					$value = $value ? '1' : '0';
 				
@@ -642,10 +644,12 @@ class SqlsrvDatasource extends Datasource
 				{
 					$this->validate($property, $field, $value);
 					
+					if($value === null)
+						continue;
+					
 					if(isset($property->Column) && isset($property->Column->Name))
 						$field = $property->Column->Name;
-					if (!$value && !is_bool($value)) 
-						$value = 'NULL';
+
 					if (is_bool($value))
 						$value = $value ? '1' : '0';
 					

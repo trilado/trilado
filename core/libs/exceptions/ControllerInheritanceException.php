@@ -28,6 +28,6 @@ class ControllerInheritanceException extends TriladoException
 	 */
 	public function getDetails()
 	{
-		return '&lt;?php'. br .'class '. controller .' <b>extends Controller</b> {'. br .'}';
+		return '&lt;?php'. nl .'class '. controller .' <b>extends Controller</b> {'. nl .'}';
 	}
 }

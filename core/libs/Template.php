@@ -9,7 +9,7 @@
  * Classe responsável por renderizar a página
  * 
  * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
- * @version	2.2
+ * @version	2.3
  *
  */
 class Template

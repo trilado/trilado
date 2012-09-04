@@ -36,6 +36,6 @@ class ClassNotFoundException extends TriladoException
 	 */
 	public function getDetails()
 	{
-		return '&lt;?php'. br .'/**'. br .' * @Entity()'. br .' */'. br .'class <b>'. $this->clazz .'</b> extends Model {'. br . br .'}';;
+		return '&lt;?php'. nl .'/**'. nl .' * @Entity()'. nl .' */'. nl .'class <b>'. $this->clazz .'</b> extends Model {'. nl . nl .'}';;
 	}
 }

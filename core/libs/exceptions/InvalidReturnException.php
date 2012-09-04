@@ -28,7 +28,7 @@ class InvalidReturnException extends TriladoException
 	 */
 	public function getDetails()
 	{
-		return '&lt;?php'. br .'class '. controller .' extends Controller {'. 
-		br . br . t() .'public function '. action .'() {'. br . t(2) . '<b>return $this->_view();</b>' . br . t() .'}' . br .'}';
+		return '&lt;?php'. nl .'class '. controller .' extends Controller {'. 
+		nl . nl . t() .'public function '. action .'() {'. nl . t(2) . '<b>return $this->_view();</b>' . nl . t() .'}' . nl .'}';
 	}
 }
