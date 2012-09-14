@@ -351,13 +351,21 @@ class MysqlDatasource extends Datasource
 					$property = $annotation->getProperty($field);
 					$type = strtolower($property->Column->Type);
 					
+					$types = array('boolean','integer','float','string','array','object','null');
+					
 					if($type === 'double')
 						$type = 'float';
 					elseif($type === 'int')
 						$type = 'integer';
 					elseif($type === 'boolean')
 						$value = ord($value) == 1;
-					elseif($type !== 'datetime')
+					elseif($type === 'datetime')
+						$type = 'string';
+					
+					if(!in_array($type, $types))
+						throw new DatabaseException('O tipo de dados '. $type .' é inválido');
+							
+					if($type !== 'datetime')
 						settype($value, $type);
 					$object->{$field} = $value;
 				}
