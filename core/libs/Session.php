@@ -90,6 +90,7 @@ class Session
 		if(!defined('salt') || salt == '')
 			throw new TriladoException("A configuração 'salt' não pode ter o valor nulo");
 		self::start();
-		return Security::decrypt($_SESSION['Trilado.Core.Session'][$name], self::key());
+		if(isset($_SESSION['Trilado.Core.Session'][$name]))
+			return Security::decrypt($_SESSION['Trilado.Core.Session'][$name], self::key());
 	}
 }

@@ -9,7 +9,7 @@
  * Classe responsável por renderizar a página
  * 
  * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
- * @version	2.3
+ * @version	2.4
  *
  */
 class Template
@@ -107,8 +107,11 @@ class Template
 		
 		$reflection = new ReflectionClass(controller);
 		$tpl = null;
-		if($reflection->hasMethod('__construct')) 
-			$tpl = $annotation->getMethod('__construct')->Master;
+		if($reflection->hasMethod('__construct'))
+		{
+			if(property_exists($annotation->getMethod('__construct'), 'Master'))
+				$tpl = $annotation->getMethod('__construct')->Master;
+		}
 		
 		$action = $annotation->getMethod(action);
 		$tpl_action = isset($action->Master) ? $action->Master : null;

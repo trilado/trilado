@@ -9,7 +9,7 @@
  * Classe para autenticação do usuário
  * 
  * @author		Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
- * @version		2
+ * @version		2.1
  *
  */ 
 class Auth 
@@ -128,7 +128,8 @@ class Auth
 	 */
 	private static function _get($key)
 	{
-		return $_SESSION[self::key()][$key];
+		if(isset($_SESSION[self::key()][$key]))
+			return $_SESSION[self::key()][$key];
 	}
 	
 	/**
