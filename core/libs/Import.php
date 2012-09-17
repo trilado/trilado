@@ -9,7 +9,7 @@
  * Contém método para facilitar a importação de arquivos, como controllers, models e helpers
  * 
  * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
- * @version	1.2
+ * @version	1.3
  *
  */
 class Import
@@ -32,6 +32,7 @@ class Import
 		$folders['controller']	= 'app/controllers/';
 		$folders['model']		= 'app/models/';
 		$folders['helper']		= 'app/helpers/';
+		$folders['vendor']		= 'app/vendors/';
 		
 		if(!array_key_exists($folder, $folders))
 			throw new DirectoryNotFoundException($folder .'s');
@@ -128,5 +129,17 @@ class Import
 		require $file;
 		
 		return ob_get_clean();
+	}
+	
+	/**
+	 * Importa as classes específicadas no parâmetro no diretório dos vendors
+	 * @param	string	$class1		nome da classe
+	 * @param	string	$classN		nome da classe
+	 * @return	void
+	 */
+	public static function vendor()
+	{
+		$args = func_get_args();
+		self::load('vendor', $args);
 	}
 }

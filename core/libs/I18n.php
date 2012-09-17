@@ -115,7 +115,7 @@ class I18n
 	
 	/**
 	 * Carrega um arquivo de tradução pegando as mensagens e traduções e joga em array retornando-o
-	 * @param	string	$file		nome do arquivo
+	 * @param	string	$lang		nome do arquivo
 	 * @throws	TriladoException	disparada caso o arquivo não exista ou o conteúdo esteja vazio
 	 * @return	array				retorna um array com as mensagens de tradução, sendo as chaves o MD5 da mensagem original
 	 */

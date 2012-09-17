@@ -36,6 +36,7 @@ function __autoload($class)
 	$files[3] = root . 'app/models/'. $class .'.php';
 	$files[4] = root . 'app/controllers/'. $class .'.php';
 	$files[5] = root . 'app/helpers/'. $class .'.php';
+	$files[5] = root . 'app/vendors/'. $class .'.php';
 	
 	foreach($files as $file)
 	{
