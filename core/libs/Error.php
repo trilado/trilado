@@ -8,12 +8,15 @@ class Error
 		
 		if(Debug::enabled())
 		{
-			$details = self::lineAsString($file, $line);
-			$trace = self::traceAsString();
+			if($type != E_STRICT)
+			{
+				$details = self::lineAsString($file, $line);
+				$trace = self::traceAsString();
 
-			self::render(500, $message, $file, $line, $trace, $details);
+				self::render(500, $message, $file, $line, $trace, $details);
 
-			exit;
+				exit;
+			}
 		}
 	}
 

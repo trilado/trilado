@@ -433,7 +433,7 @@ class SqlsrvDatasource extends Datasource
 	{
 		if(!$column)
 			$column = '*';
-		return $this->calc('COUNT', $this->table .'.'. $column);
+		return $this->calc('COUNT', $column);
 	}
 	
 	/**
@@ -443,7 +443,7 @@ class SqlsrvDatasource extends Datasource
 	 */
 	public function sum($column)
 	{
-		return $this->calc('SUM', $this->table .'.'. $column);
+		return $this->calc('SUM', $column);
 	}
 	
 	/**
@@ -453,7 +453,7 @@ class SqlsrvDatasource extends Datasource
 	 */
 	public function max($column)
 	{
-		return $this->calc('MAX', $this->table .'.'. $column);
+		return $this->calc('MAX', $column);
 	}
 	
 	/**
@@ -463,7 +463,7 @@ class SqlsrvDatasource extends Datasource
 	 */
 	public function min($column)
 	{
-		return $this->calc('MIN', $this->table .'.'. $column);
+		return $this->calc('MIN', $column);
 	}
 	
 	/**
@@ -473,7 +473,7 @@ class SqlsrvDatasource extends Datasource
 	 */
 	public function avg($column)
 	{
-		return $this->calc('AVG', $this->table .'.'. $column);
+		return $this->calc('AVG', $column);
 	}
 	
 	/**
