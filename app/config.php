@@ -91,3 +91,5 @@ define('salt', 'ad$sfGFH33F132sAasds!@xcz!z\x*(f^`{`lda\\A|zahkl.m,kH2?Ed');
 define('auto_ajax', false);
 define('auto_dotxml', false);
 define('auto_dotjson', false);
+
+//Import::register($dir); //Registrar diretórios de arquivos de código fonte, para autoload.

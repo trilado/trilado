@@ -31,6 +31,17 @@
 	require_once root . 'core/constantes.php';
 	require_once root . 'core/functions.php';
 	
+	//registra a função de autoload
+	spl_autoload_register(array('Import', 'autoload'));
+	
+	//registra os diretórios padrão de arquivos de código fonte da framework
+	Import::register('core/libs/');
+	Import::register('core/libs/exceptions/');
+	Import::register('core/libs/datasource/');
+	Import::register('app/models/');
+	Import::register('app/controllers/');
+	Import::register('app/helpers/');
+	
 	Import::core('App');
 	
 	$url = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '';

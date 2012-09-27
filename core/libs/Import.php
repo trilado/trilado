@@ -142,4 +142,59 @@ class Import
 		$args = func_get_args();
 		self::load('vendor', $args);
 	}
+	
+	private static $directories = array();
+	
+	public static function autoload($class)
+	{
+		foreach(self::$directories as $dir)
+		{
+			$file = root . $dir .  $class .'.php';
+			if(file_exists($file))
+			{
+				require_once($file);
+				return;
+			}
+		}
+	}
+	
+	public static function register($dir)
+	{
+		$dir = rtrim($dir, '/') . '/';
+		self::$directories[] = $dir;
+	}
+	
+	/**
+	 * Armazena os diretórios para carregamento automático de arquivos de código fonte.
+	 * @var array 
+	 */
+	private static $directories = array();
+	
+	/**
+	 * Função que importa classes automaticamente, baseado nos diretórios 
+	 * registrados pelo método Import::register($dir).
+	 * @param string $class Nome da classe a ser carregada.
+	 */
+	public static function autoload($class)
+	{
+		foreach(self::$directories as $dir)
+		{
+			$file = root . $dir .  $class .'.php';
+			if(file_exists($file))
+			{
+				require_once($file);
+				return;
+			}
+		}
+	}
+	
+	/**
+	 * Registra diretórios de arquivos de código fonte para carregamento automático.
+	 * @param string $dir 
+	 */
+	public static function register($dir)
+	{
+		$dir = rtrim($dir, '/') . '/';
+		self::$directories[] = $dir;
+	}
 }

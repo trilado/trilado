@@ -23,32 +23,6 @@ if(!function_exists('e'))
 }
 
 /**
- * Carrega automaticamente uma classe caso a mesma seja instância e não seja importada ainda
- * @param	string	$class		nome da classe
- * @return	void
- */
-function __autoload($class)
-{
-	$files = array();
-	$files[0] = root . 'core/libs/'. $class .'.php';
-	$files[1] = root . 'core/libs/exceptions/'. $class .'.php';
-	$files[2] = root . 'core/libs/datasource/'. $class .'.php';
-	$files[3] = root . 'app/models/'. $class .'.php';
-	$files[4] = root . 'app/controllers/'. $class .'.php';
-	$files[5] = root . 'app/helpers/'. $class .'.php';
-	$files[6] = root . 'app/vendors/'. $class .'.php';
-	
-	foreach($files as $file)
-	{
-		if(file_exists($file))
-		{
-			require_once($file);
-			return;
-		}
-	}
-}
-
-/**
  * Executa a função print_r com a tag <pre>
  * @param	mixed	$struct		estrutura a ser impressa
  * @return	void
