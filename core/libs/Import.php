@@ -143,27 +143,6 @@ class Import
 		self::load('vendor', $args);
 	}
 	
-	private static $directories = array();
-	
-	public static function autoload($class)
-	{
-		foreach(self::$directories as $dir)
-		{
-			$file = root . $dir .  $class .'.php';
-			if(file_exists($file))
-			{
-				require_once($file);
-				return;
-			}
-		}
-	}
-	
-	public static function register($dir)
-	{
-		$dir = rtrim($dir, '/') . '/';
-		self::$directories[] = $dir;
-	}
-	
 	/**
 	 * Armazena os diretórios para carregamento automático de arquivos de código fonte.
 	 * @var array 
