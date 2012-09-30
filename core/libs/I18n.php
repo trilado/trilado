@@ -1,13 +1,13 @@
 <?php
 /*
- * Copyright (c) 2011, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * Copyright (c) 2011-2012, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
  * All rights reserved.
  */
 
 
 /**
  * Classe de internacionalização
- * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmailc.om>
+ * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
  * @version	1.2
  *
  */
@@ -59,7 +59,7 @@ class I18n
 	public static function getInstance()
 	{
 		if(!self::$instance)
-			self::$instance = new self(default_lang);
+			self::$instance = new self(Config::get('default_lang'));
 		return self::$instance;
 	}
 	
@@ -87,7 +87,7 @@ class I18n
 	public function get($string, $format = null)
 	{
 		if(count($string) == 0)
-			throw new TriladoException('Params is empty!');
+			throw new TriladoException('A string está vazia');
 		
 		if($this->lang != $this->default_lang)
 			$string = $this->messages[md5($string)];
@@ -121,7 +121,7 @@ class I18n
 	 */
 	private function load($lang)
 	{
-		$file_path = root .'app/i18n/'. $lang .'.lang';
+		$file_path = ROOT .'app/i18n/'. $lang .'.lang';
 
 		if(!file_exists($file_path))
 			throw new FileNotFoundException($file_path);

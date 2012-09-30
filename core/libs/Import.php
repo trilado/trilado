@@ -9,7 +9,8 @@
  * Contém método para facilitar a importação de arquivos, como controllers, models e helpers
  * 
  * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
- * @version	1.3
+ * @author	Diego Oliveira <diegopso2@gmail.com>
+ * @version	1.4
  *
  */
 class Import
@@ -74,7 +75,7 @@ class Import
 		$args = func_get_args();
 		foreach($args as $c)
 		{
-			$file = root . 'app/controllers/' . $c . '.php';
+			$file = ROOT . 'app/controllers/' . $c . '.php';
 			if(!file_exists($file))
 				throw new ControllerNotFoundException($c);
 			
@@ -122,7 +123,7 @@ class Import
 		ob_start();
 		
 		extract($vars);
-		$file = root . 'app/views/'. $_controller .'/'. $view .'.php';
+		$file = ROOT . 'app/views/'. $_controller .'/'. $view .'.php';
 		if(!file_exists($file))
 			throw new FileNotFoundException('views/'. $_controller .'/'. $view .'.php');
 		
@@ -158,7 +159,7 @@ class Import
 	{
 		foreach(self::$directories as $dir)
 		{
-			$file = root . $dir .  $class .'.php';
+			$file = ROOT . $dir .  $class .'.php';
 			if(file_exists($file))
 			{
 				require_once($file);

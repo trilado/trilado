@@ -1,6 +1,6 @@
 <?php 
 /*
- * Copyright (c) 2011, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * Copyright (c) 2011-2012, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
  * All rights reserved.
  */
 
@@ -28,6 +28,18 @@ if(!function_exists('e'))
  * @return	void
  */
 function pr($struct)
+{
+	echo '<pre>';
+	print_r($struct);
+	echo '</pre>';
+}
+
+/**
+ * Executa a função print_r com a tag <pre>
+ * @param	mixed	$struct		estrutura a ser impressa
+ * @return	void
+ */
+function pre($struct)
 {
 	echo '<pre>';
 	print_r($struct);

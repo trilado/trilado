@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2011, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * Copyright (c) 2011-2012, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
  * All rights reserved.
  */
 
@@ -9,7 +9,7 @@
  * Classe que contém métodos para validação
  * 
  * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
- * @version	1.1
+ * @version	1.2
  *
  */
 class Validation
@@ -70,8 +70,9 @@ class Validation
 	}
 	
 	/**
-	 * Verifica de um
-	 * @param type $value 
+	 * Verifica se um caminho do disco é válido
+	 * @param	string	$value	endereço do diretório do disco
+	 * @return	boolean			retorna true caso o endereço seja válido, no contrário retorna false
 	 */
 	public static function path($value)
 	{

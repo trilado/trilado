@@ -9,7 +9,7 @@
  * Classe para autenticação do usuário
  * 
  * @author		Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
- * @version		2.1
+ * @version		2.2
  *
  */ 
 class Auth 
@@ -76,11 +76,11 @@ class Auth
 		{
 			if(!self::isLogged())
 			{
-				$location = preg_match('@^~/@', default_login) ? root_virtual . trim(default_login, '~/') : default_login;
+				$location = preg_match('@^~/@', Config::get('default_login')) ? ROOT_VIRTUAL . trim(Config::get('default_login'), '~/') : Config::get('default_login');
 				header('Location: '. $location);
 				exit;
 			}
-			throw new AuthException('Você não tem permissão para acessar esta página', 403);
+			throw new AuthException('Você não tem permissão para acessar essa página', 403);
 		}
 	}
 	
@@ -149,6 +149,6 @@ class Auth
 	 */
 	private static function key()
 	{
-		return 'Auth.'. md5($_SERVER['HTTP_USER_AGENT'] . salt);
+		return 'Auth.'. md5($_SERVER['HTTP_USER_AGENT'] . Config::get('salt') . ROOT_VIRTUAL);
 	}
 }

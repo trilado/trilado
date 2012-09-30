@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2011, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * Copyright (c) 2011-2012, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
  * All rights reserved.
  */
 
@@ -9,7 +9,7 @@
  * Classe Model representa uma entidade do banco de dados, deve ser herdada, nela deve ficar a lógica de negócio da aplicação. Já vem com  métodos para as operações CRUD prontas
  * 
  * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
- * @version	2.2
+ * @version	2.3
  *
  */
 class Model
@@ -90,7 +90,7 @@ class Model
 	{
 		$class = get_called_class();
 		$instance = new $class();
-		$db = Database::getInstance();
+		$db = Database::factory();
 		return $db->{$class}->single($instance->_getKey() .' = ?', $id);
 	}
 	
@@ -106,7 +106,7 @@ class Model
 	{
 		$p = ($p < 1 ? 1 : $p) - 1;
 		$class = get_called_class();
-		$db = Database::getInstance();
+		$db = Database::factory();
 		return $db->{$class}->orderBy($o, $t)->paginate($p, $m);
 	}
 	
@@ -114,7 +114,7 @@ class Model
 	{
 		$p = $m * (($p < 1 ? 1 : $p) - 1);
 		$class = get_called_class();
-		$db = Database::getInstance();
+		$db = Database::factory();
 		$entity = $db->{$class}->orderBy($o, $t);
 		if(is_array($filters))
 		{
@@ -135,7 +135,7 @@ class Model
 		$class = get_called_class();
 		$key = $this->_getKey();
 		
-		$db = Database::getInstance();
+		$db = Database::factory();
 		if($key)
 		{
 			$bool = $this->{$key};
@@ -158,7 +158,7 @@ class Model
 	{
 		$class = get_called_class();
 		
-		$db = Database::getInstance();
+		$db = Database::factory();
 		$db->{$class}->delete($this);
 		$db->save();
 	}

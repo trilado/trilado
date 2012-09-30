@@ -7,10 +7,10 @@
 
 /**
  * Classe de Mapemamento de Objeto Relacional (ORM), que é utilizada em conjunto com a classe Database para manipular o banco de dados
- * utilizando orientação a objetos.
+ * utilizando orientação a objetos de acordo com o MySQL.
  * 
  * @author	Valdirene da Cruz Neves Júnior <vaneves@vaneves.com>
- * @version	0.1
+ * @version	0.2
  *
  */
 class MysqlDatasource extends Datasource
@@ -107,11 +107,32 @@ class MysqlDatasource extends Datasource
 	protected $calc = false;
 	
 	/**
+	 * Guarda as configurações de conexão
+	 * @var	array 
+	 */
+	protected $config = array();
+
+
+	/**
 	 * Construtor da classe
+	 * @param	array	$config		configurações de conexão com o banco de dados
 	 * @param	string	$class		nome do model
 	 * @throws	DatabaseException	dispara se o model não tiver a anotação de Entity ou View
 	 */
-	public function __construct($class)
+	public function __construct($config, $class = null)
+	{
+		$this->config = $config;
+		if($class)
+			$this->from($class);
+	}
+	
+	/**
+	 * Define com qual entidade será trabalhado
+	 * @param	string	$class		nome da entidade
+	 * @return	MysqlDatasource		retorna a própria instância da classe MysqlDatasource 
+	 * @throws	DatabaseException	dispara se o model não tiver a anotação de Entity ou View
+	 */
+	public function from($class)
 	{
 		$this->clazz = $class;
 		$this->annotation = Annotation::get($class);
@@ -122,6 +143,8 @@ class MysqlDatasource extends Datasource
 			throw new DatabaseException("A classe '". $class ."' não é uma entidade ou view");
 			
 		$this->table = isset($annotation_class->Entity) ? $annotation_class->Entity : (isset($annotation_class->View) ? $annotation_class->View : $class);
+		
+		return $this;
 	}
 	
 	/**
@@ -135,8 +158,8 @@ class MysqlDatasource extends Datasource
 			return self::$connection;
 		try
 		{
-			self::$connection = new PDO('mysql:dbname='. db_name .';host='. db_host, db_user, db_pass);
-			self::$connection->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES ' . str_replace('-', '', charset));
+			self::$connection = new PDO('mysql:dbname='. $this->config['name'] .';host='. $this->config['host'], $this->config['user'], $this->config['pass']);
+			self::$connection->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES ' . str_replace('-', '', Config::get('charset')));
 			self::$connection->setAttribute(PDO::ATTR_PERSISTENT, true);
 			return self::$connection;
 		}
@@ -310,7 +333,7 @@ class MysqlDatasource extends Datasource
 	
 	/**
 	 * Monta a instrunção SQL a partir da operações chamadas e executa a instrução
-	 * @throws	TriladoException	disparada caso ocorra algum erro na execução da operação
+	 * @throws	DatabaseException	disparada caso ocorra algum erro na execução da operação
 	 * @return	array				retorna um array com instâncias do Model
 	 */
 	public function all()
@@ -331,7 +354,7 @@ class MysqlDatasource extends Datasource
 		if(!$status)
 		{
 			$error = $stmt->errorInfo();
-			throw new TriladoException($error[2]);
+			throw new DatabaseException($error[2]);
 		}
 		if($stmt->rowCount() > 0)
 		{
@@ -612,7 +635,7 @@ class MysqlDatasource extends Datasource
 		}
 		$entity = $class->Entity ? $class->Entity : get_class($model);
 			
-		$sql = 'INSERT INTO '. $entity .' ('. implode($fields, ', ') .') VALUES ('. implode(',', array_fill(0, count($values), '?')) .');';
+		$sql = 'INSERT INTO `'. $entity .'` ('. implode($fields, ', ') .') VALUES ('. implode(',', array_fill(0, count($values), '?')) .');';
 		
 		Debug::addSql($sql, $values);
 		$this->operations[] = array('sql' => $sql, 'values' => $values, 'model' => $model);
@@ -669,7 +692,7 @@ class MysqlDatasource extends Datasource
 			}
 		}
 		$entity = $class->Entity ? $class->Entity : get_class($model);
-		$sql = 'UPDATE '. $entity .' SET '. implode(', ', $fields) .' WHERE '. implode(' AND ', $conditions['fields']) .';';
+		$sql = 'UPDATE `'. $entity .'` SET '. implode(', ', $fields) .' WHERE '. implode(' AND ', $conditions['fields']) .';';
 		
 		Debug::addSql($sql, array_merge($values, $conditions['values']));
 		$this->operations[] = array('sql' => $sql, 'values' => array_merge($values, $conditions['values']));
@@ -705,7 +728,7 @@ class MysqlDatasource extends Datasource
 			}
 		}
 		$entity = $class->Entity ? $class->Entity : get_class($model);
-		$sql = 'DELETE FROM '. $entity .' WHERE '. implode(' AND ', $conditions['fields']) .';';
+		$sql = 'DELETE FROM `'. $entity .'` WHERE '. implode(' AND ', $conditions['fields']) .';';
 		
 		Debug::addSql($sql, $conditions['values']);
 		$this->operations[] = array('sql' => $sql, 'values' => $conditions['values']);
@@ -741,5 +764,91 @@ class MysqlDatasource extends Datasource
 	public function lastInsertId()
 	{
 		return $this->connection()->lastInsertId($this->table);
+	}
+	
+	/**
+	 * Submete para o banco de dados as operações realizadas no model
+	 * @throws	DatabaseException	disparada quando ocorrer alguma exceção no banco de dados
+	 * @return	void
+	 */
+	public function save()
+	{
+		foreach($this->operations as $operation)
+		{
+			try
+			{
+				$stmt = $this->connection()->prepare($operation['sql']);
+				$status = $stmt->execute($operation['values']);
+				if(!$status)
+				{
+					$error = $stmt->errorInfo();
+					throw new DatabaseException($error[2]);
+				}
+				if($operation['model'])
+					$operation['model']->_setLastId($entity->lastInsertId());
+			}
+			catch(PDOException $ex)
+			{
+				throw new DatabaseException($ex->getMessage(), $ex->getCode());
+			}
+		}
+		$this->operations = array();
+	}
+	
+	/**
+	 * Executa uma instrução SQL sem a utilização de Model
+	 * @param	string	$sql		comando de acordo com o banco informado
+	 * @throws	DatabaseException	disparada quando ocorrer alguma exceção no banco de dados
+	 * @return	mixed			
+	 */
+	public function query($sql)
+	{
+			$stmt = $this->connection()->prepare($sql);
+			$status = $stmt->execute();
+			if(!$status)
+			{
+				$error = $stmt->errorInfo();
+				throw new DatabaseException($error[2]);
+			}
+			if($stmt->rowCount() > 0)
+			{
+				$results = array();
+				while($result = $stmt->fetch(PDO::FETCH_ASSOC))
+				{
+					$object = new stdClass();	
+					foreach($result as $field => $value)
+						$object->{$field} = $value;
+					$results[] = $object;
+				}
+				return $results;
+			}
+			return array();
+	}
+	
+	/**
+	 * Inicia uma transação
+	 * @return	void
+	 */
+	public function transaction()
+	{
+		$this->connection()->beginTransaction();
+	}
+	
+	/**
+	 * Envia a transação
+	 * @return	void
+	 */
+	public function commit()
+	{
+		$this->connection()->commit();
+	}
+	
+	/**
+	 * Cancela uma transação
+	 * @return	void
+	 */
+	public function rollback()
+	{
+		$this->connection()->rollBack();
 	}
 }

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2011, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * Copyright (c) 2011-2012, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
  * All rights reserved.
  */
 
@@ -9,7 +9,7 @@
  * Classe de manipulação das rotas (URL). Com ela é possível alterar o endereço da chamada controller ou actions
  * 
  * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
- * @version	1
+ * @version	1.1
  *
  */
 class Route
@@ -59,12 +59,13 @@ class Route
 	 */
 	public static function exec($url)
 	{	
-		if((auto_dotjson || auto_dotxml) && preg_match('@\.(json|xml)$@', $url, $matches))
+		if((Config::get('auto_dotjson') || Config::get('auto_dotxml')) && preg_match('@\.(json|xml)$@', $url, $matches))
 		{
 			$args['dot'] = $matches[1];
 			$url = rtrim($url, $matches[0]);
 		}
 		define('is_autodot', isset($args['dot']));
+		define('IS_AUTODOT', isset($args['dot']));
 		
 		$url = trim(self::checkRoute($url), '/');
 		$urls = explode('/', $url);
@@ -78,7 +79,7 @@ class Route
 		$args['controller']	= array_shift($urls);
 		$args['action']	= array_shift($urls);
 		if(isset($args['prefix']))
-			$args['action'] = $args['prefix'] .'_'. (isset($args['action']) ? $args['action'] : default_action);
+			$args['action'] = $args['prefix'] .'_'. (isset($args['action']) ? $args['action'] : Config::get('default_action'));
 		$args['params']	= $urls;
 		
 		return $args;
@@ -130,6 +131,6 @@ class Route
 	 */
 	private static function isI18n($first)
 	{
-		return $first == default_lang || (preg_match('/^([a-z]{2}|[a-z]{2}-[a-z]{2})$/',$first) && file_exists(root .'app/i18n/'. $first .'.lang'));
+		return $first == Config::get('default_lang') || (preg_match('/^([a-z]{2}|[a-z]{2}-[a-z]{2})$/',$first) && file_exists(root .'app/i18n/'. $first .'.lang'));
 	}
 }

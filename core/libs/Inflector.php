@@ -1,9 +1,15 @@
 <?php 
+/*
+ * Copyright (c) 2012, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * All rights reserved.
+ */
+
+
 /**
  * Classe para manipulação de string.
  * 
  * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
- * @version	0.1
+ * @version	0.2
  *
  */
 class Inflector
@@ -47,7 +53,7 @@ class Inflector
 	 */
 	public static function slugify($string)
 	{
-		if(charset == 'UTF-8')
+		if(Config::get('charset') == 'UTF-8')
 			$string = utf8_decode ($string);
 		$string = html_entity_decode($string);
 

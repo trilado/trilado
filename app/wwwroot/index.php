@@ -9,13 +9,17 @@
 	$root = str_replace('\\', '/', dirname(dirname(dirname(__FILE__))));
 	if(substr($root, -1) != '/') $root = $root .'/';
 	
-	//define as variáveis de root
+	//define as constantes de root
 	define('root', $root);
 	define('root_virtual', str_replace($_SERVER['DOCUMENT_ROOT'], '', root));
 	define('wwwroot', root . 'app/wwwroot/');
 	
+	define('ROOT', $root);
+	define('ROOT_VIRTUAL', str_replace($_SERVER['DOCUMENT_ROOT'], '', ROOT));
+	define('WWWROOT', ROOT . 'app/wwwroot/');
+	
 	//importa o arquivo de erro
-	require_once root . 'core/libs/Error.php';
+	require_once ROOT . 'core/libs/Error.php';
 	
 	error_reporting(E_ALL);
 	ini_set('display_errors', 0);
@@ -24,12 +28,13 @@
 	register_shutdown_function(array('Error', 'shutdown'));
 	
 	//importa os arquivos iniciais
-	require_once root . 'core/libs/Import.php';
-	require_once root . 'core/libs/Route.php';
-	require_once root . 'app/config.php';
-	require_once root . 'app/routes.php';
-	require_once root . 'core/constantes.php';
-	require_once root . 'core/functions.php';
+	require_once ROOT . 'core/libs/Import.php';
+	require_once ROOT . 'core/libs/Route.php';
+	require_once ROOT . 'core/libs/Config.php';
+	require_once ROOT . 'app/config.php';
+	require_once ROOT . 'app/routes.php';
+	require_once ROOT . 'core/constantes.php';
+	require_once ROOT . 'core/functions.php';
 	
 	//registra a função de autoload
 	spl_autoload_register(array('Import', 'autoload'));
@@ -38,6 +43,7 @@
 	Import::register('core/libs/');
 	Import::register('core/libs/exceptions/');
 	Import::register('core/libs/datasource/');
+	Import::register('core/libs/cachesource/');
 	Import::register('app/models/');
 	Import::register('app/controllers/');
 	Import::register('app/helpers/');

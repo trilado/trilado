@@ -1,7 +1,26 @@
 <?php
+/*
+ * Copyright (c) 2012, Valdirene da Cruz Neves Júnior <vaneves@vaneves.com>
+ * All rights reserved.
+ */
 
+
+/**
+ * Classe de manipulação e apresentação dos erros
+ * @author	Valdirene da Cruz Neves Júnior <vaneves@vaneves>
+ * @version 1
+ * 
+ */
 class Error
-{	
+{
+	/**
+	 * Método que é executado quando ocorre algum erro no PHP
+	 * @param	int		$type		tipo do erro, que pode ser E_STRICT
+	 * @param	sintrg	$message	mensagem do erro
+	 * @param	string	$file		endereço completo do arquivo que ocorreu o erro
+	 * @param	int		$line		linha do arquivo em que ocorreu o erro
+	 * @return	void
+	 */
 	public static function handle($type, $message, $file, $line)
 	{
 		ob_get_level() and ob_clean();
@@ -20,6 +39,11 @@ class Error
 		}
 	}
 
+	/**
+	 * Método executado quando ocorre algum erro fatal no PHP, esse método é chamado 
+	 * antes que o PHP pare a execução da página
+	 * @return	void
+	 */
 	public static function shutdown()
 	{
 		$error = error_get_last();
@@ -27,11 +51,24 @@ class Error
 			self::handle($error['type'], $error['message'], $error['file'], $error['line']);
 	}
 
+	/**
+	 * Método executado quando algumas exceção não foi tratada 
+	 */
 	public static function exception()
 	{
 		
 	}
 
+	/**
+	 * Método para apresentar a página de erro. Mata execução
+	 * @param	int		$number		número do erro HTTP
+	 * @param	string	$message	mensagem do erro
+	 * @param	string	$file		endereço completo do arquivo em que ocorreu o erro
+	 * @param	int		$line		número da linha em que ocorreu o erro
+	 * @param	string	$trace		trilha de arquivo antes de ocorrer o erro
+	 * @param	string	$details	detalhes do erro, apresenta o trecho do arquivo em que ocorreu o erro
+	 * @return	void
+	 */
 	public static function render($number, $message, $file, $line, $trace = null, $details = null)
 	{
 		if (Debug::enabled())
@@ -48,6 +85,11 @@ class Error
 		exit('error');
 	}
 
+	/**
+	 * Monta a trilha do erro, retornando um array com os nomes do arquivos, classes, métodos e linhas
+	 * @param	array	$trace	trilha padrão para montar a nova trilha
+	 * @return	array	 retornando um array com os nomes do arquivos, classes, métodos e linhas
+	 */
 	public static function trace($trace = null)
 	{
 		if ($trace == null)
@@ -75,6 +117,11 @@ class Error
 		return $output;
 	}
 
+	/**
+	 * Transforma uma trilha em uma string para impressão
+	 * @param	array	$trace	trilha padrão, se for informado, é chamado o método trace
+	 * @return	string	retorna a trinha em formato para impressão 
+	 */
 	public static function traceAsString($trace = null)
 	{
 		if ($trace == null)
@@ -87,6 +134,13 @@ class Error
 		return $output;
 	}
 
+	/**
+	 * Captura o trecho do arquivo de acordo com a linha passado como parâmetro e retorna as linhas como array
+	 * @param	string	$file		endereço completo do arquivo em que ocorreu o erro
+	 * @param	int		$line		número da linha em que ocorreu o erro
+	 * @param	int		$padding	quantidade de linha antes e depois da linha do erro serão capturadas
+	 * @return	array	retorna um array contendo os trechos das linhas capturadas
+	 */
 	public static function line($file, $line, $padding = 5)
 	{
 		$output = array();
@@ -119,6 +173,13 @@ class Error
 		return $output;
 	}
 
+	/**
+	 * Captura o trecho do arquivo de acordo com a linha passado como parâmetro e retorna as linhas como HTML
+	 * @param	string	$file		endereço completo do arquivo em que ocorreu o erro
+	 * @param	int		$line		número da linha em que ocorreu o erro
+	 * @param	int		$padding	quantidade de linha antes e depois da linha do erro serão capturadas
+	 * @return	array	retorna um HTML contendo os trechos das linhas capturadas
+	 */
 	public static function lineAsString($file, $line, $padding = 5)
 	{
 		$lines = self::line($file, $line, $padding);

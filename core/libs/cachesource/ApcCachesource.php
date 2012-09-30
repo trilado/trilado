@@ -1,0 +1,78 @@
+<?php
+/*
+ * Copyright (c) 2012, Valdirene da Cruz Neves Júnior <vaneves@vaneves.com>
+ * All rights reserved.
+ */
+
+
+/**
+ * Classe para manipulação de cache utilizando o APC. Para utilizá-la é necessário
+ * a instalação do APC.
+ * 
+ * @author		Valdirene da Cruz Neves Júnior <vaneves@vaneves.com>
+ * @version		1
+ *
+ */ 
+class ApcCachesource extends Cachesource
+{
+	/**
+	 * Escreve dados no cache
+	 * @param	string	$key	chave em que será gravado o cache
+	 * @param	mixed	$data	dados a serem gravados
+	 * @param	int		$time	tempo, em minutos, que o cache existirá
+	 * @return	boolean			retorna true se o cache for gravado com sucesso, no contrário, retorna false
+	 */
+	public function write($key, $data, $time = 1)
+	{
+		$file = array();
+		$file['time'] = time() + ($time * minute);
+		$file['data'] = $data;
+		
+		return apc_store(md5($key), $file);
+	}
+	
+	/**
+	 * Ler e retorna os dados do cache
+	 * @param	string	$key	chave em que o cache foi gravado
+	 * @return	mixed			retorna os dados se o cache existir, no contrário retorna false (use !== false)
+	 */
+	public function read($key)
+	{
+		$data = apc_fetch(md5($key));
+		if($data !== false)
+		{
+			if(isset($data['time']) && isset($data['data']) && ((int)$data['time']) > time())
+				return $data['data'];
+		}
+		return false;
+	}
+	
+	/**
+	 * Remove um cache específico
+	 * @param	string	$key	chave em que o cache foi gravado
+	 * @return	boolean			retorna true se o cache foi removido com sucesso, no contrário retorna false
+	 */
+	public function delete($key)
+	{
+		return apc_delete(md5($key));
+	}
+	
+	/**
+	 * Remove todos os dados do cache
+	 * @return	void 
+	 */
+	public function clear()
+	{
+		return apc_clear_cache('user');
+	}
+
+	/**
+	 * Verifica se um cache existe
+	 * @param	string	$key	chave em que o cache foi gravado
+	 * @return	boolean			retorna true se o cache existir, no contrário retorna false 
+	 */
+	public function has($key)
+	{
+		return $this->read($key) !== false;
+	}
+}

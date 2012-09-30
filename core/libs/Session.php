@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2011, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com> 
+ * Copyright (c) 2011-2012, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com> 
  * All rights reserved.
  */
 
@@ -9,7 +9,7 @@
  * Classe para manipulação de Sessões
  * 
  * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
- * @version	2.1
+ * @version	2.2
  *
  */
 class Session
@@ -27,9 +27,9 @@ class Session
 	 */
 	public static function start()
 	{
-		if(defined('session_started'))
+		if(defined('SESSION_STARTED'))
 			return true;
-		define('session_started', true);
+		define('SESSION_STARTED', true);
 		session_start();
 		session_regenerate_id();
 	}
@@ -40,7 +40,7 @@ class Session
 	 */
 	private static function key()
 	{
-		return 'Trilado.'. md5($_SERVER['HTTP_USER_AGENT'] . salt . root);
+		return 'Trilado.'. md5($_SERVER['HTTP_USER_AGENT'] . Config::get('salt') . ROOT_VIRTUAL);
 	}
 	
 	/**
@@ -52,8 +52,8 @@ class Session
 	 */
 	public static function set($name , $value)
 	{
-		if(!defined('salt') || salt == '')
-			throw new TriladoException("A configuração 'salt' não pode ter o valor nulo");
+		if(Config::get('salt') == null)
+			throw new ConfigNotFoundException("A configuração 'salt' não pode ter o valor nulo");
 		self::start();
 		$_SESSION['Trilado.Core.Session'][$name] = Security::encrypt($value, self::key());
 	}
@@ -87,8 +87,8 @@ class Session
 	 */
 	public static function get($name)
 	{
-		if(!defined('salt') || salt == '')
-			throw new TriladoException("A configuração 'salt' não pode ter o valor nulo");
+		if(Config::get('salt') == null)
+			throw new ConfigNotFoundException("A configuração 'salt' não pode ter o valor nulo");
 		self::start();
 		if(isset($_SESSION['Trilado.Core.Session'][$name]))
 			return Security::decrypt($_SESSION['Trilado.Core.Session'][$name], self::key());

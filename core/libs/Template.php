@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2011, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * Copyright (c) 2011-2012, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
  * All rights reserved.
  */
 
@@ -9,7 +9,7 @@
  * Classe responsável por renderizar a página
  * 
  * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
- * @version	2.4
+ * @version	2.5
  *
  */
 class Template
@@ -38,19 +38,19 @@ class Template
 		
 		$registry = Registry::getInstance();
 		
-		$name = controller;
+		$name = CONTROLLER;
 		$controller = new $name();
 		$registry->set('Controller', $controller);
 		$this->response = $controller->beforeRender();
 		
-		$content = call_user_func_array(array($controller, action), $args['params']);
+		$content = call_user_func_array(array($controller, ACTION), $args['params']);
 		
 		if(!$content)
-			throw new InvalidReturnException(controller .'->'. action .'()');
+			throw new InvalidReturnException(CONTROLLER .'->'. ACTION .'()');
 		
 		$this->renderFlash();
 		
-		$method = new ReflectionMethod(controller, action);
+		$method = new ReflectionMethod(CONTROLLER, ACTION);
 		$params = $method->getParameters();
 		
 		for($i = 0; $i < count($params); $i++)
@@ -84,7 +84,7 @@ class Template
 				$this->renderJson($content);
 				break;
 			default:
-				throw new InvalidReturnException(controller .'->'. action .'()');
+				throw new InvalidReturnException(CONTROLLER .'->'. ACTION .'()');
 				break;
 		}
 		$this->response = $controller->afterRender($this->response);
@@ -103,9 +103,9 @@ class Template
 	 */
 	private function master()
 	{
-		$annotation = Annotation::get(controller);
+		$annotation = Annotation::get(CONTROLLER);
 		
-		$reflection = new ReflectionClass(controller);
+		$reflection = new ReflectionClass(CONTROLLER);
 		$tpl = null;
 		if($reflection->hasMethod('__construct'))
 		{
@@ -113,16 +113,17 @@ class Template
 				$tpl = $annotation->getMethod('__construct')->Master;
 		}
 		
-		$action = $annotation->getMethod(action);
+		$action = $annotation->getMethod(ACTION);
 		$tpl_action = isset($action->Master) ? $action->Master : null;
 		
 		if($tpl_action)
 			$tpl = $tpl_action;
 		
 		if(!$tpl)
-			$tpl = default_master;
+			$tpl = Config::get('default_master');
 		
 		define('master', $tpl);
+		define('MASTER', $tpl);
 		return $tpl;
 	}
 	
@@ -151,6 +152,7 @@ class Template
 			$html = $hook->renderFlash($html);
 		
 		define('flash', $html);
+		define('FLASH', $html);
 		Session::del('Flash.Message');
 	}
 	
@@ -161,13 +163,13 @@ class Template
 	 */
 	private function renderView($ob)
 	{
-		$html = Import::view($ob->Vars, '_master', master);
+		$html = Import::view($ob->Vars, '_master', MASTER);
 		$html = $this->resolveUrl($html);
 
 		$content = Import::view($ob->Vars, $ob->Data['controller'], $ob->Data['view']);
 		$content = $this->resolveUrl($content);
 		
-		$html = str_replace(content, $content, $html);
+		$html = str_replace(CONTENT, $content, $html);
 		$this->response .= $html;
 	}
 	
@@ -178,13 +180,13 @@ class Template
 	 */
 	private function renderContent($ob)
 	{
-		$html = Import::view($ob->Vars, '_master', master);
+		$html = Import::view($ob->Vars, '_master', MASTER);
 		$html = $this->resolveUrl($html);
 		
 		$content = $ob->Data;
 		$content = $this->resolveUrl($content);
 		
-		$html = str_replace(content, $content, $html);
+		$html = str_replace(CONTENT, $content, $html);
 		$this->response .= $html;
 	}
 	
@@ -205,8 +207,8 @@ class Template
 	 */
 	private function renderXml($ob)
 	{
-		header('Content-type: application/xml; charset='. charset);
-		$this->response .= '<?xml version="1.0" encoding="'. charset .'"?>';
+		header('Content-type: application/xml; charset='. Config::get('charset'));
+		$this->response .= '<?xml version="1.0" encoding="'. Config::get('charset') .'"?>';
 		$this->response .= xml_encode(d($ob->Data));
 	}
 	
@@ -217,7 +219,7 @@ class Template
 	 */
 	private function renderJson($ob)
 	{
-		header('Content-type: application/json; charset='. charset);
+		header('Content-type: application/json; charset='. Config::get('charset'));
 		$this->response .= json_encode(utf8encode(d($ob->Data)));
 	}
 	
@@ -228,6 +230,6 @@ class Template
 	 */
 	private function resolveUrl($html)
 	{
-		return str_replace(array('="~/', "='~/"), array('="'. root_virtual, "='". root_virtual), $html);
+		return str_replace(array('="~/', "='~/"), array('="'. ROOT_VIRTUAL, "='". ROOT_VIRTUAL), $html);
 	}
 }
