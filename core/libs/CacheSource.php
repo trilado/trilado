@@ -9,11 +9,22 @@
  * Classe modelo, abstrata, para manipulação de cache
  * 
  * @author		Valdirene da Cruz Neves Júnior <vaneves@vaneves.com>
- * @version		1
+ * @version		1.1
  *
  */ 
 abstract class Cachesource
 {
+	/**
+	 * Construtor da classe, é privado para garantir a existência de uma única instância da classe 
+	 */
+	abstract protected function __construct();
+	
+	/**
+	 * Método para instanciação do classe
+	 * @return	Cachesource		retorna a instância da classe Cachesource
+	 */
+	//abstract public function getInstance();
+
 	/**
 	 * Escreve dados no cache
 	 * @param	string	$key	chave em que será gravado o cache

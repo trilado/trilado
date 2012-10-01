@@ -9,7 +9,7 @@
  * Classe para manipulação de Cache
  * 
  * @author		Valdirene da Cruz Neves Júnior <vaneves@vaneves.com>
- * @version		1
+ * @version		1.1
  *
  */ 
 class Cache
@@ -36,7 +36,7 @@ class Cache
 			$config = Config::get('cache');
 			
 			$class = ucfirst(strtolower($config['type'])) . 'Cachesource';
-			self::$instance = new $class();
+			self::$instance = call_user_func(array($class, 'getInstance'));
 		}
 		return self::$instance;
 	}

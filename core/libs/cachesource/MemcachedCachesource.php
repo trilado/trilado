@@ -10,24 +10,19 @@
  * a instalação do Memcached.
  * 
  * @author		Valdirene da Cruz Neves Júnior <vaneves@vaneves.com>
- * @version		1
+ * @version		1.1
  *
  */ 
 class MemcachedCachesource extends MemcacheCachesource
 {	
 	/**
 	 * Conecta com o servidor
-	 * @return	Memcache	retorna uma instância de Memcache
+	 * @return	void
 	 */
-	protected static function connect()
+	protected function connect()
 	{
-		if(!self::$instance)
-		{
-			$config = Config::get('cache');
-
-			self::$instance = new Memcached();
-			self::$instance->addServer($config['host'], $config['port']);
-		}
-		return self::$instance;
+		$config = Config::get('cache');
+		$this->memcached = new Memcached();
+		$this->memcached->addServer($config['host'], $config['port']);
 	}
 }

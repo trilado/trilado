@@ -10,30 +10,51 @@
  * a instalação do Memcached.
  * 
  * @author		Valdirene da Cruz Neves Júnior <vaneves@vaneves.com>
- * @version		1
+ * @version		1.1
  *
  */ 
 class MemcacheCachesource extends Cachesource
 {
 	/**
-	 * Guarda a instância da classe Memcache que contém a conexão com servidor
-	 * @var	Memcache
+	 * Guarda uma instância da própria classe
+	 * @var	MemcacheCachesource 
 	 */
 	protected static $instance = null;
 	
 	/**
-	 * Conecta com o servidor
-	 * @return	Memcache	retorna uma instância de Memcache
+	 * Guarda a instância da classe Memcache que contém a conexão com servidor
+	 * @var	Memcache
 	 */
-	protected static function connect()
+	protected $memcached = null;
+	
+	/**
+	 * Construtor da classe, é protegido para não ser instanciada 
+	 */
+	protected function __construct() 
+	{
+		$this->connect();
+	}
+	
+	/**
+	 * Método para instanciação do classe
+	 * @return	MemcacheCachesource		retorna a instância da classe MemcacheCachesource
+	 */
+	public static function getInstance()
 	{
 		if(!self::$instance)
-		{
-			$config = Config::get('cache');
-			self::$instance = new Memcache;
-			self::$instance->connect($config['host'], $config['port']);
-		}
+			self::$instance = new self();
 		return self::$instance;
+	}
+	
+	/**
+	 * Conecta com o servidor
+	 * @return	void
+	 */
+	protected function connect()
+	{
+		$config = Config::get('cache');
+		$this->memcached = new Memcache;
+		$this->memcached->connect($config['host'], $config['port']);
 	}
 	
 	/**
@@ -45,8 +66,7 @@ class MemcacheCachesource extends Cachesource
 	 */
 	public function write($key, $data, $time = 1)
 	{
-		$memcached = self::connect();
-		return $memcached->set(md5($key), $data, MEMCACHE_COMPRESSED, ($time * minute));
+		return $this->memcached->set(md5($key), $data, MEMCACHE_COMPRESSED, ($time * minute));
 	}
 	
 	/**
@@ -56,8 +76,7 @@ class MemcacheCachesource extends Cachesource
 	 */
 	public function read($key)
 	{
-		$memcached = self::connect();
-		return $memcached->get(md5($key), MEMCACHE_COMPRESSED);
+		return $this->memcached->get(md5($key), MEMCACHE_COMPRESSED);
 	}
 	
 	/**
@@ -67,8 +86,7 @@ class MemcacheCachesource extends Cachesource
 	 */
 	public function delete($key)
 	{
-		$memcached = self::connect();
-		return $memcached->delete(md5($key));
+		return $this->memcached->delete(md5($key));
 	}
 	
 	/**
@@ -77,8 +95,7 @@ class MemcacheCachesource extends Cachesource
 	 */
 	public function clear()
 	{
-		$memcached = self::connect();
-		$memcached->flush();
+		$this->memcached->flush();
 	}
 
 	/**

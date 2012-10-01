@@ -9,21 +9,38 @@
  * Classe para manipulação de cache em disco
  * 
  * @author		Valdirene da Cruz Neves Júnior <vaneves@vaneves.com>
- * @version		1
+ * @version		1.1
  *
  */ 
 class FileCachesource extends Cachesource
 {
 	/**
-	 * Construtor da classe, é privado para não ser instanciada 
+	 * Guarda uma instância da própria classe
+	 * @var	FileCachesource 
 	 */
-	private function __construct() {}
+	private static $instance = null;
 	
 	/**
 	 * Guarda o cache da memória após ler do disco
 	 * @var	array
 	 */
 	private static $data = array();
+	
+	/**
+	 * Construtor da classe, é protegido para não ser instanciada 
+	 */
+	protected function __construct() {}
+	
+	/**
+	 * Método para instanciação do classe
+	 * @return	FileCachesource		retorna a instância da classe FileCachesource
+	 */
+	public static function getInstance()
+	{
+		if(!self::$instance)
+			self::$instance = new self();
+		return self::$instance;
+	}
 	
 	/**
 	 * Retorna o endereço do arquivo no disco de acordo com a chave

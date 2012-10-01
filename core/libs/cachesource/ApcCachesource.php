@@ -10,11 +10,33 @@
  * a instalação do APC.
  * 
  * @author		Valdirene da Cruz Neves Júnior <vaneves@vaneves.com>
- * @version		1
+ * @version		1.1
  *
  */ 
 class ApcCachesource extends Cachesource
 {
+	/**
+	 * Guarda uma instância da própria classe
+	 * @var	ApcCachesource 
+	 */
+	private static $instance = null;
+	
+	/**
+	 * Construtor da classe, é protegido para não ser instanciada 
+	 */
+	protected function __construct() {}
+	
+	/**
+	 * Método para instanciação do classe
+	 * @return	ApcCachesource		retorna a instância da classe ApcCachesource
+	 */
+	public static function getInstance()
+	{
+		if(!self::$instance)
+			self::$instance = new self();
+		return self::$instance;
+	}
+	
 	/**
 	 * Escreve dados no cache
 	 * @param	string	$key	chave em que será gravado o cache

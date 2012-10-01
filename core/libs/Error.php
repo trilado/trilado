@@ -8,7 +8,7 @@
 /**
  * Classe de manipulação e apresentação dos erros
  * @author	Valdirene da Cruz Neves Júnior <vaneves@vaneves>
- * @version 1
+ * @version	1.3
  * 
  */
 class Error
@@ -36,6 +36,29 @@ class Error
 
 				exit;
 			}
+		}
+		else
+		{
+			$types = array(
+				E_ERROR				=> 'Error',
+				E_WARNING			=> 'Warning',
+				E_PARSE				=> 'Parsing Error',
+				E_NOTICE			=> 'Notice',
+				E_CORE_ERROR		=> 'Core Error',
+				E_CORE_WARNING		=> 'Core Warning',
+				E_COMPILE_ERROR		=> 'Compile Error',
+				E_COMPILE_WARNING	=> 'Compile Warning',
+				E_USER_ERROR		=> 'User Error',
+				E_USER_WARNING		=> 'User Warning',
+				E_USER_NOTICE		=> 'User Notice',
+				E_STRICT			=> 'Runtime Notice'
+			);
+			$t = 'Caught Error';
+			if(isset($types[$type]))
+				$t = $types[$type];
+			
+			$log = date('Y-m-d H:i:s') . ' ' . $t. ' ' . $message . ' in ' . $file . ' ('. $line .')' . NL;
+			self::log($log);
 		}
 	}
 
@@ -151,23 +174,12 @@ class Error
 			$start = $line - $padding;
 			$end = $line + $padding;
 			
-			$finish = false;
-			
-			while ($finish == false && (($buffer = fgets($handle, 4096)) !== false))
+			while ($i <= $end && (($buffer = fgets($handle, 4096)) !== false))
 			{
-				if($i == $end)
-				{
-					$finish = true;
-				}
-				else
-				{
-					if($line >= $start)
-						$output[$i] = $buffer;
-				}
+				if($i >= $start)
+					$output[$i] = $buffer;
 				++$i;
 			}
-			if (!feof($handle))
-				echo "Error: unexpected fgets() fail\n";
 			fclose($handle);
 		}
 		return $output;
@@ -193,5 +205,15 @@ class Error
 				$output .= '<span class="line"><span class="line-n">'. $i .'</span>' . htmlentities($l) . '</span>';
 		}
 		return $output;
+	}
+	
+	/**
+	 * Escreve uma mensagem nos arquivos de logs
+	 * @param	string	$string		conteúdo a ser escrito
+	 * @return	void
+	 */
+	public static function log($string)
+	{
+		file_put_contents(ROOT . 'tmp/logs/' . date('Y-m-d') . '.log', $string, FILE_APPEND);
 	}
 }

@@ -26,7 +26,8 @@ define('CONTENT', '<!-- content:'. time() .' -->');
 define('IP', $_SERVER['REMOTE_ADDR']);
 define('IS_POST', ($_SERVER['REQUEST_METHOD'] == 'POST'));
 define('IS_AJAX', isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest');
-define('SITE_URK', 'http'. (isset($_SERVER['HTTPS']) ? 's' : '') .'://'. $_SERVER['SERVER_NAME'] . ROOT_VIRTUAL);
+define('SITE_URL', 'http'. (isset($_SERVER['HTTPS']) ? 's' : '') .'://'. $_SERVER['SERVER_NAME'] . rtrim(ROOT_VIRTUAL, '/') . '/');
+define('URL', SITE_URL . isset($_SERVER['PATH_INFO']) ? trim($_SERVER['PATH_INFO'], '/') : '' . isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '');
 
 define('MINUTE', 60);
 define('HOUR', 3600);

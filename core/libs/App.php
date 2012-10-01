@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2011, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * Copyright (c) 2011-2012, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
  * All rights reserved.
  */
 
@@ -9,7 +9,7 @@
  * Classe principal do Framework, responsável pelo controlar todo o fluxo, fazendo chama de outras classes
  * 
  * @author		Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
- * @version		2.3
+ * @version		2.4
  *
  */ 
 class App 
@@ -26,6 +26,17 @@ class App
 	 */
 	public function __construct($url)
 	{
+		$cache_config = Config::get('cache');
+		if($cache_config['page'])
+		{
+			$cache = Cache::factory();
+			if($cache->has(URL))
+			{
+				$data = $cache->read(URL);
+				exit($data);
+			}
+		}
+		
 		$registry = Registry::getInstance();
 		
 		$this->args = $this->args($url);
@@ -67,7 +78,14 @@ class App
 			$tpl = new Template();
 			$registry->set('Template', $tpl);
 			$tpl->render($this->args);
-			//cache
+			
+			if($cache_config['page'])
+			{
+				$cache = Cache::factory();
+				$data = ob_get_clean();
+				$cache->write(URL, $data, $cache_config['time']);
+			}
+			
 			Debug::show();
 		}
 		catch(PageNotFoundException $e)
