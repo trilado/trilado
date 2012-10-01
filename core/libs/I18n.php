@@ -8,7 +8,7 @@
 /**
  * Classe de internacionalização
  * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
- * @version	1.2
+ * @version	1.3
  *
  */
 class I18n 
@@ -121,6 +121,12 @@ class I18n
 	 */
 	private function load($lang)
 	{
+		$key = 'Trilado.I18n.'. $lang;
+		
+		$cache = Cache::factory();
+		if($cache->has($key))
+			return $cache->read($key);
+			
 		$file_path = ROOT .'app/i18n/'. $lang .'.lang';
 
 		if(!file_exists($file_path))
@@ -150,6 +156,8 @@ class I18n
 		
 		foreach ($this->hook as $hook)
 			$result = $hook->load($result);
+		
+		$cache->write($key, $result, CACHE_TIME);
 		
 		return $result;
 	}

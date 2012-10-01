@@ -11,9 +11,12 @@
  */
 
 /**
- * Define o tipo do debug, pode assumir os seguintes valores: off, local, network e all
+ * Define o tipo do debug
  */
-Config::set('debug', 'local');
+Config::set('debug', array(
+	'type'	=> 'local', //pode assumir os seguintes valores: off, local, network e all
+	'query'	=> false //pode assumir false, para desativar, ou um valor para a query ?debug=seu-valor-seguro
+));
 
 /**
  * Tipo do drive do banco de dados, pode assumir os seguintes valores: mysql

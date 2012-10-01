@@ -9,7 +9,7 @@
  * Classe de persistência com o banco de dados. Implementa os padrões Factory e Singleton
  * 
  * @author		Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
- * @version		2
+ * @version		2.1
  *
  */
 class Database 
@@ -87,6 +87,7 @@ class Database
 	private function datasource($entity = null)
 	{
 		$class = ucfirst(strtolower($this->config['type'])) . 'DataSource';
+		Import::load('datasource', array($class));
 		return new $class($this->config, $entity);
 	}
 	

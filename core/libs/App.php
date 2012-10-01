@@ -9,7 +9,7 @@
  * Classe principal do Framework, responsável pelo controlar todo o fluxo, fazendo chama de outras classes
  * 
  * @author		Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
- * @version		2.4
+ * @version		2.5
  *
  */ 
 class App 
@@ -26,6 +26,7 @@ class App
 	 */
 	public function __construct($url)
 	{
+		define('CACHE_TIME', 60);
 		$cache_config = Config::get('cache');
 		if($cache_config['page'])
 		{

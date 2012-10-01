@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2011, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * Copyright (c) 2011-2012, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
  * All rights reserved.
  */
 
@@ -10,7 +10,7 @@
  * 
  * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
  * @author	Diego Oliveira <diegopso2@gmail.com>
- * @version	1.4
+ * @version	1.5
  *
  */
 class Import
@@ -30,6 +30,8 @@ class Import
 		$folders = array();
 		$folders['core']		= 'core/libs/';
 		$folders['exception']	= 'core/libs/exceptions/';
+		$folders['cachesource']	= 'core/libs/cachesource/';
+		$folders['datasource']	= 'core/libs/datasource/';
 		$folders['controller']	= 'app/controllers/';
 		$folders['model']		= 'app/models/';
 		$folders['helper']		= 'app/helpers/';
@@ -157,12 +159,33 @@ class Import
 	 */
 	public static function autoload($class)
 	{
+		$key = 'Trilado.Import.Files';
+		
+		$cache = Cache::factory();
+		if($cache->has($key))
+		{
+			$files = $cache->read($key);
+			if(isset($files[$class]))
+			{
+				require_once $files[$class];
+				return;
+			}
+		}
+		
 		foreach(self::$directories as $dir)
 		{
 			$file = ROOT . $dir .  $class .'.php';
 			if(file_exists($file))
 			{
 				require_once($file);
+				
+				$files = $cache->read($key);
+				if($files === false)
+					$files = array();
+				
+				$files[$class] = $file;
+				$cache->write($key, $files, CACHE_TIME);
+				
 				return;
 			}
 		}

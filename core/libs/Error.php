@@ -7,8 +7,8 @@
 
 /**
  * Classe de manipulação e apresentação dos erros
- * @author	Valdirene da Cruz Neves Júnior <vaneves@vaneves>
- * @version	1.3
+ * @author	Valdirene da Cruz Neves Júnior <vaneves@vaneves.com>
+ * @version	1.4
  * 
  */
 class Error
@@ -40,24 +40,24 @@ class Error
 		else
 		{
 			$types = array(
-				E_ERROR				=> 'Error',
-				E_WARNING			=> 'Warning',
-				E_PARSE				=> 'Parsing Error',
-				E_NOTICE			=> 'Notice',
-				E_CORE_ERROR		=> 'Core Error',
-				E_CORE_WARNING		=> 'Core Warning',
-				E_COMPILE_ERROR		=> 'Compile Error',
-				E_COMPILE_WARNING	=> 'Compile Warning',
-				E_USER_ERROR		=> 'User Error',
-				E_USER_WARNING		=> 'User Warning',
-				E_USER_NOTICE		=> 'User Notice',
-				E_STRICT			=> 'Runtime Notice'
+				E_ERROR				=> 'ERROR',
+				E_WARNING			=> 'WARNING',
+				E_PARSE				=> 'PARSING ERROR',
+				E_NOTICE			=> 'NOTICE',
+				E_CORE_ERROR		=> 'CORE ERROR',
+				E_CORE_WARNING		=> 'CORE WARNING',
+				E_COMPILE_ERROR		=> 'COMPILE ERROR',
+				E_COMPILE_WARNING	=> 'COMPILE WARNING',
+				E_USER_ERROR		=> 'USER ERROR',
+				E_USER_WARNING		=> 'USER WARNING',
+				E_USER_NOTICE		=> 'USER NOTICE',
+				E_STRICT			=> 'RUNTIME NOTICE'
 			);
-			$t = 'Caught Error';
+			$t = 'CAUGHT ERROR';
 			if(isset($types[$type]))
 				$t = $types[$type];
 			
-			$log = date('Y-m-d H:i:s') . ' ' . $t. ' ' . $message . ' in ' . $file . ' ('. $line .')' . NL;
+			$log = date('Y-m-d H:i:s') . ' ' . $t. ': ' .  $message . ' in ' . $file . ' ('. $line .')' . NL;
 			self::log($log);
 		}
 	}
@@ -210,10 +210,11 @@ class Error
 	/**
 	 * Escreve uma mensagem nos arquivos de logs
 	 * @param	string	$string		conteúdo a ser escrito
-	 * @return	void
+	 * @return	boolean				retorna true caso o log seja gerado, no contrário retorna false
 	 */
 	public static function log($string)
 	{
-		file_put_contents(ROOT . 'tmp/logs/' . date('Y-m-d') . '.log', $string, FILE_APPEND);
+		$bytes = file_put_contents(ROOT . 'app/tmp/logs/' . date('Y-m-d') . '.log', $string, FILE_APPEND);
+		return $bytes !== false;
 	}
 }

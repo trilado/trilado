@@ -20,6 +20,7 @@
 	
 	//importa o arquivo de erro
 	require_once ROOT . 'core/libs/Error.php';
+	require_once ROOT . 'core/libs/Debug.php';
 	
 	error_reporting(E_ALL);
 	ini_set('display_errors', 0);
@@ -28,6 +29,8 @@
 	register_shutdown_function(array('Error', 'shutdown'));
 	
 	//importa os arquivos iniciais
+	require_once ROOT . 'core/libs/Cache.php';
+	require_once ROOT . 'core/libs/Cachesource.php';
 	require_once ROOT . 'core/libs/Import.php';
 	require_once ROOT . 'core/libs/Route.php';
 	require_once ROOT . 'core/libs/Config.php';

@@ -36,6 +36,7 @@ class Cache
 			$config = Config::get('cache');
 			
 			$class = ucfirst(strtolower($config['type'])) . 'Cachesource';
+			Import::load('cachesource', array($class));
 			self::$instance = call_user_func(array($class, 'getInstance'));
 		}
 		return self::$instance;
