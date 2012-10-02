@@ -10,7 +10,7 @@
  * utilizando orientação a objetos de acordo com o MySQL.
  * 
  * @author	Valdirene da Cruz Neves Júnior <vaneves@vaneves.com>
- * @version	0.4
+ * @version	0.5
  *
  */
 class MysqlDatasource extends Datasource
@@ -790,7 +790,7 @@ class MysqlDatasource extends Datasource
 					throw new DatabaseException($error[2]);
 				}
 				if(isset($operation['model']))
-					$operation['model']->_setLastId($entity->lastInsertId());
+					$operation['model']->_setLastId($this->lastInsertId());
 			}
 			catch(PDOException $ex)
 			{

@@ -99,7 +99,7 @@ Config::set('cache', array(
 	'type'		=> 'file',
 	'host'		=> 'localhost',
 	'port'		=> '',
-	'page'		=> true,
+	'page'		=> false,
 	'time'		=> 10
 ));
 
