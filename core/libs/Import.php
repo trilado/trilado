@@ -170,14 +170,15 @@ class Import
 	
 	/**
 	 * Armazena os diretórios para carregamento automático de arquivos de código fonte.
-	 * @var array 
+	 * @var	array 
 	 */
 	private static $directories = array();
 	
 	/**
 	 * Função que importa classes automaticamente, baseado nos diretórios 
 	 * registrados pelo método Import::register($dir).
-	 * @param string $class Nome da classe a ser carregada.
+	 * @param	string	$class	Nome da classe a ser carregada.
+	 * @return	void
 	 */
 	public static function autoload($class)
 	{
@@ -215,7 +216,8 @@ class Import
 	
 	/**
 	 * Registra diretórios de arquivos de código fonte para carregamento automático.
-	 * @param string $dir 
+	 * @param	string	$dir	diretório a ser inserido, começando da raiz do framework
+	 * @return	void
 	 */
 	public static function register($dir)
 	{
