@@ -48,7 +48,11 @@ class Database
 	public static function getInstance()
 	{
 		$configs = Config::get('database');
-		$configs['connection'] = 'default';
+		
+		if(!isset($configs['default']))
+			throw new ConfigNotFoundException('A configuração "database[default]" não foi encontrada');
+		
+		$configs['default']['connection'] = 'default';
 		
 		if(!isset(self::$instances['default']))
 			self::$instances['default'] = new self($configs['default']);
@@ -58,10 +62,11 @@ class Database
 	public static function factory($config = 'default')
 	{
 		$configs = Config::get('database');
-		$configs['connection'] = $config;
 		
 		if(!isset($configs[$config]))
 			throw new ConfigNotFoundException('A configuração "database['. $config .']" não foi encontrada');
+		
+		$configs[$config]['connection'] = $config;
 		
 		if(!isset(self::$instances[$config]))
 			self::$instances[$config] = new self($configs[$config]);

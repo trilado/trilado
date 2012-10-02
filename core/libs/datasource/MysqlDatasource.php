@@ -383,7 +383,7 @@ class MysqlDatasource extends Datasource
 						elseif($type === 'int')
 							$type = 'integer';
 						elseif($type === 'boolean')
-							$value = ord($value) == 1;
+							$value = $value == 1;
 						elseif($type === 'datetime')
 							$type = 'string';
 
