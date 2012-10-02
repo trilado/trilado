@@ -9,7 +9,7 @@
  * Classe de persistência com o banco de dados. Implementa os padrões Factory e Singleton
  * 
  * @author		Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
- * @version		2.1
+ * @version		2.2
  *
  */
 class Database 
@@ -48,6 +48,8 @@ class Database
 	public static function getInstance()
 	{
 		$configs = Config::get('database');
+		$configs['connection'] = 'default';
+		
 		if(!isset(self::$instances['default']))
 			self::$instances['default'] = new self($configs['default']);
 		return self::$instances['default'];
@@ -56,6 +58,8 @@ class Database
 	public static function factory($config = 'default')
 	{
 		$configs = Config::get('database');
+		$configs['connection'] = $config;
+		
 		if(!isset($configs[$config]))
 			throw new ConfigNotFoundException('A configuração "database['. $config .']" não foi encontrada');
 		

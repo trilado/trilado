@@ -27,14 +27,10 @@ Config::set('database', array(
 		'host' => 'localhost',
 		'name' => 'trilado2',
 		'user' => 'root',
-		'pass' => ''
+		'pass' => '',
+		'validate' => true
 	)
 ));
-
-/**
- * Define se o framework irá validar automaticamente os models
- */
-Config::set('auto_validate', true);
 
 /**
  * Master Page padrão
@@ -72,19 +68,29 @@ Config::set('default_lang', 'pt-br');
 Config::set('salt', 'ad$sfGFH33F132sAasds!@xcz!z\x*(f^`{`lda\\A|zahkl.m,kH2?Ed');
 
 /**
+ * Define se as requisições via dispositivo móvel irão carregar os templates específicos, se existirem, para versão móvel
+ */
+Config::set('auto_mobile', true);
+
+/**
+ * Define se as requisições via tablet irão carregar os templates  específicos, se existirem, para versão tablet
+ */
+Config::set('auto_tablet', false);
+
+/**
  * Define se as requisições AJAX devem retornar automaticamente conteúdo em JSON
  */
-Config::set('auto_ajax', false);
+Config::set('auto_ajax', true);
 
 /**
  * Define se actions acessadas com .xml devem retorna automaticamente conteúdo em XML
  */
-Config::set('auto_dotxml', false);
+Config::set('auto_dotxml', true);
 
 /**
  * Define se actions acessadas com .json devem retorna automaticamente conteúdo em JSON
  */
-Config::set('auto_dotjson', false);
+Config::set('auto_dotjson', true);
 
 /**
  * Define as configurações de cache

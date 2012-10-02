@@ -10,7 +10,7 @@
  * 
  * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
  * @author	Diego Oliveira <diegopso2@gmail.com>
- * @version	1.5
+ * @version	1.6
  *
  */
 class Import
@@ -125,9 +125,31 @@ class Import
 		ob_start();
 		
 		extract($vars);
-		$file = ROOT . 'app/views/'. $_controller .'/'. $view .'.php';
-		if(!file_exists($file))
-			throw new FileNotFoundException('views/'. $_controller .'/'. $view .'.php');
+		
+		$mobile = ROOT . 'app/views/'. $_controller .'/'. $view .'.mobile.php';
+		$tablet = ROOT . 'app/views/'. $_controller .'/'. $view .'.tablet.php';
+		
+		if(!defined('IS_MOBILE') && !defined('IS_TABLET'))
+		{
+			$detect = new Mobile_Detect;
+			define('IS_MOBILE', $detect->isMobile() && !$detect->isTablet());
+			define('IS_TABLET', $detect->isTablet());
+		}
+		
+		if(Config::get('auto_tablet') && IS_TABLET && file_exists($tablet))
+		{
+			$file = $tablet;
+		}
+		elseif(Config::get('auto_mobile') && IS_MOBILE && file_exists($mobile))
+		{
+			$file = $mobile;
+		}
+		else
+		{
+			$file = ROOT . 'app/views/'. $_controller .'/'. $view .'.php';
+			if(!file_exists($file))
+				throw new FileNotFoundException('views/'. $_controller .'/'. $view .'.php');
+		}
 		
 		require $file;
 		
