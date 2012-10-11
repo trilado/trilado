@@ -47,6 +47,7 @@
 	Import::register('core/libs/exceptions/');
 	Import::register('core/libs/datasource/');
 	Import::register('core/libs/cachesource/');
+	Import::register('core/libs/vendors/');
 	Import::register('app/models/');
 	Import::register('app/controllers/');
 	Import::register('app/helpers/');
