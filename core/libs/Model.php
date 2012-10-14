@@ -110,6 +110,15 @@ class Model
 		return $db->{$class}->orderBy($o, $t)->paginate($p, $m);
 	}
 	
+	/**
+	 * Método do Active Record, retorna um array de instâncias do Model buscando do banco pelos parâmetros
+	 * @param	int		$p			número da página (ex.: 1 listará de 0 á 10)	
+	 * @param	int		$m			quantidade máxima de itens por página
+	 * @param	string	$o			coluna a ser ordenada
+	 * @param	string	$t			tipo de ordenação (asc ou desc)
+	 * @param	array	$filters	filtros utilizados para pesquisar no baco (ex.: array('Title' => '%example%'))
+	 * @return	array				retorna umma lista de instâncias de Model
+	 */
 	public static function search($p = 1, $m = 10, $o = 'Id', $t = 'asc', $filters = array())
 	{
 		$p = $m * (($p < 1 ? 1 : $p) - 1);
@@ -118,8 +127,14 @@ class Model
 		$entity = $db->{$class}->orderBy($o, $t);
 		if(is_array($filters))
 		{
-			foreach ($filters as $k => $v)
-				$k .= $k .' = ?';
+			foreach ($filters as $k => $v){
+				if(preg_match('^%(.*)%$', $v) === 0){
+					$k .= $k .' LIKE ?';
+				}else{
+					$k .= $k .' = ?';
+				}
+			}
+				
 			$fields = implode(' OR ', array_keys($fields));
 			$entity->whereArray($fields, $filters);
 		}
