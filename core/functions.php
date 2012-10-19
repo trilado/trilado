@@ -215,3 +215,63 @@ function new_passwd($length = 8, $strength = 0)
 	}
 	return $password;
 }
+
+if (!function_exists('get_called_class'))
+{
+	/**
+	 * http://djomla.blog.com/2011/02/16/php-versions-5-2-and-5-3-get_called_class/
+	 */
+	function get_called_class($bt = false, $l = 1)
+	{
+		if (!$bt)
+			$bt = debug_backtrace();
+		if (!isset($bt[$l]))
+			throw new Exception("Cannot find called class -> stack level too deep.");
+		if (!isset($bt[$l]['type']))
+		{
+			throw new Exception('type not set');
+		}
+		else
+		{
+			if($bt[$l]['type'] == '::')
+			{
+				$lines = file($bt[$l]['file']);
+				$i = 0;
+				$callerLine = '';
+				do
+				{
+					$i++;
+					$callerLine = $lines[$bt[$l]['line'] - $i] . $callerLine;
+				} while (stripos($callerLine, $bt[$l]['function']) === false);
+				
+				preg_match('/([a-zA-Z0-9\_]+)::' . $bt[$l]['function'] . '/', $callerLine, $matches);
+				
+				if (!isset($matches[1])) // must be an edge case.
+					throw new Exception("Could not find caller class: originating method call is obscured.");
+				
+				if($matches[1] == 'self' || $matches[1] == 'parent' )
+					return get_called_class($bt, $l + 1);
+				else
+					return $matches[1];
+			}
+			elseif($bt[$l]['type'] == '->') // won't get here.
+			{
+				//if($bt[$l]['function'] == '__get')
+				//{
+					// edge case -> get class of calling object
+					if (!is_object($bt[$l]['object']))
+						return $bt[$l]['class'];
+					return get_class($bt[$l]['object']);
+				/*}
+				else
+				{
+					return $bt[$l]['class'];
+				}*/
+			}
+			else
+			{
+				throw new Exception("Unknown backtrace method type");
+			}
+		}
+	}
+}

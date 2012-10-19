@@ -95,7 +95,7 @@ class Database
 	
 	private function datasource($entity = null)
 	{
-		$class = ucfirst(strtolower($this->config['type'])) . 'DataSource';
+		$class = ucfirst(strtolower($this->config['type'])) . 'Datasource';
 		Import::load('datasource', array($class));
 		return new $class($this->config, $entity);
 	}
