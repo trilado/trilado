@@ -112,6 +112,12 @@ class SqlsrvDatasource extends Datasource
 	protected $config = array();
 	
 	/**
+	 * Guarda o tempo do cache
+	 * @var	int
+	 */
+	protected $cache = -1;
+	
+	/**
 	 * Construtor da classe
 	 * @param	array	$config		configurações de conexão com o banco de dados
 	 * @param	string	$class		nome do model
@@ -312,7 +318,7 @@ class SqlsrvDatasource extends Datasource
 	 * Gerar e retorna o SQL da consulta
 	 * @return	string	retorna o SQL gerado
 	 */
-	public function getSQL()
+	public function getSQL($values = true)
 	{
 		$select = $this->select;
 		if(!$select)
@@ -335,6 +341,8 @@ class SqlsrvDatasource extends Datasource
 		{
 			$sql = 'SELECT '. $this->distinct . $select .' FROM '. $this->table . $joins . $where . $groupby . $orderby;
 		}
+		if($values)
+			$sql = $this->bindValues ($sql, $this->where_params);
 		
 		return $sql;
 	}
@@ -353,9 +361,18 @@ class SqlsrvDatasource extends Datasource
 			$reflectionMethod->invokeArgs($this, $args);
 		}
 		
-		$sql = $this->getSQL();
+		$sql = $this->getSQL(false);
 
-		Debug::addSql($sql, $this->where_params);
+		Debug::add($this->getSQL());
+		
+		$key = md5($this->getSQL());
+		
+		if($this->cache > 0 && Cache::enabled())
+		{
+			$cache = Cache::factory();
+			if($cache->has($key))
+				return $cache->read($key);
+		}
 		
 		$stmt = $this->connection()->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 		$status = $stmt->execute($this->where_params);
@@ -364,9 +381,10 @@ class SqlsrvDatasource extends Datasource
 			$error = $stmt->errorInfo();
 			throw new TriladoException($error[2]);
 		}
+		
+		$results = array();
 		if($stmt->rowCount() > 0)
 		{
-			$results = array();
 			$annotation = Annotation::get($this->clazz);
 			$i = 0;
 			while($result = $stmt->fetch(PDO::FETCH_ASSOC))
@@ -407,9 +425,14 @@ class SqlsrvDatasource extends Datasource
 				$results[$i] = $object;
 				++$i;
 			}
-			return $results;
 		}
-		return array();
+		if($this->cache > 0 && Cache::enabled())
+		{
+			$cache = Cache::factory();
+			$cache->write($key, $results, $this->cache * MINUTE);
+		}
+		
+		return $results;
 	}
 	
 	/**
@@ -651,7 +674,7 @@ class SqlsrvDatasource extends Datasource
 			
 		$sql = 'INSERT INTO '. $entity .' ('. implode($fields, ', ') .') VALUES ('. implode(',', array_fill(0, count($values), '?')) .');';
 		
-		Debug::addSql($sql, $values);
+		Debug::add($this->bindValues($sql, $values));
 		$this->operations[] = array('sql' => $sql, 'values' => $values, 'model' => $model);
 	}
 	
@@ -709,7 +732,7 @@ class SqlsrvDatasource extends Datasource
 		$entity = $class->Entity ? $class->Entity : get_class($model);
 		$sql = 'UPDATE '. $entity .' SET '. implode(', ', $fields) .' WHERE '. implode(' AND ', $conditions['fields']) .';';
 		
-		Debug::addSql($sql, array_merge($values, $conditions['values']));
+		Debug::add($this->bindValues($sql, array_merge($values, $conditions['values'])));
 		$this->operations[] = array('sql' => $sql, 'values' => array_merge($values, $conditions['values']));
 	}
 	
@@ -745,7 +768,7 @@ class SqlsrvDatasource extends Datasource
 		$entity = $class->Entity ? $class->Entity : get_class($model);
 		$sql = 'DELETE FROM '. $entity .' WHERE '. implode(' AND ', $conditions['fields']) .';';
 		
-		Debug::addSql($sql, $conditions['values']);
+		Debug::add($this->bindValues($sql, $conditions['values']));
 		$this->operations[] = array('sql' => $sql, 'values' => $conditions['values']);
 	}
 	
@@ -768,7 +791,7 @@ class SqlsrvDatasource extends Datasource
 		
 		$sql = 'DELETE FROM '. $this->table . $where . $orderby . $limit .';';
 		
-		Debug::addSql($sql, $this->where_params);
+		Debug::add($this->bindValues($sql, $this->where_params));
 		$this->operations[] = array('sql' => $sql, 'values' => $this->where_params);
 	}
 	
@@ -865,5 +888,55 @@ class SqlsrvDatasource extends Datasource
 	public function rollback()
 	{
 		$this->connection()->rollBack();
+	}
+		
+	/**
+	 * Define que a consulta será realizada primeiro em cache
+	 * @return	Datasource	retorna a própria instância da classe Datasource
+	 */
+	public function cache($time = 10)
+	{
+		$this->cache = $time;
+		return $this;
+	}
+	
+	/**
+	 * Substitui as "?" (interrogações) pelos valores
+	 * @param	string	$sql		instrução SQL
+	 * @param	array	$values		valores da instruções SQL
+	 * @return	string				retorna a instrução com os valores substituidos
+	 */
+	private function bindValues($sql, $values)
+	{
+		$parts = explode('?', trim($sql));
+		$sql = '';
+		for($i = 0; $i < count($parts); $i++)
+		{
+			if(isset($parts[$i]))
+				$sql .= $parts[$i];
+			if(isset($values[$i]))
+				$sql .= $this->sanitize($values[$i]);
+		}
+		return $sql;
+	}
+	
+	/**
+	 * Normaliza um valor de acordo com o SQL
+	 * @param	mixed	$value	o valor a ser normalizado
+	 * @return	mixed			retorna o valor normalizado
+	 */
+	private function sanitize($value)
+	{
+		if(is_int($value))
+			return (int) $value + '0';
+		if(is_double($value) || is_float($value))
+			return (double) $value + '0';
+		if(is_bool($value))
+			return $value ? '1' : '0';
+		if(is_string($value) && $value != 'NULL')
+			return "'". mysql_escape_string($value) ."'";
+		if($value == 'NULL')
+			return 'NULL';
+		return null;
 	}
 }

@@ -99,7 +99,7 @@ class Error
 
 		$files = array();
 		$files[0] = root . 'app/views/_error/' . $number . '.php';
-		$files[1] = root . 'core/error/' . $number . '.php';
+		$files[1] = root . 'core/error/default.php';
 		foreach ($files as $f)
 		{
 			if (file_exists($f))

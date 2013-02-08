@@ -32,7 +32,7 @@ abstract class Cachesource
 	 * @param	int		$time	tempo, em minutos, que o cache existirá
 	 * @return	boolean			retorna true se o cache for gravado com sucesso, no contrário, retorna false
 	 */
-	abstract public function write($key, $data, $time);
+	abstract public function write($key, $data, $time = 1);
 	
 	/**
 	 * Ler e retorna os dados do cache

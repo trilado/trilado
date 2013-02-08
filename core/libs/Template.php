@@ -197,7 +197,10 @@ class Template
 	 */
 	private function renderPartial($ob)
 	{
-		$this->response .= Import::view($ob->Vars, $ob->Data['controller'], $ob->Data['view']);	
+		$html = Import::view($ob->Vars, $ob->Data['controller'], $ob->Data['view']);	
+		$html = $this->resolveUrl($html);
+		
+		$this->response .= $html;
 	}
 	
 	/**
@@ -230,6 +233,6 @@ class Template
 	 */
 	private function resolveUrl($html)
 	{
-		return str_replace(array('="~/', "='~/"), array('="'. ROOT_VIRTUAL, "='". ROOT_VIRTUAL), $html);
+		return str_replace(array('"~/', "'~/"), array('"'. ROOT_VIRTUAL, "'". ROOT_VIRTUAL), $html);
 	}
 }

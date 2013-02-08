@@ -65,7 +65,7 @@ Config::set('default_lang', 'pt-br');
 /**
  * Chave de segurança (deve ser alterada)
  */
-Config::set('salt', 'ad$sfGFH33F132sAasds!@xcz!z\x*(f^`{`lda\\A|zahkl.m,kH2?Ed');
+Config::set('salt', 'ad&&*&32343wCFlo^`]´s32Qw78=H2?Ed');
 
 /**
  * Define se as requisições via dispositivo móvel irão carregar os templates específicos, se existirem, para versão móvel
@@ -96,6 +96,7 @@ Config::set('auto_dotjson', true);
  * Define as configurações de cache
  */
 Config::set('cache', array(
+	'enabled'	=> false,
 	'type'		=> 'file',
 	'host'		=> 'localhost',
 	'port'		=> '',
@@ -103,4 +104,9 @@ Config::set('cache', array(
 	'time'		=> 10
 ));
 
-//Import::register($dir); //Registrar diretórios de arquivos de código fonte, para autoload.
+/**
+ * Registrar diretórios de arquivos de código fonte, para autoload 
+ */
+Config::set('directories', array(
+	'app/vendors',
+));

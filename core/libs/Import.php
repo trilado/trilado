@@ -185,7 +185,7 @@ class Import
 		$key = 'Trilado.Import.Files';
 		
 		$cache = Cache::factory();
-		if($cache->has($key))
+		if(Cache::enabled() && $cache->has($key))
 		{
 			$files = $cache->read($key);
 			if(isset($files[$class]))
@@ -207,7 +207,8 @@ class Import
 					$files = array();
 				
 				$files[$class] = $file;
-				$cache->write($key, $files, CACHE_TIME);
+				if(Cache::enabled())
+					$cache->write($key, $files, CACHE_TIME);
 				
 				return;
 			}

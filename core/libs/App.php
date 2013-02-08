@@ -28,7 +28,7 @@ class App
 	{
 		define('CACHE_TIME', 60);
 		$cache_config = Config::get('cache');
-		if($cache_config['page'])
+		if($cache_config['enabled'] && $cache_config['page'])
 		{
 			$cache = Cache::factory();
 			if($cache->has(URL))
@@ -80,7 +80,7 @@ class App
 			$registry->set('Template', $tpl);
 			$tpl->render($this->args);
 			
-			if($cache_config['page'])
+			if($cache_config['enabled'] && $cache_config['page'])
 			{
 				$cache = Cache::factory();
 				$data = ob_get_clean();
@@ -91,14 +91,14 @@ class App
 		}
 		catch(PageNotFoundException $e)
 		{
-			header('HTTP/1.1 404 Not Found');;
-			$this->loadError($e);
+			header('HTTP/1.1 404 Not Found');
+			Error::render(404, $e->getMessage(), $e->getFile(), $e->getLine(), $e->getTraceAsString(), method_exists($e, 'getDetails') ? $e->getDetails() : '');
 			exit;
 		}
 		catch(Exception $e)
 		{
 			header('HTTP/1.1 500 Internal Server Error');
-			$this->loadError($e);
+			Error::render(500, $e->getMessage(), $e->getFile(), $e->getLine(), $e->getTraceAsString(), method_exists($e, 'getDetails') ? $e->getDetails() : '');
 		}
 	}
 	

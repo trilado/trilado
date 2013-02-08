@@ -41,4 +41,13 @@ class Cache
 		}
 		return self::$instance;
 	}
+	
+	/**
+	 * Verifica se o cache está habilitado
+	 * @return	boolean	retorna true se o cache estiver habilitado, no contrário retorna false
+	 */
+	public static function enabled() {
+		$cache_config = Config::get('cache');
+		return $cache_config['enabled'];
+	}
 }

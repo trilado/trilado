@@ -222,4 +222,10 @@ abstract class Datasource
 	 * @return	void
 	 */
 	abstract public function rollback();
+	
+	/**
+	 * Define que a consulta será realizada primeiro em cache
+	 * @return	Datasource	retorna a própria instância da classe Datasource
+	 */
+	abstract public function cache($time = 10);
 }
