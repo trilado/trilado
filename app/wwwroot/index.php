@@ -56,8 +56,7 @@
 		Import::register($d);
 	
 	Import::core('App');
-	print_r($_SERVER);
-	exit;
+	
 	$url = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '';
 	
 	new App($url);
