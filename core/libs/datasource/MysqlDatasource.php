@@ -384,7 +384,14 @@ class MysqlDatasource extends Datasource
 			while($result = $stmt->fetch(PDO::FETCH_ASSOC))
 			{
 				if($this->calc)
+				{
+					if($this->cache > 0 && Cache::enabled())
+					{
+						$cache = Cache::factory();
+						$cache->write($key, $result['calc'], $this->cache * MINUTE);
+					}
 					return $result['calc'];
+				}
 				$model = $this->clazz;
 				$object = new $model();	
 				$object->_setNew();	
