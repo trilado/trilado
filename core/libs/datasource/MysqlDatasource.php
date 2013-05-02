@@ -934,7 +934,7 @@ class MysqlDatasource extends Datasource
 		if(is_bool($value))
 			return $value ? '1' : '0';
 		if(is_string($value) && $value != 'NULL')
-			return "'". mysql_escape_string($value) ."'";
+			return "'". mysql_real_escape_string($value) ."'";
 		if($value == 'NULL')
 			return 'NULL';
 		return null;
