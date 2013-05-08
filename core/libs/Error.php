@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2012, Valdirene da Cruz Neves Júnior <vaneves@vaneves.com>
+ * Copyright (c) 2012-2013, Valdirene da Cruz Neves Júnior <vaneves@vaneves.com>
  * All rights reserved.
  */
 
@@ -57,7 +57,7 @@ class Error
 			if(isset($types[$type]))
 				$t = $types[$type];
 			
-			$log = date('Y-m-d H:i:s') . ' ' . $t. ': ' .  $message . ' in ' . $file . ' ('. $line .')' . NL;
+			$log = date('Y-m-d H:i:s') . ' ' . $t. ': ' .  $message . ' in ' . $file . ' ('. $line .')' . "\r\n";
 			self::log($log);
 		}
 	}
@@ -152,7 +152,7 @@ class Error
 
 		$output = '';
 		foreach ($trace as $k => $v)
-			$output .= '#' . $k . ' ' . $v['file'] . '(' . $v['line'] . ') ' . $v['function'] . nl;
+			$output .= '#' . $k . ' ' . $v['file'] . '(' . $v['line'] . ') ' . $v['function'] . "\r\n";
 
 		return $output;
 	}

@@ -32,6 +32,8 @@ class Session
 		define('SESSION_STARTED', true);
 		session_start();
 		session_regenerate_id();
+		if(Config::get('session_time'))
+			ini_set('session.gc_maxlifetime', Config::get('session_time'));
 	}
 	
 	/**
