@@ -47,7 +47,7 @@ class Validation
 	 */
 	public static function url($url)
 	{
-		
+		return preg_match('#^https?://(www\.)?([a-zA-Z0-9\-\.]+)\.([a-z]{2,3})(/[\w\-\.\_]+)*(\?.*)?$#', $url);
 	}
 	
 	/**
