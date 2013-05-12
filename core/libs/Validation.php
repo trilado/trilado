@@ -91,12 +91,14 @@ class Validation
 	
 	/**
 	 * Verifica se uma data é válida
-	 * @param	string	$date	data a ser verificada (dd/mm/aaaa)
+	 * @param	string	$date	data a ser verificada conforme o formato definido na configuração 'date_fomrmat'
 	 * @return	boolean			retorna true se a data for válida, no contrário retorna false
 	 */
 	public static function date($date)
 	{
-		
+		$date = DateTime::createFromFormat(Config::get('date_format'), $date);
+		$date_errors = DateTime::getLastErrors();
+		return ($date_errors['warning_count'] + $date_errors['error_count']) === 0;
 	}
 	
 	/**
