@@ -216,6 +216,26 @@ function new_passwd($length = 8, $strength = 0)
 	return $password;
 }
 
+/**
+ * Retorna a Timestamp de uma string de uma data a partir de um formato. Se o 
+ * formato não for definido é utilizado o formato padrão definido no arquivo de 
+ * configuração Config::get('date_format').
+ * 
+ * @param String $strDate String contendo a data.
+ * @param String $format Formato da data, segue os formatos padrão do PHP.
+ * @return int 
+ */
+function get_timestamp($strDate, $format = false)
+{
+	if(!$format)
+	{
+		$format = Config::get('date_format');
+	}
+	
+	$date = DateTime::createFromFormat($format, $strDate);
+	return $date->getTimestamp();
+}
+
 if (!function_exists('get_called_class'))
 {
 	/**
