@@ -38,19 +38,19 @@ class Template
 		
 		$registry = Registry::getInstance();
 		
-		$name = CONTROLLER;
+		$name = App::$controller;
 		$controller = new $name();
 		$registry->set('Controller', $controller);
 		$this->response = $controller->beforeRender();
 		
-		$content = call_user_func_array(array($controller, ACTION), $args['params']);
+		$content = call_user_func_array(array($controller, App::$action), $args['params']);
 		
 		if(!$content)
-			throw new InvalidReturnException(CONTROLLER .'->'. ACTION .'()');
+			throw new InvalidReturnException(App::$controller .'->'. App::$action .'()');
 		
 		$this->renderFlash();
 		
-		$method = new ReflectionMethod(CONTROLLER, ACTION);
+		$method = new ReflectionMethod(App::$controller, App::$action);
 		$params = $method->getParameters();
 		
 		for($i = 0; $i < count($params); $i++)
@@ -84,7 +84,7 @@ class Template
 				$this->renderJson($content);
 				break;
 			default:
-				throw new InvalidReturnException(CONTROLLER .'->'. ACTION .'()');
+				throw new InvalidReturnException(App::$controller .'->'. App::$action .'()');
 				break;
 		}
 		$this->response = $controller->afterRender($this->response);
@@ -103,9 +103,9 @@ class Template
 	 */
 	private function master()
 	{
-		$annotation = Annotation::get(CONTROLLER);
+		$annotation = Annotation::get(App::$controller);
 		
-		$reflection = new ReflectionClass(CONTROLLER);
+		$reflection = new ReflectionClass(App::$controller);
 		$tpl = null;
 		if($reflection->hasMethod('__construct'))
 		{
@@ -113,7 +113,7 @@ class Template
 				$tpl = $annotation->getMethod('__construct')->Master;
 		}
 		
-		$action = $annotation->getMethod(ACTION);
+		$action = $annotation->getMethod(App::$action);
 		$tpl_action = isset($action->Master) ? $action->Master : null;
 		
 		if($tpl_action)

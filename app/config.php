@@ -43,6 +43,11 @@ Config::set('default_master', 'template');
 Config::set('default_controller', 'Home');
 
 /**
+ * Controller padrão para páginas de erro. Defina como NULL para não utilizar controler de erro
+ */
+Config::set('error_controller', null);
+
+/**
  * Action padrão
  */
 Config::set('default_action', 'index');

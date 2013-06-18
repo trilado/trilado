@@ -21,6 +21,18 @@ class App
 	private $args = array();
 	
 	/**
+	 * Guarda o nome do controller a ser executado
+	 * @var String
+	 */
+	public static $controller;
+	
+	/**
+	 * Guarda o nome da action a ser executada
+	 * @var String
+	 */
+	public static $action;
+	
+	/**
 	 * Contrutor da classe
 	 * @param	string	$url	url acessada pelo usuário
 	 */
@@ -61,18 +73,21 @@ class App
 			echo I18n::getInstance()->get($string, $format);
 		}
 		
-		define('controller', Inflector::camelize($this->args['controller']) .'Controller');
-		define('action', str_replace('-', '_', $this->args['action']));
+		self::$controller = Inflector::camelize($this->args['controller']) .'Controller';
+		self::$action = str_replace('-', '_', $this->args['action']);
 		
-		define('CONTROLLER', Inflector::camelize($this->args['controller']) .'Controller');
-		define('ACTION', str_replace('-', '_', $this->args['action']));
+		define('controller', self::$controller );
+		define('action', self::$action);
+		
+		define('CONTROLLER', self::$controller );
+		define('ACTION', self::$action);
 		
 		try
 		{
 			header('Content-type: text/html; charset='. Config::get('charset'));
 			
 			Import::core('Controller', 'Template', 'Annotation');
-			Import::controller(CONTROLLER);
+			Import::controller(self::$controller);
 		
 			$this->controller();
 			$this->auth();
@@ -131,18 +146,18 @@ class App
 	 */
 	private function controller()
 	{
-		if(!is_subclass_of(CONTROLLER, 'Controller'))
-			throw new ControllerInheritanceException(CONTROLLER);
+		if(!is_subclass_of(self::$controller, 'Controller'))
+			throw new ControllerInheritanceException(self::$controller);
 		
-		if(!method_exists(CONTROLLER, ACTION)) 
-			throw new ActionNotFoundException(CONTROLLER .'->'. ACTION .'()');
+		if(!method_exists(self::$controller, self::$action)) 
+			throw new ActionNotFoundException(self::$controller .'->'. self::$action .'()');
 		
-		$method = new ReflectionMethod(CONTROLLER, ACTION);
+		$method = new ReflectionMethod(self::$controller, self::$action);
 		if(!$method->isPublic()) 
-			throw new ActionVisibilityException(CONTROLLER .'->'. ACTION .'()');
+			throw new ActionVisibilityException(self::$controller .'->'. self::$action .'()');
 		
 		if($method->isStatic()) 
-			throw new ActionStaticException(CONTROLLER .'->'. ACTION .'()');
+			throw new ActionStaticException(self::$controller .'->'. self::$action .'()');
 		
 		if(!$this->isValidParams($method))
 			throw new PageNotFoundException('A quantidade de parâmetros obrigatórios não conferem');
@@ -189,12 +204,12 @@ class App
 	 */
 	private function auth()
 	{
-		$annotation = Annotation::get(CONTROLLER);
+		$annotation = Annotation::get(self::$controller);
 		$roles = null;
 		
-		if(method_exists(CONTROLLER, '__construct'))
+		if(method_exists(self::$controller, '__construct'))
 		{
-			$method = new ReflectionMethod(CONTROLLER, '__construct');
+			$method = new ReflectionMethod(self::$controller, '__construct');
 			if($method->isPublic())
 			{
 				$construct = $annotation->getMethod('__construct');
@@ -203,7 +218,7 @@ class App
 			}
 		}
 		
-		$method = $annotation->getMethod(ACTION);
+		$method = $annotation->getMethod(self::$action);
 		$auth_action = isset($method->Auth) ? $method->Auth : null;
 		
 		if($auth_action)

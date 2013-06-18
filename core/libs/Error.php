@@ -1,9 +1,9 @@
 <?php
+
 /*
  * Copyright (c) 2012-2013, Valdirene da Cruz Neves Júnior <vaneves@vaneves.com>
  * All rights reserved.
  */
-
 
 /**
  * Classe de manipulação e apresentação dos erros
@@ -13,6 +13,7 @@
  */
 class Error
 {
+
 	/**
 	 * Método que é executado quando ocorre algum erro no PHP
 	 * @param	int		$type		tipo do erro, que pode ser E_STRICT
@@ -24,10 +25,10 @@ class Error
 	public static function handle($type, $message, $file, $line)
 	{
 		ob_get_level() and ob_clean();
-		
-		if(Debug::enabled())
+
+		if (Debug::enabled())
 		{
-			if($type != E_STRICT)
+			if ($type != E_STRICT)
 			{
 				$details = self::lineAsString($file, $line);
 				$trace = self::traceAsString();
@@ -40,24 +41,24 @@ class Error
 		else
 		{
 			$types = array(
-				E_ERROR				=> 'ERROR',
-				E_WARNING			=> 'WARNING',
-				E_PARSE				=> 'PARSING ERROR',
-				E_NOTICE			=> 'NOTICE',
-				E_CORE_ERROR		=> 'CORE ERROR',
-				E_CORE_WARNING		=> 'CORE WARNING',
-				E_COMPILE_ERROR		=> 'COMPILE ERROR',
-				E_COMPILE_WARNING	=> 'COMPILE WARNING',
-				E_USER_ERROR		=> 'USER ERROR',
-				E_USER_WARNING		=> 'USER WARNING',
-				E_USER_NOTICE		=> 'USER NOTICE',
-				E_STRICT			=> 'RUNTIME NOTICE'
+				E_ERROR => 'ERROR',
+				E_WARNING => 'WARNING',
+				E_PARSE => 'PARSING ERROR',
+				E_NOTICE => 'NOTICE',
+				E_CORE_ERROR => 'CORE ERROR',
+				E_CORE_WARNING => 'CORE WARNING',
+				E_COMPILE_ERROR => 'COMPILE ERROR',
+				E_COMPILE_WARNING => 'COMPILE WARNING',
+				E_USER_ERROR => 'USER ERROR',
+				E_USER_WARNING => 'USER WARNING',
+				E_USER_NOTICE => 'USER NOTICE',
+				E_STRICT => 'RUNTIME NOTICE'
 			);
 			$t = 'CAUGHT ERROR';
-			if(isset($types[$type]))
+			if (isset($types[$type]))
 				$t = $types[$type];
-			
-			$log = date('Y-m-d H:i:s') . ' ' . $t. ': ' .  $message . ' in ' . $file . ' ('. $line .')' . "\r\n";
+
+			$log = date('Y-m-d H:i:s') . ' ' . $t . ': ' . $message . ' in ' . $file . ' (' . $line . ')' . "\r\n";
 			self::log($log);
 		}
 	}
@@ -94,9 +95,70 @@ class Error
 	 */
 	public static function render($number, $message, $file, $line, $trace = null, $details = null)
 	{
+		$error_controller = Config::get('error_controller');
 		if (Debug::enabled())
+		{
 			return require_once root . 'core/error/debug.php';
+		}
+		elseif ($error_controller && file_exists(ROOT . 'app/controllers/' . $error_controller . 'Controller.php') && is_subclass_of($error_controller . 'Controller', 'Controller'))
+		{
+			$error_controller .= 'Controller';
+			$actions = array('error' . $number, 'index');
+			$i = NULL;
 
+			foreach ($actions as $k => $a)
+			{
+				if (method_exists($error_controller, $a))
+				{
+					$method = new ReflectionMethod($error_controller, $a);
+					if ($method->isPublic() || !$method->isStatic() || $this->isValidParams($method))
+					{
+						$i = $k;
+						break;
+					}
+				}
+			}
+
+			if ($i !== NULL)
+			{
+				App::$controller = $error_controller;
+				App::$action = $actions[$i];
+
+				$tpl = new Template();
+
+				$registry = Registry::getInstance();
+				$registry->set('Template', $tpl);
+
+				$tpl->render(array(
+					'params' => array(
+						'number' => $number,
+						'message' => $message,
+						'file' => $file,
+						'line' => $line,
+						'trace' => $trace,
+						'details' => $details
+					)
+				));
+
+				return;
+			}
+		}
+
+		self::defaultRender($number, $message, $file, $line, $trace, $details);
+	}
+
+	/**
+	 * Método padrão para apresentar a página de erro caso não haja um controller para isso. Mata execução
+	 * @param	int		$number		número do erro HTTP
+	 * @param	string	$message	mensagem do erro
+	 * @param	string	$file		endereço completo do arquivo em que ocorreu o erro
+	 * @param	int		$line		número da linha em que ocorreu o erro
+	 * @param	string	$trace		trilha de arquivo antes de ocorrer o erro
+	 * @param	string	$details	detalhes do erro, apresenta o trecho do arquivo em que ocorreu o erro
+	 * @return	void
+	 */
+	private static function defaultRender($number, $message, $file, $line, $trace = null, $details = null)
+	{
 		$files = array();
 		$files[0] = root . 'app/views/_error/' . $number . '.php';
 		$files[1] = root . 'core/error/default.php';
@@ -173,10 +235,10 @@ class Error
 		{
 			$start = $line - $padding;
 			$end = $line + $padding;
-			
+
 			while ($i <= $end && (($buffer = fgets($handle, 4096)) !== false))
 			{
-				if($i >= $start)
+				if ($i >= $start)
 					$output[$i] = $buffer;
 				++$i;
 			}
@@ -195,18 +257,18 @@ class Error
 	public static function lineAsString($file, $line, $padding = 5)
 	{
 		$lines = self::line($file, $line, $padding);
-		
+
 		$output = '';
-		foreach($lines as $i => $l)
+		foreach ($lines as $i => $l)
 		{
-			if($i == $line)
-				$output .= '<span class="line line-error"><span class="line-n">'. $i .'</span>' . htmlentities($l) . '</span>';
+			if ($i == $line)
+				$output .= '<span class="line line-error"><span class="line-n">' . $i . '</span>' . htmlentities($l) . '</span>';
 			else
-				$output .= '<span class="line"><span class="line-n">'. $i .'</span>' . htmlentities($l) . '</span>';
+				$output .= '<span class="line"><span class="line-n">' . $i . '</span>' . htmlentities($l) . '</span>';
 		}
 		return $output;
 	}
-	
+
 	/**
 	 * Escreve uma mensagem nos arquivos de logs
 	 * @param	string	$string		conteúdo a ser escrito
@@ -217,4 +279,5 @@ class Error
 		$bytes = file_put_contents(ROOT . 'app/tmp/logs/' . date('Y-m-d') . '.log', $string, FILE_APPEND);
 		return $bytes !== false;
 	}
+
 }
