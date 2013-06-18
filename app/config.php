@@ -63,6 +63,11 @@ Config::set('charset', 'UTF-8');
 Config::set('default_lang', 'pt-br');
 
 /**
+ * Formato padrão da data.
+ */
+Config::set('date_format', 'd/m/Y');
+
+/**
  * Chave de segurança (deve ser alterada)
  */
 Config::set('salt', 'ad&&*&32343wCFlo^`]´s32Qw78=H2?Ed');
