@@ -1,18 +1,19 @@
 <?php
+
 /*
  * Copyright (c) 2012, Valdirene da Cruz Neves Júnior <vaneves@vaneves.com>
  * All rights reserved.
  */
-
 
 /**
  * Classe para manipulação de cache utilizando o Memcached. Para utilizá-la é necessário
  * a instalação do Memcached.
  * 
  * @author		Valdirene da Cruz Neves Júnior <vaneves@vaneves.com>
- * @version		1.1
+ * @author		Diego Oliveia <diegopso2@gmail.com>
+ * @version		1.2
  *
- */ 
+ */
 class MemcacheCachesource extends Cachesource
 {
 	/**
@@ -20,32 +21,37 @@ class MemcacheCachesource extends Cachesource
 	 * @var	MemcacheCachesource 
 	 */
 	protected static $instance = null;
-	
+
 	/**
 	 * Guarda a instância da classe Memcache que contém a conexão com servidor
 	 * @var	Memcache
 	 */
 	protected $memcached = null;
-	
+
+	/**
+	 * Identificador de grupos de cache. 
+	 */
+	const GROUP_ID = 'TRILADO_MEMCACHE_GROUP';
+
 	/**
 	 * Construtor da classe, é protegido para não ser instanciada 
 	 */
-	protected function __construct() 
+	protected function __construct()
 	{
 		$this->connect();
 	}
-	
+
 	/**
 	 * Método para instanciação do classe
 	 * @return	MemcacheCachesource		retorna a instância da classe MemcacheCachesource
 	 */
 	public static function getInstance()
 	{
-		if(!self::$instance)
+		if (!self::$instance)
 			self::$instance = new self();
 		return self::$instance;
 	}
-	
+
 	/**
 	 * Conecta com o servidor
 	 * @return	void
@@ -56,7 +62,7 @@ class MemcacheCachesource extends Cachesource
 		$this->memcached = new Memcache;
 		$this->memcached->connect($config['host'], $config['port']);
 	}
-	
+
 	/**
 	 * Escreve dados no cache
 	 * @param	string	$key	chave em que será gravado o cache
@@ -68,7 +74,7 @@ class MemcacheCachesource extends Cachesource
 	{
 		return $this->memcached->set(md5($key), $data, MEMCACHE_COMPRESSED, ($time * minute));
 	}
-	
+
 	/**
 	 * Ler e retorna os dados do cache
 	 * @param	string	$key	chave em que o cache foi gravado
@@ -78,7 +84,7 @@ class MemcacheCachesource extends Cachesource
 	{
 		return $this->memcached->get(md5($key), MEMCACHE_COMPRESSED);
 	}
-	
+
 	/**
 	 * Remove um cache específico
 	 * @param	string	$key	chave em que o cache foi gravado
@@ -88,7 +94,7 @@ class MemcacheCachesource extends Cachesource
 	{
 		return $this->memcached->delete(md5($key));
 	}
-	
+
 	/**
 	 * Remove todos os dados do cache
 	 * @return	void 
@@ -107,4 +113,5 @@ class MemcacheCachesource extends Cachesource
 	{
 		return $this->read($key) !== false;
 	}
+
 }

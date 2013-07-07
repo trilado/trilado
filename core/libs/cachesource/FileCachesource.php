@@ -9,7 +9,8 @@
  * Classe para manipulação de cache em disco
  * 
  * @author		Valdirene da Cruz Neves Júnior <vaneves@vaneves.com>
- * @version		1.1
+ * @author		Diego Oliveia <diegopso2@gmail.com>
+ * @version		1.2
  *
  */ 
 class FileCachesource extends Cachesource
@@ -25,6 +26,11 @@ class FileCachesource extends Cachesource
 	 * @var	array
 	 */
 	private static $data = array();
+
+	/**
+	 * Identificador de grupos de cache. 
+	 */
+	const GROUP_ID = 'TRILADO_FILE_GROUP';
 	
 	/**
 	 * Construtor da classe, é protegido para não ser instanciada 

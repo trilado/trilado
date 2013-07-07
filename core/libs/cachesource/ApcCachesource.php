@@ -1,18 +1,19 @@
 <?php
+
 /*
  * Copyright (c) 2012, Valdirene da Cruz Neves Júnior <vaneves@vaneves.com>
  * All rights reserved.
  */
-
 
 /**
  * Classe para manipulação de cache utilizando o APC. Para utilizá-la é necessário
  * a instalação do APC.
  * 
  * @author		Valdirene da Cruz Neves Júnior <vaneves@vaneves.com>
- * @version		1.1
+ * @author		Diego Oliveia <diegopso2@gmail.com>
+ * @version		1.2
  *
- */ 
+ */
 class ApcCachesource extends Cachesource
 {
 	/**
@@ -20,23 +21,31 @@ class ApcCachesource extends Cachesource
 	 * @var	ApcCachesource 
 	 */
 	private static $instance = null;
-	
+
+	/**
+	 * Identificador de grupos de cache.
+	 */
+	const GROUP_ID = 'TRILADO_APC_GROUP';
+
 	/**
 	 * Construtor da classe, é protegido para não ser instanciada 
 	 */
-	protected function __construct() {}
-	
+	protected function __construct()
+	{
+		
+	}
+
 	/**
 	 * Método para instanciação do classe
 	 * @return	ApcCachesource		retorna a instância da classe ApcCachesource
 	 */
 	public static function getInstance()
 	{
-		if(!self::$instance)
+		if (!self::$instance)
 			self::$instance = new self();
 		return self::$instance;
 	}
-	
+
 	/**
 	 * Escreve dados no cache
 	 * @param	string	$key	chave em que será gravado o cache
@@ -49,10 +58,10 @@ class ApcCachesource extends Cachesource
 		$file = array();
 		$file['time'] = time() + ($time * minute);
 		$file['data'] = $data;
-		
+
 		return apc_store(md5($key), $file);
 	}
-	
+
 	/**
 	 * Ler e retorna os dados do cache
 	 * @param	string	$key	chave em que o cache foi gravado
@@ -61,14 +70,14 @@ class ApcCachesource extends Cachesource
 	public function read($key)
 	{
 		$data = apc_fetch(md5($key));
-		if($data !== false)
+		if ($data !== false)
 		{
-			if(isset($data['time']) && isset($data['data']) && ((int)$data['time']) > time())
+			if (isset($data['time']) && isset($data['data']) && ((int) $data['time']) > time())
 				return $data['data'];
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Remove um cache específico
 	 * @param	string	$key	chave em que o cache foi gravado
@@ -78,7 +87,7 @@ class ApcCachesource extends Cachesource
 	{
 		return apc_delete(md5($key));
 	}
-	
+
 	/**
 	 * Remove todos os dados do cache
 	 * @return	void 
@@ -97,4 +106,5 @@ class ApcCachesource extends Cachesource
 	{
 		return $this->read($key) !== false;
 	}
+
 }
