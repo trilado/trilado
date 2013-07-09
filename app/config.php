@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2011-2012, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * Copyright (c) 2011-2013, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
  * All rights reserved.
  */
 
@@ -119,4 +119,11 @@ Config::set('cache', array(
  */
 Config::set('directories', array(
 	'app/vendors',
+));
+
+/**
+ * Registrar diretórios de arquivos de código fonte, para autoload 
+ */
+Config::set('modules', array(
+	'example' => 'app/modules/example/',
 ));

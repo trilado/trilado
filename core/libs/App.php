@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2011-2012, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * Copyright (c) 2011-2013, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
  * All rights reserved.
  */
 
@@ -8,8 +8,9 @@
 /**
  * Classe principal do Framework, responsável pelo controlar todo o fluxo, fazendo chama de outras classes
  * 
- * @author		Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
- * @version		2.5
+ * @author		Valdirene da Cruz Neves Júnior <vaneves@vaneves.com>
+ * @author		Jackson Gomes <jackson.souza#gmail.com>
+ * @version		2.6
  *
  */ 
 class App 
@@ -19,6 +20,12 @@ class App
 	 * @var	array
 	 */
 	private $args = array();
+	
+	/**
+	 * Guarda o nome do módulo a ser executado
+	 * @var	string
+	 */
+	public static $module;
 	
 	/**
 	 * Guarda o nome do controller a ser executado
@@ -75,6 +82,20 @@ class App
 		
 		self::$controller = Inflector::camelize($this->args['controller']) .'Controller';
 		self::$action = str_replace('-', '_', $this->args['action']);
+		self::$module = $this->args['module'];
+		
+		$modules = Config::get('modules');
+		if(self::$module)
+		{
+			unset($modules[App::$module]);
+			Import::register_module(App::$module);
+		}
+		Import::register('app/models/');
+		Import::register('app/controllers/');
+		Import::register('app/helpers/');
+		
+		foreach($modules as $m)
+			Import::register_module($m);
 		
 		define('controller', self::$controller );
 		define('action', self::$action);
@@ -126,6 +147,8 @@ class App
 	{
 		$args = Route::exec($url);
 
+		if(empty($args['module']))
+			$args['module'] = null;
 		if(empty($args['controller']))
 			$args['controller'] = Config::get('default_controller');
 		if(empty($args['action']))

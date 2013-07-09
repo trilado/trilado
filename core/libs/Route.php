@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2011-2012, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * Copyright (c) 2011-2013, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
  * All rights reserved.
  */
 
@@ -9,7 +9,8 @@
  * Classe de manipulação das rotas (URL). Com ela é possível alterar o endereço da chamada controller ou actions
  * 
  * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
- * @version	1.1
+ * @author	Jackson Gomes <jackson.souza@gmail.com>
+ * @version	1.2
  *
  */
 class Route
@@ -75,6 +76,9 @@ class Route
 		
 		if(self::isPrefix($urls[0]))
 			$args['prefix'] = array_shift($urls);
+		
+		if(Module::exists($urls[0]))
+			$args['module'] = array_shift($urls);
 		
 		$args['controller']	= array_shift($urls);
 		$args['action']	= array_shift($urls);

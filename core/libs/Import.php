@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2011-2012, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * Copyright (c) 2011-2013, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
  * All rights reserved.
  */
 
@@ -10,7 +10,8 @@
  * 
  * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
  * @author	Diego Oliveira <diegopso2@gmail.com>
- * @version	1.6
+ * @author	Jackson Gomes <jackson.souza@gmail.com>
+ * @version	1.8
  *
  */
 class Import
@@ -77,9 +78,29 @@ class Import
 		$args = func_get_args();
 		foreach($args as $c)
 		{
-			$file = ROOT . 'app/controllers/' . $c . '.php';
+			if(App::$module)
+				$file = ROOT . Module::path(App::$module) . 'controllers/' . $c . '.php';
+			else
+				$file = ROOT . 'app/controllers/' . $c . '.php';
+			
 			if(!file_exists($file))
-				throw new ControllerNotFoundException($c);
+			{
+				$modules = Config::get('modules');
+				$found = false;
+
+				foreach ($modules as $m => $path)
+				{
+					$file = Module::path($m) . 'controllers/' . $c . '.php';
+					if (file_exists($file))
+					{
+						$found = true;
+						break;
+					}
+				}
+
+				if (!$found)
+					throw new ControllerNotFoundException($c);
+			}
 			
 			require_once $file;
 			
@@ -126,8 +147,16 @@ class Import
 		
 		extract($vars);
 		
-		$mobile = ROOT . 'app/views/'. $_controller .'/'. $view .'.mobile.php';
-		$tablet = ROOT . 'app/views/'. $_controller .'/'. $view .'.tablet.php';
+		if(App::$module)
+		{
+			$mobile = ROOT . Module::path(App::$module) .'views/'. $_controller .'/'. $view .'.mobile.php';
+			$tablet = ROOT . Module::path(App::$module) .'views/'. $_controller .'/'. $view .'.tablet.php';
+		}
+		else
+		{
+			$mobile = ROOT . 'app/views/'. $_controller .'/'. $view .'.mobile.php';
+			$tablet = ROOT . 'app/views/'. $_controller .'/'. $view .'.tablet.php';
+		}
 		
 		if(!defined('IS_MOBILE') && !defined('IS_TABLET'))
 		{
@@ -146,7 +175,11 @@ class Import
 		}
 		else
 		{
-			$file = ROOT . 'app/views/'. $_controller .'/'. $view .'.php';
+			if(App::$module)
+				$file = ROOT . Module::path(App::$module) .'views/'. $_controller .'/'. $view .'.php';
+			else
+				$file = ROOT . 'app/views/'. $_controller .'/'. $view .'.php';
+			
 			if(!file_exists($file))
 				throw new FileNotFoundException('views/'. $_controller .'/'. $view .'.php');
 		}
@@ -188,9 +221,9 @@ class Import
 		if(Cache::enabled() && $cache->has($key))
 		{
 			$files = $cache->read($key);
-			if(isset($files[$class]))
+			if(isset($files[App::$module . $class]))
 			{
-				require_once $files[$class];
+				require_once $files[App::$module . $class];
 				return;
 			}
 		}
@@ -206,13 +239,21 @@ class Import
 				if($files === false)
 					$files = array();
 				
-				$files[$class] = $file;
+				$files[App::$module . $class] = $file;
 				if(Cache::enabled())
 					$cache->write($key, $files, CACHE_TIME);
 				
 				return;
 			}
 		}
+	}
+	
+	public static function register_module($module)
+	{
+		self::register(Module::path($module) . 'models/');
+		self::register(Module::path($module) . 'controllers/');
+		self::register(Module::path($module) . 'helpers/');
+		self::register(Module::path($module) . 'vendors/');
 	}
 	
 	/**

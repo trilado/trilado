@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2011-2012, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * Copyright (c) 2011-2013, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
  * All rights reserved.
  */
 
@@ -34,6 +34,7 @@
 	require_once ROOT . 'core/libs/Import.php';
 	require_once ROOT . 'core/libs/Route.php';
 	require_once ROOT . 'core/libs/Config.php';
+	require_once ROOT . 'core/libs/Module.php';
 	require_once ROOT . 'app/config.php';
 	require_once ROOT . 'app/routes.php';
 	require_once ROOT . 'core/constantes.php';
@@ -49,12 +50,15 @@
 	Import::register('core/libs/cachesource/');
 	Import::register('core/libs/vendors/');
 	Import::register('core/libs/HTTP/');
-	Import::register('app/models/');
-	Import::register('app/controllers/');
-	Import::register('app/helpers/');
+	
 	
 	foreach(Config::get('directories') as $d)
 		Import::register($d);
+	
+	//Module::add('app', 'app/');
+	foreach(Config::get('modules') as $n => $p)
+		Module::add($n, $p);
+	Module::init();
 	
 	Import::core('App');
 	
