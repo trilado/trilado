@@ -28,14 +28,25 @@ class Trimake
 		
 	}
 	
-	public function createController($name)
+	public function createController($model, $module = '')
+	{
+		$file = ROOT . 'app/' . $module . 'controllers/' . $model . 'Controller.php';
+		$content = $this->loadTemplate('controller', array('Name' => $model));
+		if(!file_put_contents($file, $content))
+			throw new Exception ('Erro ao tentar criar o arquivo "' . $file . '"');
+	}
+	
+	public function createViews($model, $module = '')
 	{
 		
 	}
 	
-	public function createView()
+	public function createView($model, $type, $module = '')
 	{
-		
+		$file = ROOT . 'app/' . $module . 'views/' . $model . '/' . $type . 'php';
+		$content = $this->loadTemplate('view', array('Name' => $model));
+		if(!file_put_contents($file, $content))
+			throw new Exception ('Erro ao tentar criar o arquivo "' . $file . '"');
 	}
 	
 	public function createTable()
@@ -50,5 +61,23 @@ class Trimake
 			if(!mkdir($path, 0755))
 				throw new Exception('Erro ao tentar criar o diretório "' . $path . '"');
 		}
+	}
+	
+	protected function loadTable($name)
+	{
+		
+	}
+	
+	protected function loadTemplate($tpl, $vars = array())
+	{
+		$file = ROOT . 'app/views/_trimake/' . $tpl;
+		if(!file_exists($file))
+			throw new Exception('Arquivo "' . $file . '" não encontrado');
+		
+		$content = file_get_contents($file);
+		
+		foreach ($vars as $key => $value)
+			$content = str_replace('{' . $key . '}', $value, $content);
+		return $content;
 	}
 }
