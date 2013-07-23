@@ -127,15 +127,20 @@ class Model
 		$entity = $db->{$class}->orderBy($o, $t);
 		if(is_array($filters))
 		{
+			$fields = array();
+			
 			foreach ($filters as $k => $v){
-				if(preg_match('^%(.*)%$', $v) === 0){
-					$k .= $k .' LIKE ?';
+				if(preg_match('/^%(.*)%$/', $v) !== 0){
+					$fields[] = $k .' LIKE ?';
 				}else{
-					$k .= $k .' = ?';
+					$fields[] = $k .' = ?';
 				}
+				
+				$filters[] = $v;
+				unset($filters[$k]);
 			}
 				
-			$fields = implode(' OR ', array_keys($fields));
+			$fields = implode(' OR ', $fields);
 			$entity->whereArray($fields, $filters);
 		}
 		return $entity->paginate($p, $m);
