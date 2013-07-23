@@ -246,7 +246,27 @@ class SqlsrvDatasource extends Datasource
 	 */
 	public function orderBy($order, $type = null)
 	{
-		$this->orderby = $order . ($type ? ' '. $type : '');
+		if (is_array($order))
+		{
+			if(!is_array($type))
+				throw new DatabaseException('Ambos os parâmetro devem ser do mesmo tipo');
+			elseif(count($type) !== count($order))
+				throw new DatabaseException('Quantidade de parâmetros está diferente');
+			
+			$o = array();
+					
+			foreach ($order as $k => $v)
+			{
+				$o[] = $v . ' ' . $type[$k];
+			}
+			
+			$this->orderby = implode(', ', $o);
+		}
+		else
+		{
+			$this->orderby = $order . ($type ? ' ' . $type : '');
+		}
+
 		return $this;
 	}
 	
@@ -257,7 +277,20 @@ class SqlsrvDatasource extends Datasource
 	 */
 	public function orderByDesc($order)
 	{
-		$this->orderby = $order .' DESC';
+		if (is_array($order))
+		{
+			foreach ($order as $k => $v)
+			{
+				$order[$k] = $v . ' DESC';
+			}
+			
+			$this->orderby = implode(', ', $order);
+		}
+		else
+		{
+			$this->orderby = $order . ' DESC';
+		}
+		
 		return $this;
 	}
 	
