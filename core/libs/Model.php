@@ -129,10 +129,14 @@ class Model
 		{
 			$fields = array();
 			
-			foreach ($filters as $k => $v){
-				if(preg_match('/^%(.*)%$/', $v) !== 0){
+			foreach ($filters as $k => $v)
+			{
+				if(preg_match('/^%(.*)%$/', $v) !== 0)
+				{
 					$fields[] = $k .' LIKE ?';
-				}else{
+				}
+				else
+				{
 					$fields[] = $k .' = ?';
 				}
 				
