@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2011-2012, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * Copyright (c) 2011-2013, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
  * All rights reserved.
  */
 
@@ -10,10 +10,10 @@
  * dependendo da sessão do usuário
  * 
  * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
- * @version	1
+ * @version	1.1
  *
  */
-class UnauthorizedException extends TriladoException
+class UnauthorizedException extends HTTPException
 {
 	/**
 	 * Construtor da classe
@@ -22,6 +22,6 @@ class UnauthorizedException extends TriladoException
 	 */
 	public function __construct($message, $code)
 	{
-		parent::__construct($message, $code);
+		parent::__construct($message, 401);
 	}
 }

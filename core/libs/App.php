@@ -125,10 +125,26 @@ class App
 			
 			Debug::show();
 		}
-		catch(PageNotFoundException $e)
+		catch(HTTPException $e)
 		{
-			header('HTTP/1.1 404 Not Found');
-			Error::render(404, $e->getMessage(), $e->getFile(), $e->getLine(), $e->getTraceAsString(), method_exists($e, 'getDetails') ? $e->getDetails() : '');
+			$errors = array();
+			$errors[400] = 'Bad Request';
+			$errors[401] = 'Unauthorized';
+			$errors[402] = 'Payment Required';
+			$errors[403] = 'Forbidden';
+			$errors[404] = 'Not Found';
+			$errors[405] = 'Method Not Allowed';
+			$errors[406] = 'Not Acceptable';
+			$errors[407] = 'Proxy';
+			$errors[408] = 'Request Timeout';
+			$errors[500] = 'Internal Server Error';
+			$errors[501] = 'Not Implemented';
+			$errors[502] = 'Bad Gateway';
+			$errors[503] = 'Service Unavailable';
+			$errors[504] = 'Gateway Timeout';
+			
+			header('HTTP/1.1 ' . $e->getCode() . ' ' . $errors[$e->getCode()]);
+			Error::render($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine(), $e->getTraceAsString(), method_exists($e, 'getDetails') ? $e->getDetails() : '');
 			exit;
 		}
 		catch(Exception $e)
