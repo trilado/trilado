@@ -123,7 +123,9 @@ class App
 				$cache->write(URL, $data, $cache_config['time']);
 			}
 			
-			Debug::show();
+			$debug_config = Config::get('debug');
+			if(isset($debug_config['sql']) && $debug_config['sql'])
+				Debug::show();
 		}
 		catch(HTTPException $e)
 		{

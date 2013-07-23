@@ -15,7 +15,8 @@
  */
 Config::set('debug', array(
 	'type'	=> 'local', //pode assumir os seguintes valores: off, local, network e all
-	'query'	=> false //pode assumir false, para desativar, ou um valor para a query ?debug=seu-valor-seguro
+	'query'	=> false, //pode assumir false, para desativar, ou um valor para a query ?debug=seu-valor-seguro
+	'sql'	=> true, 
 ));
 
 /**
