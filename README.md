@@ -1,4 +1,4 @@
-Visite a página do Trilado http://vaneves.github.com/trilado/
+Visite a página do Trilado http://trilado.github.com/trilado/
 
 # O que é o Trilado? #
 Trilado é um Framework PHP MVC que visa o desenvolvimento web ágil, é fácil, leve e sua documentação é totalmente escrita em português. Um framework desenvolvido para brasileiros.
