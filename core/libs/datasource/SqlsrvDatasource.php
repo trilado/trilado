@@ -383,7 +383,7 @@ class SqlsrvDatasource extends Datasource
 		}
 		
 		$results = array();
-		if($stmt->rowCount() > 0)
+		if($stmt->rowCount() !== 0)
 		{
 			$annotation = Annotation::get($this->clazz);
 			$i = 0;
@@ -855,7 +855,7 @@ class SqlsrvDatasource extends Datasource
 				$error = $stmt->errorInfo();
 				throw new DatabaseException($error[2]);
 			}
-			if($stmt->rowCount() > 0)
+			if($stmt->rowCount() !== 0)
 			{
 				$results = array();
 				while($result = $stmt->fetch(PDO::FETCH_ASSOC))
