@@ -460,6 +460,11 @@ class MysqlDatasource extends Datasource
 				++$i;
 			}
 		}
+		else
+		{
+			if($this->calc)
+				$results = 0;
+		}
 		if($this->cache > 0 && Cache::enabled())
 		{
 			$cache = Cache::factory();
