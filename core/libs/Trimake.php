@@ -23,8 +23,9 @@ class Trimake
 		$this->createDir($module . 'views/');
 	}
 	
-	public function createModel()
+	public function createModel($name)
 	{
+		$struct = $this->loadTable($name);
 		
 	}
 	
@@ -38,7 +39,10 @@ class Trimake
 	
 	public function createViews($model, $module = '')
 	{
-		
+		$this->createView($model, 'index', $module);
+		$this->createView($model, 'view', $module);
+		$this->createView($model, 'admin_index', $module);
+		$this->createView($model, 'admin_add', $module);
 	}
 	
 	public function createView($model, $type, $module = '')
@@ -65,12 +69,14 @@ class Trimake
 	
 	protected function loadTable($name)
 	{
+		$db = Database::factory();
 		
 	}
 	
 	protected function loadTemplate($tpl, $vars = array())
 	{
-		$file = ROOT . 'app/views/_trimake/' . $tpl;
+		$config = Config::get('trimake');
+		$file = ROOT . 'app/views/' . $config['template'] . '/' . $tpl;
 		if(!file_exists($file))
 			throw new Exception('Arquivo "' . $file . '" não encontrado');
 		
