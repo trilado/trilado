@@ -47,7 +47,7 @@ class Trimake
 	
 	public function createView($model, $type, $module = '')
 	{
-		$file = ROOT . 'app/' . $module . 'views/' . $model . '/' . $type . 'php';
+		$file = ROOT . 'app/' . $module . 'views/' . $model . '/' . $type . '.php';
 		$content = $this->loadTemplate('view', array('Name' => $model));
 		if(!file_put_contents($file, $content))
 			throw new Exception ('Erro ao tentar criar o arquivo "' . $file . '"');
@@ -73,6 +73,11 @@ class Trimake
 		
 	}
 	
+	protected function loadModel($name)
+	{
+		
+	}
+
 	protected function loadTemplate($tpl, $vars = array())
 	{
 		$config = Config::get('trimake');
