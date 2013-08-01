@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2012, Valdirene da Cruz Neves Júnior <vaneves@vaneves.com>
+ * Copyright (c) 2012-2013, Valdirene da Cruz Neves Júnior <vaneves@vaneves.com>
  * All rights reserved.
  */
 
@@ -10,7 +10,7 @@
  * 
  * @author		Valdirene da Cruz Neves Júnior <vaneves@vaneves.com>
  * @author		Diego Oliveia <diegopso2@gmail.com>
- * @version		1.2
+ * @version		1.3
  *
  */
 abstract class Cachesource
@@ -64,26 +64,15 @@ abstract class Cachesource
 	abstract public function has($key);
 
 	/**
-	 * Identificador de grupos de cache. 
-	 */
-	const GROUP_ID = 'TRILADO_DEFAULT_GROUP';
-
-	/**
 	 * Retorna um array com as chaves contidas em um grupo de cache. 
 	 * @param String $groupName O nome do grupo a retornar.
 	 */
 	public function group($groupName)
 	{
-		$clazz = get_called_class();
-		$groupName = $clazz::GROUP_ID . $groupName;
+		$groupName = 'Trilado.Cache.Group.' . $groupName;
 		if ($this->has($groupName))
-		{
 			return $this->read($groupName);
-		}
-		else
-		{
-			return array();
-		}
+		return array();
 	}
 
 	/**
@@ -93,8 +82,7 @@ abstract class Cachesource
 	 */
 	public function addToGroup($groupName, $key)
 	{
-		$clazz = get_called_class();
-		$groupName = $clazz::GROUP_ID . $groupName;
+		$groupName = 'Trilado.Cache.Group.' . $groupName;
 		if ($this->has($groupName))
 		{
 			$group = $this->read($groupName);
@@ -114,17 +102,13 @@ abstract class Cachesource
 	 */
 	public function deleteGroup($groupName)
 	{
-		$clazz = get_called_class();
-		$groupName = $clazz::GROUP_ID . $groupName;
+		$groupName = 'Trilado.Cache.Group.' .  $groupName;
 		if ($this->has($groupName))
 		{
 			$group = $this->read($groupName);
 
 			foreach ($group as $k)
-			{
 				$this->delete($k);
-			}
-
 			$this->delete($groupName);
 		}
 	}
