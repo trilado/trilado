@@ -10,7 +10,7 @@
  * utilizando orientação a objetos de acordo com o MySQL.
  * 
  * @author	Valdirene da Cruz Neves Júnior <vaneves@vaneves.com>
- * @version	0.5
+ * @version	0.6
  *
  */
 class MysqlDatasource extends Datasource
@@ -393,7 +393,7 @@ class MysqlDatasource extends Datasource
 		
 		$key = md5($this->getSQL());
 		
-		if($this->cache > 0 && Cache::enabled())
+		if(Cache::enabled())
 		{
 			$cache = Cache::factory();
 			if($cache->has($key))
@@ -418,10 +418,12 @@ class MysqlDatasource extends Datasource
 			{
 				if($this->calc)
 				{
-					if($this->cache > 0 && Cache::enabled())
+					if(Cache::enabled())
 					{
+						$config = Config::get('cache');
 						$cache = Cache::factory();
-						$cache->write($key, $result['calc'], $this->cache * MINUTE);
+						$cache->addToGroup($this->clazz, $key);
+						$cache->write($key, $result['calc'], $config['time'] * MINUTE);
 					}
 					return $result['calc'];
 				}
@@ -465,10 +467,12 @@ class MysqlDatasource extends Datasource
 			if($this->calc)
 				$results = 0;
 		}
-		if($this->cache > 0 && Cache::enabled())
+		if(Cache::enabled())
 		{
+			$config = Config::get('cache');
 			$cache = Cache::factory();
-			$cache->write($key, $results, $this->cache * MINUTE);
+			$cache->addToGroup($this->clazz, $key);
+			$cache->write($key, $results, $config['time'] * MINUTE);
 		}
 		
 		return $results;
@@ -867,6 +871,11 @@ class MysqlDatasource extends Datasource
 			{
 				throw new DatabaseException($ex->getMessage(), $ex->getCode());
 			}
+		}
+		if(Cache::enabled())
+		{
+			$cache = Cache::factory();
+			$cache->deleteGroup($this->clazz);
 		}
 		$this->operations = array();
 	}

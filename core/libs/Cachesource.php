@@ -10,7 +10,7 @@
  * 
  * @author		Valdirene da Cruz Neves Júnior <vaneves@vaneves.com>
  * @author		Diego Oliveia <diegopso2@gmail.com>
- * @version		1.3
+ * @version		1.4
  *
  */
 abstract class Cachesource
@@ -65,40 +65,40 @@ abstract class Cachesource
 
 	/**
 	 * Retorna um array com as chaves contidas em um grupo de cache. 
-	 * @param String $groupName O nome do grupo a retornar.
+	 * @param	string	$groupName	O nome do grupo a retornar.
 	 */
-	public function group($groupName)
+	public function getGroup($groupName)
 	{
 		$groupName = 'Trilado.Cache.Group.' . $groupName;
 		if ($this->has($groupName))
 			return $this->read($groupName);
 		return array();
 	}
+	
+	public function hasGroup($name)
+	{
+		return $this->has('Trilado.Cache.Group.' . $name);
+	}
 
 	/**
 	 * Adiciona uma chave de cache a um grupo de cache.
-	 * @param String $groupName O nome do grupo para adicionar a chave.
-	 * @param String $key A chave a ser adicionada.
+	 * @param	string	$groupName	O nome do grupo para adicionar a chave.
+	 * @param	string	$key		A chave a ser adicionada.
 	 */
 	public function addToGroup($groupName, $key)
 	{
 		$groupName = 'Trilado.Cache.Group.' . $groupName;
 		if ($this->has($groupName))
-		{
 			$group = $this->read($groupName);
-			$group[] = $key;
-			$this->write($groupName, $group);
-		}
 		else
-		{
-			$group = array($key);
-			$this->write($groupName, $group);
-		}
+			$group = array();
+		$group[md5($key)] = $key;
+		$this->write($groupName, $group, YEAR);
 	}
 
 	/**
 	 * Deleta todas as informações de cahce que estão em um grupo.
-	 * @param String $groupName O nome do grupo a ser apagado.
+	 * @param	string	$groupName	O nome do grupo a ser apagado.
 	 */
 	public function deleteGroup($groupName)
 	{
@@ -112,5 +112,15 @@ abstract class Cachesource
 			$this->delete($groupName);
 		}
 	}
-
+	
+	public function hasOnGroup($name, $key)
+	{
+		$name = 'Trilado.Cache.Group.' . $name;
+		if($this->has($name))
+		{
+			$group = $this->read($name);
+			return isset($group[md5($key)]);
+		}
+		return false;
+	}
 }
