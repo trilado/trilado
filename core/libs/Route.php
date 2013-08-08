@@ -71,13 +71,13 @@ class Route
 		$url = trim(self::checkRoute($url), '/');
 		$urls = explode('/', $url);
 	
-		if(self::isI18n($urls[0]))
+		if(isset($urls[0]) && self::isI18n($urls[0]))
 			$args['lang'] = array_shift($urls);
 		
-		if(self::isPrefix($urls[0]))
+		if(isset($urls[0]) && self::isPrefix($urls[0]))
 			$args['prefix'] = array_shift($urls);
 		
-		if(Module::exists($urls[0]))
+		if(isset($urls[0]) && Module::exists($urls[0]))
 			$args['module'] = array_shift($urls);
 		
 		$args['controller']	= array_shift($urls);
