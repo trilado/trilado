@@ -117,6 +117,7 @@ class Model
 	 * @param	string	$o			coluna a ser ordenada
 	 * @param	string	$t			tipo de ordenação (asc ou desc)
 	 * @param	array	$filters	filtros utilizados para pesquisar no baco (ex.: array('Title' => '%example%'))
+	 * @param 	string 	$whereOp	método de união para as condições (ex.: 'OR', ou 'AND')
 	 * @return	array				retorna umma lista de instâncias de Model
 	 */
 	public static function search($p = 1, $m = 10, $o = 'Id', $t = 'asc', $filters = array(), $whereOp = 'OR')
