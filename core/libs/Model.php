@@ -119,33 +119,41 @@ class Model
 	 * @param	array	$filters	filtros utilizados para pesquisar no baco (ex.: array('Title' => '%example%'))
 	 * @return	array				retorna umma lista de instâncias de Model
 	 */
-	public static function search($p = 1, $m = 10, $o = 'Id', $t = 'asc', $filters = array())
+	public static function search($p = 1, $m = 10, $o = 'Id', $t = 'asc', $filters = array(), $whereOp = 'OR')
 	{
 		$p = $m * (($p < 1 ? 1 : $p) - 1);
-		$class = get_called_class();
+
 		$db = Database::factory();
-		$entity = $db->{$class}->orderBy($o, $t);
+		$entity = $db->User->orderBy($o, $t);
 		if(is_array($filters))
 		{
 			$fields = array();
-			
+			$values = array();
+
 			foreach ($filters as $k => $v)
 			{
-				if(preg_match('/^%(.*)%$/', $v) !== 0)
+				if(is_array($v))
 				{
-					$fields[] = $k .' LIKE ?';
+					$fields[] = $v[0] . ' ' . $v[1] . ' ?';
+					$values[] = $v[2];
 				}
 				else
 				{
-					$fields[] = $k .' = ?';
+					if(preg_match('/^%(.*)%$/', $v) !== 0)
+					{
+						$fields[] = $k .' LIKE ?';
+					}
+					else
+					{
+						$fields[] = $k .' = ?';
+					}
+
+					$values[] = $v;
 				}
-				
-				$filters[] = $v;
-				unset($filters[$k]);
 			}
 				
-			$fields = implode(' OR ', $fields);
-			$entity->whereArray($fields, $filters);
+			$fields = implode(" $whereOp ", $fields);
+			$entity->whereArray($fields, $values);
 		}
 		return $entity->paginate($p, $m);
 	}
