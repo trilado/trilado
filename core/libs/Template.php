@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2011-2012, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * Copyright (c) 2011-2013, Trilado Team <team@triladophp.org>
  * All rights reserved.
  */
 
@@ -8,8 +8,8 @@
 /**
  * Classe responsável por renderizar a página
  * 
- * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
- * @version	2.5
+ * @author		Valdirene da Cruz Neves Júnior <vaneves@vaneves.com>
+ * @version	2.6
  *
  */
 class Template
@@ -40,6 +40,7 @@ class Template
 		
 		$name = App::$controller;
 		$controller = new $name();
+		$controller->args = $args;
 		$registry->set('Controller', $controller);
 		$this->response = $controller->beforeRender();
 		
