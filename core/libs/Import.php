@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2011-2013, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * Copyright (c) Trilado Team (triladophp.org)
  * All rights reserved.
  */
 
@@ -8,10 +8,10 @@
 /**
  * Contém método para facilitar a importação de arquivos, como controllers, models e helpers
  * 
- * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * @author	Valdirene da Cruz Neves Júnior <vaneves@vaneves.com>
  * @author	Diego Oliveira <diegopso2@gmail.com>
  * @author	Jackson Gomes <jackson.souza@gmail.com>
- * @version	1.8
+ * @version	1.9
  *
  */
 class Import
@@ -147,15 +147,21 @@ class Import
 		
 		extract($vars);
 		
+		$registry = Registry::getInstance();
+		$tpl = $registry->get('Template');
+		$path = $tpl->getDirectory();
+		if(!$path)
+			$path = App::ROOT . 'app/views/';
+		
 		if(App::$module)
 		{
-			$mobile = ROOT . Module::path(App::$module) .'views/'. $_controller .'/'. $view .'.mobile.php';
-			$tablet = ROOT . Module::path(App::$module) .'views/'. $_controller .'/'. $view .'.tablet.php';
+			$mobile = App::ROOT . Module::path(App::$module) .'views/'. $_controller .'/'. $view .'.mobile.php';
+			$tablet = App::ROOT . Module::path(App::$module) .'views/'. $_controller .'/'. $view .'.tablet.php';
 		}
 		else
 		{
-			$mobile = ROOT . 'app/views/'. $_controller .'/'. $view .'.mobile.php';
-			$tablet = ROOT . 'app/views/'. $_controller .'/'. $view .'.tablet.php';
+			$mobile = $path . $_controller .'/'. $view .'.mobile.php';
+			$tablet = $path . $_controller .'/'. $view .'.tablet.php';
 		}
 		
 		if(!defined('IS_MOBILE') && !defined('IS_TABLET'))
@@ -176,12 +182,12 @@ class Import
 		else
 		{
 			if(App::$module)
-				$file = ROOT . Module::path(App::$module) .'views/'. $_controller .'/'. $view .'.php';
+				$file = App::ROOT . Module::path(App::$module) .'views/'. $_controller .'/'. $view .'.php';
 			else
-				$file = ROOT . 'app/views/'. $_controller .'/'. $view .'.php';
+				$file = $path . $_controller .'/'. $view .'.php';
 			
 			if(!file_exists($file))
-				throw new FileNotFoundException('views/'. $_controller .'/'. $view .'.php');
+				throw new FileNotFoundException($path . $_controller .'/'. $view .'.php');
 		}
 		
 		require $file;

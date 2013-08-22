@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2011-2013, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * Copyright (c) Trilado Team (triladophp.org)
  * All rights reserved.
  */
 
@@ -9,12 +9,16 @@
  * Classe principal do Framework, responsável pelo controlar todo o fluxo, fazendo chama de outras classes
  * 
  * @author		Valdirene da Cruz Neves Júnior <vaneves@vaneves.com>
- * @author		Jackson Gomes <jackson.souza#gmail.com>
- * @version		2.6
+ * @author		Jackson Gomes <jackson.souza@gmail.com>
+ * @version		2.7
  *
  */ 
 class App 
 {
+	/**
+	 * Guarda o caminho do diretório raiz da aplicação.
+	 */
+	const ROOT = ROOT;
 	/**
 	 * Guarda os argumentos passados pela URL (prefixo, controller, action e parâmetros)
 	 * @var	array
