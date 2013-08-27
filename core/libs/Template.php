@@ -202,8 +202,11 @@ class Template
 		foreach($this->hook as $hook)
 			$html = $hook->renderFlash($html);
 		
-		define('flash', $html);
-		define('FLASH', $html);
+		if (!defined('FLASH')) 
+		{
+			define('flash', $html);
+			define('FLASH', $html);
+		}
 		Session::del('Flash.Message');
 	}
 	
