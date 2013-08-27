@@ -83,4 +83,13 @@ class Module
 		if(isset(self::$collection[$name]))
 			return trim(self::$collection[$name], '/') . '/';
 	}
+
+	public static function run($url)
+	{
+		ob_start();
+
+		new App($url);
+
+		return ob_get_clean();
+	}
 }

@@ -83,6 +83,8 @@ class App
 		define('ROOT', $root);
 		define('ROOT_VIRTUAL', str_replace($_SERVER['DOCUMENT_ROOT'], '', self::$root));
 		define('WWWROOT', self::$root . 'app/wwwroot/');
+
+		define('CACHE_TIME', self::$cacheTime);
 	}
 	
 	/**
@@ -91,7 +93,6 @@ class App
 	 */
 	public function __construct($url)
 	{
-		define('CACHE_TIME', self::$cacheTime);
 		$cache_config = Config::get('cache');
 		if($cache_config['enabled'] && $cache_config['page'])
 		{
@@ -108,46 +109,41 @@ class App
 		$this->args = $this->args($url);
 		
 		//I18n
-		define('lang', $this->args['lang']);
-		
-		define('LANG', $this->args['lang']);
+		if (!defined('LANG')) 
+		{
+			define('lang', $this->args['lang']);
+			define('LANG', $this->args['lang']);
+		}
 		
 		$i18n = I18n::getInstance();
 		$i18n->setLang(LANG);
 		
 		$registry->set('I18n', $i18n);
 		
-		function __($string, $format = null)
+		if(!function_exists('__'))
 		{
-			return I18n::getInstance()->get($string, $format);
-		}
-		function _e($string, $format = null)
-		{
-			echo I18n::getInstance()->get($string, $format);
+			function __($string, $format = null)
+			{
+				return I18n::getInstance()->get($string, $format);
+			}
+			function _e($string, $format = null)
+			{
+				echo I18n::getInstance()->get($string, $format);
+			}
 		}
 		
 		self::$controller = Inflector::camelize($this->args['controller']) .'Controller';
 		self::$action = str_replace('-', '_', $this->args['action']);
 		self::$module = $this->args['module'];
 		
-		$modules = Config::get('modules');
-		if(self::$module)
+		if (!defined('CONTROLLER')) 
 		{
-			unset($modules[App::$module]);
-			Import::register_module(App::$module);
+			define('controller', self::$controller );
+			define('action', self::$action);
+			
+			define('CONTROLLER', self::$controller );
+			define('ACTION', self::$action);
 		}
-		Import::register('app/models/');
-		Import::register('app/controllers/');
-		Import::register('app/helpers/');
-		
-		foreach($modules as $m)
-			Import::register_module($m);
-		
-		define('controller', self::$controller );
-		define('action', self::$action);
-		
-		define('CONTROLLER', self::$controller );
-		define('ACTION', self::$action);
 		
 		try
 		{

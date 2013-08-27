@@ -9,6 +9,7 @@
  * Classe responsável por renderizar a página
  * 
  * @author		Valdirene da Cruz Neves Júnior <vaneves@vaneves.com>
+ * @author		Diego Oliveira <diegopso@gmail.com>
  * @version	2.7
  *
  */
@@ -30,7 +31,7 @@ class Template
 	 * Guarda o nome do template master
 	 * @var	string	nome da template
 	 */
-	private $master;
+	public static $master;
 	
 	/**
 	 * Guarda o diretório raiz onde ficam as views
@@ -49,7 +50,7 @@ class Template
 		$this->master();
 		
 		$registry = Registry::getInstance();
-		
+
 		$name = App::$controller;
 		$controller = new $name();
 		$controller->args = $args;
@@ -104,7 +105,7 @@ class Template
 		
 		foreach ($this->hook as $hook)
 			$this->responde = $hook->response($this->response);
-		
+
 		echo $this->response;
 	}
 	
@@ -135,9 +136,15 @@ class Template
 		if(!$tpl)
 			$tpl = Config::get('default_master');
 		
-		define('master', $tpl);
-		define('MASTER', $tpl);
-		$this->master = $tpl;
+		self::$master = $tpl;
+
+		if(!defined('MASTER'))
+		{
+			define('master', self::$master);
+			define('MASTER', self::$master);
+		}
+
+		self::$master = $tpl;
 		
 		return $tpl;
 	}
@@ -149,7 +156,7 @@ class Template
 	 */
 	public function setMaster($master)
 	{
-		$this->master = $master;
+		self::$master = $master;
 	}
 	
 	/**
@@ -207,7 +214,7 @@ class Template
 	 */
 	private function renderView($ob)
 	{
-		$html = Import::view($ob->Vars, '_master', $this->master);
+		$html = Import::view($ob->Vars, '_master', self::$master);
 		$html = $this->resolveUrl($html);
 
 		$content = Import::view($ob->Vars, $ob->Data['controller'], $ob->Data['view']);
@@ -224,7 +231,7 @@ class Template
 	 */
 	private function renderContent($ob)
 	{
-		$html = Import::view($ob->Vars, '_master', MASTER);
+		$html = Import::view($ob->Vars, '_master', self::$master);
 		$html = $this->resolveUrl($html);
 		
 		$content = $ob->Data;
@@ -277,6 +284,6 @@ class Template
 	 */
 	private function resolveUrl($html)
 	{
-		return str_replace(array('"~/', "'~/"), array('"'. ROOT_VIRTUAL, "'". ROOT_VIRTUAL), $html);
+		return str_replace(array('"~/', "'~/"), array('"'. App::$rootVirtual, "'". App::$rootVirtual), $html);
 	}
 }

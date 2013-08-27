@@ -66,8 +66,12 @@ class Route
 			$args['dot'] = $matches[1];
 			$url = rtrim($url, $matches[0]);
 		}
-		define('is_autodot', isset($args['dot']));
-		define('IS_AUTODOT', isset($args['dot']));
+
+		if(!defined('IS_AUTODOT'))
+		{
+			define('is_autodot', isset($args['dot']));
+			define('IS_AUTODOT', isset($args['dot']));
+		}
 		
 		$url = trim(self::checkRoute($url), '/');
 		$urls = explode('/', $url);
