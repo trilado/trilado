@@ -60,7 +60,14 @@ class Module
 		foreach (self::$collection as $m)
 		{
 			if (file_exists($m . 'init.php'))
+			{
+				Import::register($m . 'controllers/');
+				Import::register($m . 'models/');
+				Import::register($m . 'vendors/');
+				Import::register($m . 'helpers/');
+
 				require_once $m . 'init.php';
+			}
 		}
 	}
 	
