@@ -268,13 +268,16 @@ class Import
 	public static function register($dir, $key = 0)
 	{
 		$dir = rtrim($dir, '/') . '/';
-		if (is_string($key) && !array_key_exists($key, self::$directories))
+		if (array_search($dir, self::$directories) === false) 
 		{
-			self::$directories[$key] = $dir;
-		}
-		else
-		{
-			self::$directories[] = $dir;
+			if (is_string($key) && !array_key_exists($key, self::$directories))
+			{
+				self::$directories[$key] = $dir;
+			}
+			else
+			{
+				self::$directories[] = $dir;
+			}
 		}
 	}
 }
