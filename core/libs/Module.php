@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2012-2013, Jackson Gomes <jackson.souza@gmail.com>
+ * Copyright (c) Trilado Team (triladophp.org)
  * All rights reserved.
  */
 
@@ -8,6 +8,7 @@
  * 
  * @author	Jackson Gomes <jackson.souza@gmail.com>
  * @author	Valdirene da Cruz Neves Júnior <vaneves@vaneves.com>
+ * @author	Diego Oliveira <diegopso2@gmail.com>
  * @version	0.2
  */
 class Module

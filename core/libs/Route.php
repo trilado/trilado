@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2011-2013, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * Copyright (c) Trilado Team (triladophp.org)
  * All rights reserved.
  */
 
@@ -10,6 +10,7 @@
  * 
  * @author	Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
  * @author	Jackson Gomes <jackson.souza@gmail.com>
+ * @author	Diego Oliveira <diegopso2@gmail.com>
  * @version	1.2
  *
  */
