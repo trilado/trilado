@@ -38,23 +38,21 @@
 	spl_autoload_register(array('Import', 'autoload'));
 	
 	//registra os diretórios padrão de arquivos de código fonte da framework
-	Import::register('core/libs/');
-	Import::register('core/libs/exceptions/');
-	Import::register('core/libs/datasource/');
-	Import::register('core/libs/cachesource/');
-	Import::register('core/libs/vendors/');
-	Import::register('core/libs/HTTP/');
+	Import::register(App::$rootCore . 'libs/', 'core');
+	Import::register(App::$rootCore . 'libs/exceptions/', 'exception');
+	Import::register(App::$rootCore . 'libs/datasource/', 'datasource');
+	Import::register(App::$rootCore . 'libs/cachesource/', 'cachesource');
+	Import::register(App::$rootCore . 'libs/vendors/');
+	Import::register(App::$rootCore . 'libs/HTTP/');
 	
 	
-	foreach(Config::get('directories') as $d)
-		Import::register($d);
+	foreach(Config::get('directories') as $k => $d)
+		Import::register(App::$root . $d, $k);
 	
 	//Module::add('app', 'app/');
 	foreach(Config::get('modules') as $n => $p)
-		Module::add($n, $p);
+		Module::add($n, App::$root . $p);
 	Module::init();
-	
-	Import::core('App');
 	
 	$url = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '';
 	

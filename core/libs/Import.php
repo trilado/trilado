@@ -28,21 +28,13 @@ class Import
 	 */
 	public static function load($folder, $class = array())
 	{
-		$folders = array();
-		$folders['core']		= 'core/libs/';
-		$folders['exception']	= 'core/libs/exceptions/';
-		$folders['cachesource']	= 'core/libs/cachesource/';
-		$folders['datasource']	= 'core/libs/datasource/';
-		$folders['controller']	= 'app/controllers/';
-		$folders['model']		= 'app/models/';
-		$folders['helper']		= 'app/helpers/';
-		$folders['vendor']		= 'app/vendors/';
+		$folders = self::$directories;
 		
 		if(!array_key_exists($folder, $folders))
 			throw new DirectoryNotFoundException($folder .'s');
 		foreach($class as $c)
 		{
-			$file = root . $folders[$folder] . $c . '.php';
+			$file = $folders[$folder] . $c . '.php';
 			if(!file_exists($file))
 				throw new FileNotFoundException($folders[$folder] . $c .'.php');
 			
@@ -79,10 +71,10 @@ class Import
 		foreach($args as $c)
 		{
 			if(App::$module)
-				$file = ROOT . Module::path(App::$module) . 'controllers/' . $c . '.php';
+				$file = Module::path(App::$module) . 'controllers/' . $c . '.php';
 			else
-				$file = ROOT . 'app/controllers/' . $c . '.php';
-			
+				$file = App::$root . 'app/controllers/' . $c . '.php';
+
 			if(!file_exists($file))
 			{
 				$modules = Config::get('modules');
@@ -151,12 +143,12 @@ class Import
 		$tpl = $registry->get('Template');
 		$path = $tpl->getDirectory();
 		if(!$path)
-			$path = App::ROOT . 'app/views/';
+			$path = App::$root . 'app/views/';
 		
 		if(App::$module)
 		{
-			$mobile = App::ROOT . Module::path(App::$module) .'views/'. $_controller .'/'. $view .'.mobile.php';
-			$tablet = App::ROOT . Module::path(App::$module) .'views/'. $_controller .'/'. $view .'.tablet.php';
+			$mobile = Module::path(App::$module) .'views/'. $_controller .'/'. $view .'.mobile.php';
+			$tablet = Module::path(App::$module) .'views/'. $_controller .'/'. $view .'.tablet.php';
 		}
 		else
 		{
@@ -171,18 +163,18 @@ class Import
 			define('IS_TABLET', $detect->isTablet());
 		}
 		
-		if(Config::get('auto_tablet') && IS_TABLET && file_exists($tablet))
+		if(Config::get('auto_tablet') && Request::isTablet() && file_exists($tablet))
 		{
 			$file = $tablet;
 		}
-		elseif(Config::get('auto_mobile') && IS_MOBILE && file_exists($mobile))
+		elseif(Config::get('auto_mobile') && Request::isMobile() && file_exists($mobile))
 		{
 			$file = $mobile;
 		}
 		else
 		{
 			if(App::$module)
-				$file = App::ROOT . Module::path(App::$module) .'views/'. $_controller .'/'. $view .'.php';
+				$file = Module::path(App::$module) .'views/'. $_controller .'/'. $view .'.php';
 			else
 				$file = $path . $_controller .'/'. $view .'.php';
 			
@@ -236,7 +228,7 @@ class Import
 		
 		foreach(self::$directories as $dir)
 		{
-			$file = ROOT . $dir .  $class .'.php';
+			$file = $dir .  $class .'.php';
 			if(file_exists($file))
 			{
 				require_once($file);
@@ -267,9 +259,16 @@ class Import
 	 * @param	string	$dir	diretório a ser inserido, começando da raiz do framework
 	 * @return	void
 	 */
-	public static function register($dir)
+	public static function register($dir, $key = 0)
 	{
 		$dir = rtrim($dir, '/') . '/';
-		self::$directories[] = $dir;
+		if (is_string($key) && !array_key_exists($key, self::$directories))
+		{
+			self::$directories[$key] = $dir;
+		}
+		else
+		{
+			self::$directories[] = $dir;
+		}
 	}
 }

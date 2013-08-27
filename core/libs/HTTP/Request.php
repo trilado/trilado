@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2013, Valdirene da Cruz Neves Júnior <vaneves@vaneves.com>
+ * Copyright (c) Trilado Team (triladophp.org)
  * All rights reserved.
  */
 
@@ -9,6 +9,7 @@
  * Contém métodos para capturar dados de uma requisição e para criar um requisição
  * 
  * @author	Valdirene da Cruz Neves Júnior <vaneves@vaneves.com>
+ * @author	Diego Oliveira <diegopso2@gmail.com>
  * @version	0.1
  * @license	http://opensource.org/licenses/BSD-3-Clause
  *
@@ -109,6 +110,28 @@ class Request
 	public static function isSecure()
 	{
 		return isset($_SERVER['HTTPS']);
+	}
+
+	/**
+	 * Verifica se a requisição é de um tablet
+	 * 
+	 * @return	boolean		retorna true se for, no contrário retorna false
+	 */
+	public static function isTablet()
+	{
+		$detect = new Mobile_Detect;
+		return $detect->isTablet();
+	}
+
+	/**
+	 * Verifica se a requisição é de um dispositivo móvel
+	 * 
+	 * @return	boolean		retorna true se for, no contrário retorna false
+	 */
+	public static function isMobile()
+	{
+		$detect = new Mobile_Detect;
+		return $detect->isMobile() && !$detect->isTablet();
 	}
 	
 	/**

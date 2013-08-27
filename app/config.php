@@ -119,12 +119,15 @@ Config::set('cache', array(
  * Registrar diretórios de arquivos de código fonte, para autoload 
  */
 Config::set('directories', array(
-	'app/vendors',
+	'controller' 	=> App::$root . 'app/controllers',
+	'model' 		=> App::$root . 'app/models',
+	'helper' 		=> App::$root . 'app/helpers',
+	'vendor' 		=> App::$root . 'app/vendors',
 ));
 
 /**
  * Registrar diretórios de arquivos de código fonte, para autoload 
  */
 Config::set('modules', array(
-	'example' => 'app/modules/example/',
+	'example' => App::$root . 'app/modules/example/',
 ));
