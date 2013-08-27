@@ -37,6 +37,11 @@ class App
 	public static $rootCore;
 
 	/**
+	 * Guarda o cache time.
+	 */
+	public static $cacheTime = 60;
+
+	/**
 	 * Guarda os argumentos passados pela URL (prefixo, controller, action e parâmetros)
 	 * @var	array
 	 */
@@ -86,7 +91,7 @@ class App
 	 */
 	public function __construct($url)
 	{
-		define('CACHE_TIME', 60);
+		define('CACHE_TIME', self::$cacheTime);
 		$cache_config = Config::get('cache');
 		if($cache_config['enabled'] && $cache_config['page'])
 		{

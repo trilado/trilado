@@ -245,7 +245,7 @@ class Import
 				
 				$files[App::$module . $class] = $file;
 				if(Cache::enabled())
-					$cache->write($key, $files, CACHE_TIME);
+					$cache->write($key, $files, App::$cacheTime);
 				
 				return;
 			}
