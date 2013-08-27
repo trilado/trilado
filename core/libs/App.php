@@ -45,7 +45,7 @@ class App
 	 * Guarda os argumentos passados pela URL (prefixo, controller, action e parâmetros)
 	 * @var	array
 	 */
-	private $args = array();
+	public $args = array();
 	
 	/**
 	 * Guarda o nome do módulo a ser executado
