@@ -174,12 +174,18 @@ class Import
 		else
 		{
 			if(App::$module)
+			{
 				$file = Module::path(App::$module) .'views/'. $_controller .'/'. $view .'.php';
+				if(!file_exists($file))
+					$file = $path . $_controller .'/'. $view .'.php';
+			}
 			else
+			{
 				$file = $path . $_controller .'/'. $view .'.php';
+			}
 			
 			if(!file_exists($file))
-				throw new FileNotFoundException($path . $_controller .'/'. $view .'.php');
+				throw new FileNotFoundException($file);
 		}
 		
 		require $file;

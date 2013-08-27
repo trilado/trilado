@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2011-2013, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * Copyright (c) Trilado Team (triladophp.org)
  * All rights reserved.
  */
 
@@ -47,11 +47,11 @@
 	
 	
 	foreach(Config::get('directories') as $k => $d)
-		Import::register(App::$root . $d, $k);
+		Import::register($d, $k);
 	
 	//Module::add('app', 'app/');
 	foreach(Config::get('modules') as $n => $p)
-		Module::add($n, App::$root . $p);
+		Module::add($n, $p);
 	Module::init();
 	
 	$url = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '';

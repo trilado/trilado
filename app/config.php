@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2011-2013, Valdirene da Cruz Neves Júnior <linkinsystem666@gmail.com>
+ * Copyright (c) Trilado Team (triladophp.org)
  * All rights reserved.
  */
 
@@ -129,5 +129,5 @@ Config::set('directories', array(
  * Registrar diretórios de arquivos de código fonte, para autoload 
  */
 Config::set('modules', array(
-	'example' => App::$root . 'app/modules/example/',
+	'example' 		=> App::$root . 'app/modules/example/',
 ));
