@@ -9,7 +9,7 @@
  * Classe principal do Framework, responsável pelo controlar todo o fluxo, fazendo chama de outras classes
  * 
  * @author		Valdirene da Cruz Neves Júnior <vaneves@vaneves.com>
- * @author	Diego Oliveira <diegopso2@gmail.com>
+ * @author		Diego Oliveira <diegopso2@gmail.com>
  * @author		Jackson Gomes <jackson.souza@gmail.com>
  * @version		2.7
  *
