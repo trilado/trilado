@@ -88,7 +88,17 @@ class Module
 	{
 		ob_start();
 
+		$controller = App::$controller;
+		$action = App::$action;
+		$module = App::$module;
+		$args = App::$args;
+
 		new App($url);
+
+		App::$controller = $controller;
+		App::$action = $action;
+		App::$module = $module;
+		App::$args = $args;
 
 		return ob_get_clean();
 	}

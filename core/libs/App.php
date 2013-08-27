@@ -45,7 +45,7 @@ class App
 	 * Guarda os argumentos passados pela URL (prefixo, controller, action e parâmetros)
 	 * @var	array
 	 */
-	public $args = array();
+	public static $args = array();
 	
 	/**
 	 * Guarda o nome do módulo a ser executado
@@ -106,13 +106,13 @@ class App
 		
 		$registry = Registry::getInstance();
 		
-		$this->args = $this->args($url);
+		self::$args = $this->args($url);
 		
 		//I18n
 		if (!defined('LANG')) 
 		{
-			define('lang', $this->args['lang']);
-			define('LANG', $this->args['lang']);
+			define('lang', self::$args['lang']);
+			define('LANG', self::$args['lang']);
 		}
 		
 		$i18n = I18n::getInstance();
@@ -132,9 +132,9 @@ class App
 			}
 		}
 		
-		self::$controller = Inflector::camelize($this->args['controller']) .'Controller';
-		self::$action = str_replace('-', '_', $this->args['action']);
-		self::$module = $this->args['module'];
+		self::$controller = Inflector::camelize(self::$args['controller']) .'Controller';
+		self::$action = str_replace('-', '_', self::$args['action']);
+		self::$module = self::$args['module'];
 		
 		if (!defined('CONTROLLER')) 
 		{
@@ -156,7 +156,7 @@ class App
 			$this->auth();
 			$tpl = new Template();
 			$registry->set('Template', $tpl);
-			$tpl->render($this->args);
+			$tpl->render(self::$args);
 			
 			if($cache_config['enabled'] && $cache_config['page'])
 			{
@@ -254,9 +254,9 @@ class App
 	private function isValidParams($method)
 	{
 		$params = $method->getParameters();
-		if(count($this->args['params']) > count($params)) 
+		if(count(self::$args['params']) > count($params)) 
 			return false;
-		if(count($this->args['params']) < count($params))
+		if(count(self::$args['params']) < count($params))
 		{
 			$cont = 0;
 			foreach ($params as $param)
@@ -264,7 +264,7 @@ class App
 				if(!$param->isOptional()) 
 					$cont++;		
 			}
-			if(count($this->args['params']) < $cont) 
+			if(count(self::$args['params']) < $cont) 
 				return false;
 		}
 		return true;
