@@ -18,7 +18,23 @@ class App
 	/**
 	 * Guarda o caminho do diretório raiz da aplicação.
 	 */
-	const ROOT = ROOT;
+	public static $root;
+
+	/**
+	 * Guarda o caminho virtual da aplicação.
+	 */
+	public static $rootVirtual;
+
+	/**
+	 * Guarda o caminho do diretório WWWROOT.
+	 */
+	public static $wwwroot;
+
+	/**
+	 * Guarda o caminho do diretório core.
+	 */
+	public static $rootCore;
+
 	/**
 	 * Guarda os argumentos passados pela URL (prefixo, controller, action e parâmetros)
 	 * @var	array
@@ -42,6 +58,26 @@ class App
 	 * @var String
 	 */
 	public static $action;
+
+	/**
+	* Inicia a aplicação e calcula as constantes iniciais.
+	*/
+	public static function init($root)
+	{
+		self::$root = $root;
+		self::$rootVirtual = str_replace($_SERVER['DOCUMENT_ROOT'], '', self::$root);
+		self::$wwwroot = self::$root . 'app/wwwroot/';
+		self::$rootCore = self::$root . 'core/';
+
+		//define as constantes de root
+		define('root', $root);
+		define('root_virtual', str_replace($_SERVER['DOCUMENT_ROOT'], '', self::$root));
+		define('wwwroot', self::$root . 'app/wwwroot/');
+		
+		define('ROOT', $root);
+		define('ROOT_VIRTUAL', str_replace($_SERVER['DOCUMENT_ROOT'], '', self::$root));
+		define('WWWROOT', self::$root . 'app/wwwroot/');
+	}
 	
 	/**
 	 * Contrutor da classe
