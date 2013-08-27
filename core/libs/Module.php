@@ -28,7 +28,7 @@ class Module
 	 */
 	public static function add($name, $path)
 	{
-		self::$collection[strtolower($name)] = $path;
+		self::$collection[$name] = $path;
 	}
 
 	/**
@@ -38,7 +38,7 @@ class Module
 	 */
 	public static function remove($name)
 	{
-		unset(self::$collection[strtolower($name)]);
+		unset(self::$collection[$name]);
 	}
 
 	/**
@@ -49,7 +49,7 @@ class Module
 	 */
 	public static function exists($name)
 	{
-		return isset(self::$collection[strtolower($name)]);
+		return isset(self::$collection[$name]);
 	}
 
 	/**
