@@ -84,21 +84,35 @@ class Module
 			return trim(self::$collection[$name], '/') . '/';
 	}
 
+	/**
+	 * Guarda o histórico dos pais das sub-requisições
+	 * @var array
+	 */
+	public static $requestStack = array();
+
+	/**
+	 * Executa uma subrequisição dentro da requisição atual.
+	 * @param 	string 	$url 	url para executar a subrequisição (ex.: /post/view/5)
+	 * @return 	string 	HTML gerado ao executar a instrução
+	 */
 	public static function run($url)
 	{
 		ob_start();
 
-		$controller = App::$controller;
-		$action = App::$action;
-		$module = App::$module;
-		$args = App::$args;
+		array_unshift(self::$requestStack, array(
+			'args' 		=> App::$args,
+			'master'	=> Template::$master
+		));
 
 		new App($url);
 
-		App::$controller = $controller;
-		App::$action = $action;
-		App::$module = $module;
-		App::$args = $args;
+		$request = array_shift(self::$requestStack);
+
+		App::$controller = $request['args']['controller'];
+		App::$controller = $request['args']['action'];
+		App::$controller = $request['args']['module'];
+		App::$args = App::$controller = $request['args'];
+		Template::$master = $request['master'];
 
 		return ob_get_clean();
 	}
