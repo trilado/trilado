@@ -94,7 +94,7 @@ class Module
 	 * Remove a primeira requisição do topo da pilha de subrequisições e a retorna.
 	 * @return array 	A requisição desejada
 	 */
-	public static popRequest()
+	public static function popRequest()
 	{
 		return array_shift(self::$requestStack);
 	}
@@ -103,7 +103,7 @@ class Module
 	 * Adiciona uma requisição à pilha de subrequisições.
 	 * @param 	array 	Requisição a ser adicionada
 	 */
-	public static pushRequest($request)
+	public static function pushRequest($request)
 	{
 		array_unshift(self::$requestStack, $request);
 	}
@@ -112,7 +112,7 @@ class Module
 	 * Retorna o primeiro elemento da pilha de subrequisições.
 	 * @return 	array 	A requisição desejada
 	 */
-	public static topRequest()
+	public static function topRequest()
 	{
 		$request = self::popRequest();
 		self::pushRequest($request);
