@@ -91,6 +91,35 @@ class Module
 	public static $requestStack = array();
 
 	/**
+	 * Remove a primeira requisição do topo da pilha de subrequisições e a retorna.
+	 * @return array 	A requisição desejada
+	 */
+	public static popRequest()
+	{
+		return array_shift(self::$requestStack);
+	}
+
+	/**
+	 * Adiciona uma requisição à pilha de subrequisições.
+	 * @param 	array 	Requisição a ser adicionada
+	 */
+	public static pushRequest($request)
+	{
+		array_unshift(self::$requestStack, $request);
+	}
+
+	/**
+	 * Retorna o primeiro elemento da pilha de subrequisições.
+	 * @return 	array 	A requisição desejada
+	 */
+	public static topRequest()
+	{
+		$request = self::popRequest();
+		self::pushRequest($request);
+		return $request;
+	}
+
+	/**
 	 * Executa uma subrequisição dentro da requisição atual.
 	 * @param 	string 	$url 	url para executar a subrequisição (ex.: /post/view/5)
 	 * @return 	string 	HTML gerado ao executar a instrução
