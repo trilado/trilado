@@ -122,7 +122,7 @@ class Model
 	 */
 	public static function search($p = 1, $m = 10, $o = 'Id', $t = 'asc', $filters = array(), $whereOp = 'OR')
 	{
-		$p = $m * (($p < 1 ? 1 : $p) - 1);
+		$p = ($p < 1 ? 1 : $p) - 1;
 		$class = get_called_class();
 		$db = Database::factory();
 		$entity = $db->{$class}->orderBy($o, $t);
