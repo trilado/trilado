@@ -71,18 +71,26 @@ class App
 	public static function init($root)
 	{
 		self::$root = $root;
-		self::$rootVirtual = str_replace($_SERVER['DOCUMENT_ROOT'], '', self::$root);
 		self::$wwwroot = self::$root . 'app/wwwroot/';
 		self::$rootCore = self::$root . 'core/';
 
+		if(($_SERVER['DOCUMENT_ROOT'] . '/') === self::$wwwroot)
+		{
+			self::$rootVirtual = '/';
+		}
+		else
+		{
+			self::$rootVirtual = str_replace($_SERVER['DOCUMENT_ROOT'], '', self::$root);
+		}
+
 		//define as constantes de root
 		define('root', $root);
-		define('root_virtual', str_replace($_SERVER['DOCUMENT_ROOT'], '', self::$root));
-		define('wwwroot', self::$root . 'app/wwwroot/');
+		define('root_virtual', self::$rootVirtual);
+		define('wwwroot', self::$wwwroot);
 		
 		define('ROOT', $root);
-		define('ROOT_VIRTUAL', str_replace($_SERVER['DOCUMENT_ROOT'], '', self::$root));
-		define('WWWROOT', self::$root . 'app/wwwroot/');
+		define('ROOT_VIRTUAL', self::$rootVirtual);
+		define('WWWROOT', self::$wwwroot);
 
 		define('CACHE_TIME', self::$cacheTime);
 	}
