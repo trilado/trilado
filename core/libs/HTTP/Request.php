@@ -109,7 +109,7 @@ class Request
 	 */
 	public static function isSecure()
 	{
-		return isset($_SERVER['HTTPS']);
+		return isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) === 'on';
 	}
 
 	/**
@@ -161,7 +161,7 @@ class Request
 	 */
 	public static function getSchema()
 	{
-		return isset($_SERVER['HTTPS']) ? 'https' : 'http';
+		return self::isSecure() ? 'https' : 'http';
 	}
 	
 	/**
