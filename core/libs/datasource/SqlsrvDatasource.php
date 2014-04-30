@@ -872,7 +872,10 @@ class SqlsrvDatasource extends Datasource
 					throw new DatabaseException($error[2]);
 				}
 				if(isset($operation['model']))
+				{
 					$operation['model']->_setLastId($this->lastInsertId());
+					$operation['model']->_setNew();
+				}
 			}
 			catch(PDOException $ex)
 			{
