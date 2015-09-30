@@ -1,0 +1,7 @@
+#!/usr/bin/env php
+<?php
+
+$root = __DIR__;
+chdir($root);
+
+require_once 'crud/application.php';
