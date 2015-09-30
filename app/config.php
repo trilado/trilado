@@ -10,28 +10,7 @@
  * 
  */
 
-/**
- * Define o tipo do debug
- */
-Config::set('debug', array(
-	'type'	=> 'local', //pode assumir os seguintes valores: off, local, network e all
-	'query'	=> false, //pode assumir false, para desativar, ou um valor para a query ?debug=seu-valor-seguro
-	'sql'	=> true, 
-));
-
-/**
- * Tipo do drive do banco de dados, pode assumir os seguintes valores: mysql
- */
-Config::set('database', array(
-	'default' => array(
-		'type' => 'mysql',
-		'host' => 'localhost',
-		'name' => 'trilado2',
-		'user' => 'root',
-		'pass' => '',
-		'validate' => true
-	)
-));
+require_once 'config.local.php';
 
 /**
  * Master Page padrão
@@ -76,12 +55,12 @@ Config::set('date_format', 'd/m/Y');
 /**
  * Chave de segurança (deve ser alterada)
  */
-Config::set('salt', 'ad&&*&32343wCFlo^`]´s32Qw78=H2?Ed');
+Config::set('salt', 'aaddf775&gflkrf][335re$%T]efv4d');
 
 /**
  * Define se as requisições via dispositivo móvel irão carregar os templates específicos, se existirem, para versão móvel
  */
-Config::set('auto_mobile', true);
+Config::set('auto_mobile', false);
 
 /**
  * Define se as requisições via tablet irão carregar os templates  específicos, se existirem, para versão tablet
@@ -91,29 +70,17 @@ Config::set('auto_tablet', false);
 /**
  * Define se as requisições AJAX devem retornar automaticamente conteúdo em JSON
  */
-Config::set('auto_ajax', true);
+Config::set('auto_ajax', false);
 
 /**
  * Define se actions acessadas com .xml devem retorna automaticamente conteúdo em XML
  */
-Config::set('auto_dotxml', true);
+Config::set('auto_dotxml', false);
 
 /**
  * Define se actions acessadas com .json devem retorna automaticamente conteúdo em JSON
  */
-Config::set('auto_dotjson', true);
-
-/**
- * Define as configurações de cache
- */
-Config::set('cache', array(
-	'enabled'	=> false,
-	'type'		=> 'file',
-	'host'		=> 'localhost',
-	'port'		=> '',
-	'page'		=> false,
-	'time'		=> 10
-));
+Config::set('auto_dotjson', false);
 
 /**
  * Registrar diretórios de arquivos de código fonte, para autoload 

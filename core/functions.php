@@ -295,3 +295,9 @@ if (!function_exists('get_called_class'))
 		}
 	}
 }
+
+function server($key) 
+{
+	if(isset($_SERVER[$key]))
+		return $_SERVER[$key];
+}

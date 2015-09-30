@@ -31,9 +31,9 @@ class Inflector
 	 * @param	string	$string		valor a ser convertido
 	 * @return	string				valor convertido
 	 */
-	public static function uncamelize($string)
+	public static function uncamelize($string, $char = '-')
 	{
-		return trim(strtolower(preg_replace("/([A-Z])/", "-$1", $string)), '-');
+		return trim(strtolower(preg_replace("/([A-Z])/", $char . "$1", $string)), $char);
 	}
 
 	/**
